@@ -22,6 +22,8 @@ This process avoids that by using:
 - release discipline
 - curated learning
 
+Many complex SDLC processes already exist. This document does not try to invent another one — it gathers common-sense practices I have been using, usually in parts, learned across multiple projects and from studying multiple frameworks. Its purpose is to make this common-sense process easier to follow stage by stage, and to automate knowledge learning over time.
+
 ## Core principles
 
 - One canonical flow: every phase produces explicit artifacts (durable context) that feed the next phase.
@@ -113,7 +115,7 @@ This process adapts several established ideas into one practical operating model
 
 Every change should move through this chain:
 
-**Change Brief → Analysis, Repo Recon → Delivery Plan → Implementation + Phase Logs + Phase Learnings → Verification Report → Rollout Note → Learning Rollup**
+**Change Brief → Analysis, Repo Recon → Architecture Notes (optional) → Delivery Plan → Implementation + Phase Logs + Phase Learnings → Verification Report → Rollout Note → Learning Rollup**
 
 Each artifact becomes input to the next phase.
 
@@ -316,6 +318,43 @@ Understand the requirement and narrow the repo search surface before planning.
 
 ---
 
+## 1.5. Architecture / design
+
+### Goal
+Agree on a general implementation concept before planning.
+
+### When to use
+Optional. Advised for larger or less-obvious topics. Skip when the shape of the solution is already clear.
+
+### What happens here
+- the human proposes a design / architecture, or asks the AI to propose one
+- the concept can be defined at any abstraction level, or at multiple levels (e.g. high-level components, module layout, APIs / schemas), depending on the case
+- design decisions are discussed and captured as they are made
+
+Inputs:
+- `change-brief.md`
+- `repo-recon.md`
+- general knowledge of the repository
+
+### Exit criteria
+- the chosen implementation concept is documented
+- key design decisions are captured
+
+### Artifacts produced
+- `architecture-notes.md`
+    Free-text notes describing:
+    - the chosen implementation concept
+    - design decisions made and their rationale
+    - abstraction level(s) covered
+- `logs/phase-architecture.changelog.md`
+    Record:
+    - concepts proposed / rejected / accepted
+    - design changes
+- `learning/phase-architecture.learning.md`
+    Record only reusable learnings.
+
+---
+
 ## 2. Plan / shape
 
 ### Goal
@@ -447,6 +486,8 @@ Therefore:
 - **work packets are usually reviewed conversationally**
 - **internal review often happens below PR level**
 - **PRs are usually phase-level / slice-level or scope multiple phases / slices or the whole implementation**
+
+PRs should normally be assigned to another human developer for review, but can alternatively / additionally be reviewed by a reviewing AI agent.
 
 ### If changes are requested during review
 
