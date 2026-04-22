@@ -170,6 +170,8 @@ Use only when useful:
 
 Do **not** force L4 everywhere. Use it for risky, cross-cutting, public-interface, migration, concurrency, or security-sensitive work. It should be specified in the planning promt whether this level should be included.
 
+Not every level has to be filled in up front. A plan can be built to a shallow depth and deepened later, phase by phase — see "Staged planning" in stage 2.
+
 
 
 ## Plan status markers
@@ -406,9 +408,10 @@ Inputs:
 Convert the brief + recon into an executable, reviewable plan.
 
 ### What happens here
+- agree on initial planning depth — full plan vs. staged (see "Staged planning" below)
 - define phases/slices
-- define work packets
-- define execution steps
+- define work packets (to the agreed depth)
+- define execution steps (to the agreed depth)
 - add L4 implementation detail only where needed
 - mark review boundaries
 - mark PR boundaries
@@ -416,7 +419,7 @@ Convert the brief + recon into an executable, reviewable plan.
 - mark safe parallelism using `<~Tn>` if helpful
 
 ### Exit criteria
-- plan is approved
+- plan is approved to the agreed depth
 - review boundaries are explicit
 - PR boundaries are explicit
 - parallelizable items are marked where useful
@@ -428,6 +431,8 @@ Convert the brief + recon into an executable, reviewable plan.
     Suggested structure:
 
     # Delivery Plan
+
+    Planning mode: full | staged | mixed
 
     ## P1. Phase / Slice title `[TODO]` `<~T1>`
     Goal:
@@ -470,7 +475,25 @@ Convert the brief + recon into an executable, reviewable plan.
     Record only reusable learnings, e.g.:
     - “For medium changes, define PR boundary at phase level, not packet level”
     - “Use L4 implementation steps only for shared interfaces and migrations”
+    - “Use staged planning when later phases depend on decisions made in earlier ones”
+    - “For this area, detailed plans below L2 tend to churn — plan L3/L4 just in time”
 
+
+### Staged planning
+
+Planning does not have to be completed in one pass. Before writing the plan, the human chooses an initial planning depth. This is useful when lower-level details depend on decisions that will only be made during earlier phases, and avoids churn from replanning details that were never stable to begin with.
+
+Typical shapes:
+- **Full plan up front** — all phases, packets, steps (and L4 where useful) are planned before implementation starts. Good default for small or well-understood changes.
+- **Staged / rolling plan** — higher levels are planned up front; lower levels are filled in just in time, phase by phase (or packet by packet). Good for larger or less-certain work where deeper details would likely churn.
+- **Mixed** — rough plan for the whole story plus a detailed plan for the first phase(s). The rest is deepened as earlier phases finish.
+
+Rules:
+- The initial plan must always cover L1 for the whole change, so the overall shape is agreed.
+- Each phase/packet must be planned to the depth needed for its implementation cycle(s) **before** that cycle starts. No item is implemented without its own plan complete to the required depth.
+- Deepening is a normal, expected update — not a replan. Log it to the phase changelog, but do not treat it as a scope change.
+- If deepening reveals that higher-level assumptions were wrong, fall back to the Replanning rule.
+- The chosen planning mode (full / staged / mixed) is captured once in `delivery-plan.md`; subsequent deepening passes are logged to the relevant phase changelog.
 
 ### Replanning rule
 
@@ -519,7 +542,7 @@ Execute the approved plan.
 #### Implementation cycles
 The Implement stage runs in small **implementation cycles**. The human chooses the granularity of each cycle: a phase/slice, a work packet, or a step/substep.
 
-A cycle roughly follows four steps: pick the target, confirm the plan is still accurate, execute, review, close the cycle (update statuses, changelog, tests). Use this as a guide, not a rigid checklist.
+A cycle roughly follows these steps: pick the target, confirm the plan is still accurate **and detailed enough for this target — deepen it if staged planning left this item at a higher level**, execute, review, close the cycle (update statuses, changelog, tests). Use this as a guide, not a rigid checklist.
 
 Within a cycle the human can:
 - ask the AI to implement plan items
@@ -531,9 +554,9 @@ If the plan has to be adapted at any point during implementation, do it explicit
 
 ```mermaid
 flowchart LR
-    T[Pick target<br/>phase / packet / step] --> A{Plan still<br/>accurate?}
+    T[Pick target<br/>phase / packet / step] --> A{Plan accurate<br/>and detailed<br/>enough?}
     A -- yes --> X[Execute<br/>code, tests, QA]
-    A -- no --> U[Adapt plan]
+    A -- no --> U[Adapt or<br/>deepen plan]
     U --> X
     X --> C[Close cycle<br/>update statuses,<br/>tests, changelog]
     C -. next cycle .-> T
