@@ -13,6 +13,7 @@ Most work here is editing the process spec and adding supporting tooling (skills
 - Do exactly and only what the user asks. Do not add anything that wasn't requested.
 - If something seems worth extending or adding, ask first and discuss before changing the file.
 - Favor simple, understandable descriptions. Extra cases are fine when they add flexibility, but don't turn them into heavy sub-processes.
+- Do not make assumptions. If anything is vague, unclear, or you disagree with it, ask questions and raise concerns before proceeding.
 
 ## Working rules
 
