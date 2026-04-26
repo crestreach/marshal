@@ -345,7 +345,7 @@ For trivial changes, or when the user's prompt is already unambiguous and self-c
     - “For bug reports, require expected vs actual upfront”
 
 ### Skill
-- [`marshal-specify`](marshal_files/skills/marshal-specify/SKILL.md)
+- [`marshal-specify`](marshal-files/skills/marshal-specify/SKILL.md)
 
 ---
 
@@ -930,42 +930,42 @@ When no phase produced a learning file worth promoting (small or routine changes
 
 ## Skills and subagents
 
-MARSHAL ships a set of `marshal-*` skills (one per stage plus knowledge skills) and a set of `marshal-*` subagent definitions under [`.marshal/`](marshal_files/). Skills hold the procedural detail; agents are thin wrappers that compose skills with the necessary handoffs and run with isolated context.
+MARSHAL ships a set of `marshal-*` skills (one per stage plus knowledge skills) and a set of `marshal-*` subagent definitions under [`.marshal/`](marshal-files/). Skills hold the procedural detail; agents are thin wrappers that compose skills with the necessary handoffs and run with isolated context.
 
 Skills (per stage):
 
 | Stage | Skill | Artifact | Optional? |
 |---|---|---|---|
-| 1. Specification | [`marshal-specify`](marshal_files/skills/marshal-specify/SKILL.md) | `specification.md` | optional |
-| 2. Intake | [`marshal-intake`](marshal_files/skills/marshal-intake/SKILL.md) | `change-brief.md` | optional |
-| 3. Analysis | [`marshal-analysis`](marshal_files/skills/marshal-analysis/SKILL.md) | `repo-recon.md` | optional |
-| 3.5. Architecture | [`marshal-architecture`](marshal_files/skills/marshal-architecture/SKILL.md) | `architecture-notes.md` | optional |
-| 4. Plan | [`marshal-plan`](marshal_files/skills/marshal-plan/SKILL.md) | `delivery-plan.md` | **mandatory** |
-| 5a. Implement | [`marshal-implement`](marshal_files/skills/marshal-implement/SKILL.md) | code + phase logs | mandatory when there is code to write |
-| 5b. Verify | [`marshal-verify`](marshal_files/skills/marshal-verify/SKILL.md) | `verification-report.md` | mandatory before any PR; may be folded into the changelog for trivial changes |
-| 5c. PR | [`marshal-pr`](marshal_files/skills/marshal-pr/SKILL.md) | PR description | optional (skip for non-shared work) |
-| 6. Rollout | [`marshal-rollout`](marshal_files/skills/marshal-rollout/SKILL.md) | `rollout-note.md` | optional |
-| 7. Learn | [`marshal-learn`](marshal_files/skills/marshal-learn/SKILL.md) | `learning-rollup.md` | optional |
+| 1. Specification | [`marshal-specify`](marshal-files/skills/marshal-specify/SKILL.md) | `specification.md` | optional |
+| 2. Intake | [`marshal-intake`](marshal-files/skills/marshal-intake/SKILL.md) | `change-brief.md` | optional |
+| 3. Analysis | [`marshal-analysis`](marshal-files/skills/marshal-analysis/SKILL.md) | `repo-recon.md` | optional |
+| 3.5. Architecture | [`marshal-architecture`](marshal-files/skills/marshal-architecture/SKILL.md) | `architecture-notes.md` | optional |
+| 4. Plan | [`marshal-plan`](marshal-files/skills/marshal-plan/SKILL.md) | `delivery-plan.md` | **mandatory** |
+| 5a. Implement | [`marshal-implement`](marshal-files/skills/marshal-implement/SKILL.md) | code + phase logs | mandatory when there is code to write |
+| 5b. Verify | [`marshal-verify`](marshal-files/skills/marshal-verify/SKILL.md) | `verification-report.md` | mandatory before any PR; may be folded into the changelog for trivial changes |
+| 5c. PR | [`marshal-pr`](marshal-files/skills/marshal-pr/SKILL.md) | PR description | optional (skip for non-shared work) |
+| 6. Rollout | [`marshal-rollout`](marshal-files/skills/marshal-rollout/SKILL.md) | `rollout-note.md` | optional |
+| 7. Learn | [`marshal-learn`](marshal-files/skills/marshal-learn/SKILL.md) | `learning-rollup.md` | optional |
 
 Setup skills:
-- [`marshal-init`](marshal_files/skills/marshal-init/SKILL.md) — first-time MARSHAL setup in a repo.
-- [`marshal-load`](marshal_files/skills/marshal-load/SKILL.md) — session bootstrap.
-- [`marshal-promote-assets`](marshal_files/skills/marshal-promote-assets/SKILL.md) — copy MARSHAL durable assets from `.marshal/{skills,agents,rules}/` into the repo's `agent-config/` source tree (with `mx_` prefix) so the next `agent-conf-sync` run fans them out to all tool layouts.
+- [`marshal-init`](marshal-files/skills/marshal-init/SKILL.md) — first-time MARSHAL setup in a repo.
+- [`marshal-load`](marshal-files/skills/marshal-load/SKILL.md) — session bootstrap.
+- [`marshal-promote-assets`](marshal-files/skills/marshal-promote-assets/SKILL.md) — copy MARSHAL durable assets from `.marshal/{skills,agents,rules}/` into the repo's `agent-config/` source tree (with `mx_` prefix) so the next `agent-conf-sync` run fans them out to all tool layouts.
 
 Knowledge skills (see Memory & Knowledge):
-- [`marshal-knowledge-init`](marshal_files/skills/marshal-knowledge-init/SKILL.md)
-- [`marshal-knowledge-maintain`](marshal_files/skills/marshal-knowledge-maintain/SKILL.md) (modes: `from-changes`, `from-learning`, `rescan`)
-- [`marshal-knowledge-research`](marshal_files/skills/marshal-knowledge-research/SKILL.md)
-- [`marshal-knowledge-branch-merge`](marshal_files/skills/marshal-knowledge-branch-merge/SKILL.md)
-- [`marshal-knowledge-rebuild`](marshal_files/skills/marshal-knowledge-rebuild/SKILL.md)
+- [`marshal-knowledge-init`](marshal-files/skills/marshal-knowledge-init/SKILL.md)
+- [`marshal-knowledge-maintain`](marshal-files/skills/marshal-knowledge-maintain/SKILL.md) (modes: `from-changes`, `from-learning`, `rescan`)
+- [`marshal-knowledge-research`](marshal-files/skills/marshal-knowledge-research/SKILL.md)
+- [`marshal-knowledge-branch-merge`](marshal-files/skills/marshal-knowledge-branch-merge/SKILL.md)
+- [`marshal-knowledge-rebuild`](marshal-files/skills/marshal-knowledge-rebuild/SKILL.md)
 
 Subagents (orchestration / fresh-context wrappers — v2):
-- [`marshal-driver`](marshal_files/agents/marshal-driver.md) — process orchestrator across stages.
-- [`marshal-researcher`](marshal_files/agents/marshal-researcher.md) — fresh-context research.
-- [`marshal-knowledge-curator`](marshal_files/agents/marshal-knowledge-curator.md) — fresh-context knowledge maintenance.
-- [`marshal-code-archaeologist`](marshal_files/agents/marshal-code-archaeologist.md) — fresh-context analysis (stage 3).
-- [`marshal-planner`](marshal_files/agents/marshal-planner.md) — fresh-context planning (stage 4).
-- [`marshal-reviewer`](marshal_files/agents/marshal-reviewer.md) — AI review at stage 5c.
+- [`marshal-driver`](marshal-files/agents/marshal-driver.md) — process orchestrator across stages.
+- [`marshal-researcher`](marshal-files/agents/marshal-researcher.md) — fresh-context research.
+- [`marshal-knowledge-curator`](marshal-files/agents/marshal-knowledge-curator.md) — fresh-context knowledge maintenance.
+- [`marshal-code-archaeologist`](marshal-files/agents/marshal-code-archaeologist.md) — fresh-context analysis (stage 3).
+- [`marshal-planner`](marshal-files/agents/marshal-planner.md) — fresh-context planning (stage 4).
+- [`marshal-reviewer`](marshal-files/agents/marshal-reviewer.md) — AI review at stage 5c.
 
 Every skill states its own prerequisites, inputs, outputs, and handoff (next skill + artifacts to pass). That makes each skill safe to run in an isolated context.
 
@@ -973,19 +973,19 @@ Every skill states its own prerequisites, inputs, outputs, and handoff (next ski
 
 ## Memory and knowledge
 
-MARSHAL is paired with an agent-managed knowledge layer kept under [`.marshal/knowledge/`](marshal_files/knowledge/). Knowledge complements the per-change artifact chain: the artifact chain captures *this* change, while knowledge captures durable facts about the repo (architecture, logic, conventions, decisions) that survive across changes.
+MARSHAL is paired with an agent-managed knowledge layer kept under [`.marshal/knowledge/`](marshal-files/knowledge/). Knowledge complements the per-change artifact chain: the artifact chain captures *this* change, while knowledge captures durable facts about the repo (architecture, logic, conventions, decisions) that survive across changes.
 
 Key points:
 
-- **Two trees.** The `.marshal/` config-sync source ships marshal-* agents/skills/rules and gets fanned out to tool layouts. The `.marshal/knowledge/` tree is **not synced** — agents read it directly through [`.marshal/ENTRYPOINT.md`](marshal_files/ENTRYPOINT.md).
-- **Progressive disclosure, recursive.** Always-loaded root [`INDEX.md`](marshal_files/knowledge/INDEX.md) (capped at `knowledge.root_index_max_lines`) → per-folder indexes → topic files. Topics may themselves split into a sub-index plus subtopics, recursively, with no fixed depth.
-- **Configurable size limits.** [`config.yml`](marshal_files/config.yml) defines `knowledge.topic_max_lines` (default 400) and `knowledge.subindex_max_lines` (default 150). When a topic exceeds its cap, `marshal-knowledge-maintain` proposes a split: convert the topic into a folder with a sub-index and subtopic files. The split dimension (by component, by concern, by time, by feature, etc.) is chosen for each topic; reviewers may re-split along a different dimension during a knowledge review.
-- **Frontmatter contract.** Every knowledge file has `id`, `kind`, `summary`, `repo_paths`, `importance`, `confidence`, `updated`, `verified_against_commit`. See [`references/knowledge-format.md`](marshal_files/references/knowledge-format.md).
+- **Two trees.** The `.marshal/` config-sync source ships marshal-* agents/skills/rules and gets fanned out to tool layouts. The `.marshal/knowledge/` tree is **not synced** — agents read it directly through [`.marshal/ENTRYPOINT.md`](marshal-files/ENTRYPOINT.md).
+- **Progressive disclosure, recursive.** Always-loaded root [`INDEX.md`](marshal-files/knowledge/INDEX.md) (capped at `knowledge.root_index_max_lines`) → per-folder indexes → topic files. Topics may themselves split into a sub-index plus subtopics, recursively, with no fixed depth.
+- **Configurable size limits.** [`config.yml`](marshal-files/config.yml) defines `knowledge.topic_max_lines` (default 400) and `knowledge.subindex_max_lines` (default 150). When a topic exceeds its cap, `marshal-knowledge-maintain` proposes a split: convert the topic into a folder with a sub-index and subtopic files. The split dimension (by component, by concern, by time, by feature, etc.) is chosen for each topic; reviewers may re-split along a different dimension during a knowledge review.
+- **Frontmatter contract.** Every knowledge file has `id`, `kind`, `summary`, `repo_paths`, `importance`, `confidence`, `updated`, `verified_against_commit`. See [`references/knowledge-format.md`](marshal-files/references/knowledge-format.md).
 - **Staleness without hooks.** `verified_against_commit` + `updated` are stamped explicitly. The maintenance skill diffs HEAD against the recorded SHA on demand.
-- **Approval.** [`.marshal/config.yml`](marshal_files/config.yml) controls autonomy (`review` default; `auto` opt-in). Knowledge writes produce a diff for human approval unless `auto` is set.
+- **Approval.** [`.marshal/config.yml`](marshal-files/config.yml) controls autonomy (`review` default; `auto` opt-in). Knowledge writes produce a diff for human approval unless `auto` is set.
 - **Where it plugs into the lifecycle.** Stage 3 (Analysis) consults knowledge first to narrow the search surface and may invoke `marshal-knowledge-research`. After each implementation cycle, `marshal-knowledge-maintain` mode `from-changes` keeps knowledge in sync. Stage 7 (Learn) feeds promotable items into knowledge via mode `from-learning`. Larger reconciliation is handled by `marshal-knowledge-branch-merge` and `marshal-knowledge-rebuild`.
 
-Full design rationale: [`.marshal/design/knowledge-design.md`](marshal_files/design/knowledge-design.md). A worked example tree lives under [`examples/snippets-api/`](examples/snippets-api/).
+Full design rationale: [`.marshal/design/knowledge-design.md`](marshal-files/design/knowledge-design.md). A worked example tree lives under [`examples/snippets-api/`](examples/snippets-api/).
 
 ---
 
@@ -994,19 +994,19 @@ Full design rationale: [`.marshal/design/knowledge-design.md`](marshal_files/des
 MARSHAL produces two kinds of content:
 
 1. **Per-change artifacts** — specification, brief, recon, plan, logs, learnings, etc. They live in the per-change working folder.
-2. **Durable assets** — skills, subagents, rules, and guidelines that codify reusable behavior. They live under [`.marshal/`](marshal_files/) and are versioned with the repo.
+2. **Durable assets** — skills, subagents, rules, and guidelines that codify reusable behavior. They live under [`.marshal/`](marshal-files/) and are versioned with the repo.
 
-> **Naming note.** In a consumer repo, the durable-assets directory is `.marshal/`. In this product repo (the MARSHAL source) the same tree lives under [`marshal_files/`](marshal_files/) so it is not confused with a real installed `.marshal/` instance. Documentation refers to it as `.marshal/` because that is what consumers see; the link targets in this document point at `marshal_files/` for in-repo navigation.
+> **Naming note.** In a consumer repo, the durable-assets directory is `.marshal/`. In this product repo (the MARSHAL source) the same tree lives under [`marshal-files/`](marshal-files/) so it is not confused with a real installed `.marshal/` instance. Documentation refers to it as `.marshal/` because that is what consumers see; the link targets in this document point at `marshal-files/` for in-repo navigation.
 
 ### Where durable assets live
 
 | Folder | What it holds |
 |---|---|
-| [`.marshal/skills/`](marshal_files/skills/) | One folder per skill (Agent Skills format), each containing a `SKILL.md`. |
-| [`.marshal/agents/`](marshal_files/agents/) | One file per subagent definition. |
-| [`.marshal/rules/`](marshal_files/rules/) | One file per rule. Generic rule frontmatter (`description`, `applies-to`, `always-apply`). |
-| [`.marshal/knowledge/`](marshal_files/knowledge/) | Repo knowledge — **not synced**, read in-place via `.marshal/ENTRYPOINT.md`. |
-| [`.marshal/AGENTS.md`](marshal_files/AGENTS.md) | Snippet meant to be **manually merged** into the host repo's root `AGENTS.md` so that AI assistants see the MARSHAL entry point. |
+| [`.marshal/skills/`](marshal-files/skills/) | One folder per skill (Agent Skills format), each containing a `SKILL.md`. |
+| [`.marshal/agents/`](marshal-files/agents/) | One file per subagent definition. |
+| [`.marshal/rules/`](marshal-files/rules/) | One file per rule. Generic rule frontmatter (`description`, `applies-to`, `always-apply`). |
+| [`.marshal/knowledge/`](marshal-files/knowledge/) | Repo knowledge — **not synced**, read in-place via `.marshal/ENTRYPOINT.md`. |
+| [`.marshal/AGENTS.md`](marshal-files/AGENTS.md) | Snippet meant to be **manually merged** into the host repo's root `AGENTS.md` so that AI assistants see the MARSHAL entry point. |
 
 ### How they get generated
 
@@ -1024,7 +1024,7 @@ The `.marshal/skills/`, `.marshal/agents/`, and `.marshal/rules/` folders follow
 Two layouts are supported:
 
 - **Direct.** Point `sync-all -i` at `.marshal/` itself. Simplest setup; only works when MARSHAL's durable assets are the only ones the repo wants synced.
-- **Separate `agent-config/` source tree.** The repo keeps its own `agent-config/` (or similarly named) source folder at the root, alongside `.marshal/`. MARSHAL's durable assets are *promoted* into it via the [`marshal-promote-assets`](marshal_files/skills/marshal-promote-assets/SKILL.md) skill, which copies `.marshal/{skills,agents,rules}/` into `agent-config/{skills,agents,rules}/` and prefixes every promoted name with `mx_` (marshal extension) so they remain visibly distinct from non-MARSHAL items in the same tree. The sync runs over `agent-config/`.
+- **Separate `agent-config/` source tree.** The repo keeps its own `agent-config/` (or similarly named) source folder at the root, alongside `.marshal/`. MARSHAL's durable assets are *promoted* into it via the [`marshal-promote-assets`](marshal-files/skills/marshal-promote-assets/SKILL.md) skill, which copies `.marshal/{skills,agents,rules}/` into `agent-config/{skills,agents,rules}/` and prefixes every promoted name with `mx_` (marshal extension) so they remain visibly distinct from non-MARSHAL items in the same tree. The sync runs over `agent-config/`.
 
 Naming convention:
 
@@ -1033,7 +1033,7 @@ Naming convention:
 
 Guidelines flow:
 
-- The sync tool requires an `AGENTS.md` in its source root. With the **direct** layout, that role is played by [`.marshal/AGENTS.md`](marshal_files/AGENTS.md). With the **separate** layout, the repo's `agent-config/AGENTS.md` is authoritative and `.marshal/AGENTS.md` becomes a snippet to be **manually merged** into it so the MARSHAL entry point fans out alongside the rest.
+- The sync tool requires an `AGENTS.md` in its source root. With the **direct** layout, that role is played by [`.marshal/AGENTS.md`](marshal-files/AGENTS.md). With the **separate** layout, the repo's `agent-config/AGENTS.md` is authoritative and `.marshal/AGENTS.md` becomes a snippet to be **manually merged** into it so the MARSHAL entry point fans out alongside the rest.
 - Rules under `.marshal/rules/` (or `agent-config/rules/`) translate as documented by the sync tool: Cursor `.cursor/rules/*.mdc`, Copilot `.github/instructions/*.instructions.md`, and merged into `CLAUDE.md` and `.junie/AGENTS.md`.
 
 This split keeps the canonical source of truth in `.marshal/` and lets every IDE/assistant pick it up in its own native format.

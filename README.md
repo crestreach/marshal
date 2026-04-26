@@ -14,7 +14,7 @@ See [`marshal.md`](./marshal.md) for the full specification.
 
 - [`marshal.md`](./marshal.md) — the process specification (source of truth)
 - [`AGENTS.md`](./AGENTS.md) — guidance for AI agents working in this repo (generated; authored under [`agent-config/AGENTS.md`](./agent-config/AGENTS.md))
-- [`marshal_files/`](./marshal_files) — MARSHAL durable assets for *this* product repo (entrypoint, config, knowledge, skills, agents, rules). Equivalent to `.marshal/` in a consumer repo.
+- [`marshal-files/`](./marshal-files) — MARSHAL durable assets for *this* product repo (entrypoint, config, knowledge, skills, agents, rules). Equivalent to `.marshal/` in a consumer repo.
 - [`agent-config/`](./agent-config) — generic source tree consumed by [`ai-dev-agent-config-sync`](./ai-dev-agent-config-sync) (vendored as a submodule). Edit here, then re-run sync to regenerate per-tool layouts (`.cursor/`, `.claude/`, `.github/`, `.junie/`, `.vscode/`, root `AGENTS.md`, `CLAUDE.md`, `.mcp.json`).
 - [`examples/`](./examples) — worked examples of MARSHAL installed in a repo.
 - `assets/` — branding (untracked).

@@ -35,3 +35,25 @@ Before doing any repo work:
 
 If the task is trivial (e.g. small docs typo) and does not require repo
 knowledge, you may skip steps 2–3.
+
+### Hierarchical `AGENTS.md`
+
+This repository follows the hierarchical `AGENTS.md` convention (the same
+one Codex/Cursor and other AI tools recognize): the root `AGENTS.md` holds
+repo-wide guidance, and any subdirectory **may** also contain its own
+`AGENTS.md` with guidance scoped to that folder.
+
+Rules:
+
+- Per-folder `AGENTS.md` is **optional**. Only add one when a directory
+  has rules, conventions, or context that genuinely differs from the
+  rest of the repo.
+- Scope is the folder it lives in plus all of its subfolders, unless a
+  deeper `AGENTS.md` overrides a specific point.
+- Closer `AGENTS.md` files **override** farther ones for overlapping
+  guidance; non-overlapping guidance is additive.
+- Before working in a folder, agents should read every `AGENTS.md` on
+  the path from the repo root down to that folder, in order, and apply
+  them with deeper files winning on conflicts.
+- Keep each `AGENTS.md` short and focused; link out to longer docs
+  rather than duplicating them.
