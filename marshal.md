@@ -948,7 +948,7 @@ Skills (per stage):
 | 7. Learn | [`marshal-learn`](marshal-files/skills/marshal-learn/SKILL.md) | `learning-rollup.md` | optional |
 
 Setup skills:
-- [`marshal-init`](marshal-files/skills/marshal-init/SKILL.md) — first-time MARSHAL setup in a repo.
+- [`marshal-init`](marshal-files/skills/marshal-init/SKILL.md) — first-time MARSHAL setup in a repo: scaffolds `.marshal/`, optionally installs [ai-dev-agent-config-sync](https://github.com/crestreach/ai-dev-agent-config-sync) (e.g. as a submodule), provisions an `agent-config/` source tree, runs [`marshal-promote-assets`](marshal-files/skills/marshal-promote-assets/SKILL.md) to wire MARSHAL durable assets into it, and (optionally) runs the sync to fan everything out into tool-native layouts.
 - [`marshal-load`](marshal-files/skills/marshal-load/SKILL.md) — session bootstrap.
 - [`marshal-help`](marshal-files/skills/marshal-help/SKILL.md) — on-demand expert on MARSHAL: answers procedural and conceptual questions, orients the caller in the current change, and hands off to the right stage skill or to `marshal-driver` when work needs to actually progress.
 - [`marshal-promote-assets`](marshal-files/skills/marshal-promote-assets/SKILL.md) — copy MARSHAL durable assets from `.marshal/{skills,agents,rules}/` into the repo's `agent-config/` source tree (with `mx_` prefix) so the next `agent-conf-sync` run fans them out to all tool layouts.
