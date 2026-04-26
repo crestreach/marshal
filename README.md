@@ -21,6 +21,28 @@ See [`marshal.md`](./marshal.md) for the full specification.
 
 Tooling (skills, prompt templates, artifact templates, examples) will be added as the process stabilizes.
 
+## Installing MARSHAL in your repo
+
+The supported entry point is the [`marshal-init`](./marshal-files/skills/marshal-init/SKILL.md) skill — invoke it from any AI assistant that has access to MARSHAL's skills, and it will scaffold `.marshal/`, install [ai-dev-agent-config-sync](https://github.com/crestreach/ai-dev-agent-config-sync) (typically as a git submodule), provision an `agent-config/` source tree, run [`marshal-promote-assets`](./marshal-files/skills/marshal-promote-assets/SKILL.md) to wire MARSHAL durable assets into it, and (with your approval) run the sync once to fan everything out into per-tool layouts.
+
+If you want to vendor MARSHAL durable assets directly (no `marshal-init`), the recommended pattern is:
+
+```bash
+# In your target repo
+git submodule add https://github.com/crestreach/marshal.git .marshal-source
+ln -s .marshal-source/marshal-files .marshal
+git add .marshal .gitmodules .marshal-source
+git commit -m "Vendor MARSHAL durable assets"
+```
+
+`.marshal-source/` tracks the whole source repo; `.marshal/` is a symlink to its `marshal-files/` subtree, which is what MARSHAL skills and agents look for. Pull future updates with:
+
+```bash
+git submodule update --remote .marshal-source
+```
+
+A worked example using exactly this layout lives at [`crestreach/marshal-testbed`](https://github.com/crestreach/marshal-testbed) (private — request access if you need it).
+
 ## Status
 
 Early draft. The spec is being shaped; expect frequent changes.
