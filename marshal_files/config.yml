@@ -1,0 +1,23 @@
+# MARSHAL configuration. See .marshal/ENTRYPOINT.md.
+
+knowledge:
+  # review = every write produces a diff for human approval (default).
+  # auto   = agents may write knowledge files without per-change approval.
+  autonomy: review
+
+  # Advisory only. The rescan must still be triggered explicitly via
+  # marshal-knowledge-maintain (mode: rescan). No hooks, no daemons.
+  rescan_period_days: 7
+
+  # Cap for the always-loaded root INDEX.md.
+  root_index_max_lines: 150
+
+  # Cap for any sub-index file (folder index, topic sub-index, etc.).
+  subindex_max_lines: 150
+
+  # Soft cap for an individual topic file. When exceeded,
+  # marshal-knowledge-maintain proposes splitting the topic into a folder
+  # with a sub-index plus subtopic files. The split dimension (by
+  # component, by concern, by feature, by time, etc.) is chosen per topic
+  # and may be revised during a knowledge review.
+  topic_max_lines: 400
