@@ -12,6 +12,7 @@ assets/
 .github/
 .junie/
 .vscode/
+.mcp.json
 
 # macOS
 .DS_Store
