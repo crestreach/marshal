@@ -1,0 +1,3 @@
+[submodule "ai-dev-agent-config-sync"]
+	path = ai-dev-agent-config-sync
+	url = https://github.com/crestreach/ai-dev-agent-config-sync.git
