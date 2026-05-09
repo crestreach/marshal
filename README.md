@@ -13,6 +13,7 @@ See [`marshal.md`](./marshal.md) for the full specification.
 ## Repository
 
 - [`marshal.md`](./marshal.md) — the process specification (source of truth)
+- [`marshal-files/marshal-override.md`](./marshal-files/marshal-override.md) — optional, repo-specific overrides on top of `marshal.md`. Empty by default. (In a consumer repo: `.marshal/marshal-override.md`.)
 - [`marshal-files/references/knowledge-contract.md`](./marshal-files/references/knowledge-contract.md) — general knowledge representation contract
 - [`marshal-files/references/knowledge-markdown-spine.md`](./marshal-files/references/knowledge-markdown-spine.md) — default knowledge implementation,
   **MARSHAL Markdown Spine**; replaceable via `knowledge.representation_ref` in

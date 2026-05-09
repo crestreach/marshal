@@ -14,6 +14,10 @@ Setup skill — runs once per fresh session.
 ## Inputs (read at start)
 
 - [`.marshal/ENTRYPOINT.md`](../../ENTRYPOINT.md)
+- [`.marshal/marshal-override.md`](../../marshal-override.md) when
+  present and non-empty — optional repo-specific overrides on top of
+  `marshal.md`. Read it after the entry point; entries here take
+  precedence over the canonical spec on the points they address.
 - [`.marshal/knowledge/INDEX.md`](../../knowledge/INDEX.md)
 - [`.marshal/config.yml`](../../config.yml) — note `knowledge.autonomy`,
   `knowledge.contract_ref`, and `knowledge.representation_ref`.
@@ -27,8 +31,9 @@ Setup skill — runs once per fresh session.
 
 ## Workflow
 
-1. Read entry point, config, knowledge contract, active implementation,
-   and root knowledge index.
+1. Read entry point, `marshal-override.md` (if present and non-empty),
+   config, knowledge contract, active implementation, and root
+   knowledge index.
 2. Detect current MARSHAL stage from the artifact chain present in the
    working folder, treating every stage as optional except stage 4 Plan
    (none → not started; `specification.md` only → stage 1 done; `…` up
@@ -38,6 +43,9 @@ Setup skill — runs once per fresh session.
 3. Emit a short orientation block (≤ ~20 lines):
    - process: which stage is current, which artifact is next, which
      stages were skipped per the plan's Scope.
+   - **overrides**: one-line note if `marshal-override.md` is present
+     and non-empty ("override active: <one-line gist>"); omit when
+     absent or empty.
    - knowledge: contract reference, implementation reference, autonomy
      mode, root index summary line count.
    - skills available: next stage skill + relevant knowledge skills.

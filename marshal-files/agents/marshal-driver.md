@@ -37,6 +37,12 @@ Do **not** invoke when:
 - The repo, with `.marshal/` initialized.
 - [`.marshal/config.yml`](../config.yml) (autonomy + any
   driver-specific flags).
+- [`.marshal/marshal-override.md`](../marshal-override.md) when
+  present and non-empty — optional repo-specific overrides on top of
+  [`marshal.md`](../../marshal.md). Read it immediately after
+  `marshal.md` / `ENTRYPOINT.md`; entries here take precedence over
+  the canonical spec on the points they address (stage policy,
+  artifact policy, agent / skill preferences).
 
 ## Outputs
 
