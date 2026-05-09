@@ -1,0 +1,33 @@
+# MARSHAL Licensing
+
+Copyright (c) 2026 Artur Olszak
+
+MARSHAL is dual-licensed to match what each part of the repository is:
+
+| Part of the repo | License | Full text |
+|---|---|---|
+| Documentation, prose, the method itself (`*.md` files, diagrams, images, textual templates) | **CC BY-SA 4.0** — Creative Commons Attribution-ShareAlike 4.0 International | [`LICENSES/CC-BY-SA-4.0.txt`](./LICENSES/CC-BY-SA-4.0.txt) |
+| Code, scripts, executable templates, skill files, and any software tooling | **BSD 2-Clause + Commons Clause** — BSD 2-Clause License with the Commons Clause restriction on sale | [`LICENSES/BSD-2-Clause.txt`](./LICENSES/BSD-2-Clause.txt), [`LICENSES/COMMONS-CLAUSE.txt`](./LICENSES/COMMONS-CLAUSE.txt) |
+
+## What this means in practice
+
+You may use MARSHAL — including commercially — to plan, build, and ship your own software. You may adopt it in your company, teach it, consult on it, write about it, adapt it to your context, and integrate MARSHAL scripts into your own (including proprietary) repositories. You may also share modified versions of MARSHAL freely.
+
+In return:
+
+- **Attribution.** Keep the MARSHAL copyright notice and these license terms intact when redistributing (in source or binary form) or sharing derivative works of the method.
+- **Share-alike on the method.** If you publish a modified version of the MARSHAL method itself (the prose/docs), release that modified version under CC BY-SA 4.0 as well.
+- **No selling MARSHAL as a product.** The Commons Clause prohibits "selling" MARSHAL — i.e., providing MARSHAL (or a product or service whose value derives substantially from MARSHAL) to third parties for a fee. You can still sell services, consulting, training, or products *that use* MARSHAL; you just can't sell MARSHAL itself or a repackaged version of it.
+
+In short: use it freely, including to make money with it — but don't take MARSHAL, rebrand it, and sell it as your own product.
+
+## Status clarification
+
+Because of the Commons Clause, MARSHAL's code is technically **source-available** rather than formally "open source" under the OSI definition. It remains freely usable and adaptable for virtually every real-world case (internal use, commercial products built on top, non-commercial redistribution, academic use, etc.) — only resale of MARSHAL itself is restricted.
+
+## When in doubt
+
+- Prose and method content → CC BY-SA 4.0.
+- Anything that is executed by a machine (shell scripts, Python/TS/JS, YAML tool configs, prompt templates intended for programmatic use) → BSD 2-Clause + Commons Clause.
+
+If a specific file's license is ambiguous, the file may carry an SPDX header such as `SPDX-License-Identifier: BSD-2-Clause` or `SPDX-License-Identifier: CC-BY-SA-4.0` that overrides the default above. Files under BSD 2-Clause + Commons Clause should also include a notice of the Commons Clause condition.

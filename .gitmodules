@@ -1,0 +1,3 @@
+[submodule "cyncia"]
+	path = .cyncia-source
+	url = https://github.com/crestreach/cyncia.git
