@@ -32,6 +32,10 @@ Setup skill — runs once per repo.
      into the host repo's root `AGENTS.md`),
      [`ENTRYPOINT.md`](../../ENTRYPOINT.md),
      [`config.yml`](../../config.yml).
+   - [`marshal-override.md`](../../marshal-override.md) — empty
+     (template-only) repo-specific override file. Users edit it later
+     to specify or modify MARSHAL behavior on top of `marshal.md`. Not
+     synced.
    - `skills/`, `skills-fallback/`, `agents/`,
      [`rules/`](../../rules/) — the canonical built-in MARSHAL durable
      assets (`marshal-*` skills, subagents, rules).

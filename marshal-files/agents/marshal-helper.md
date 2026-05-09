@@ -65,24 +65,28 @@ Do **not** invoke when:
 Read enough to answer accurately, no more:
 
 1. [`marshal.md`](../../marshal.md) — full process spec (canonical).
-2. [`.marshal/ENTRYPOINT.md`](../ENTRYPOINT.md) — compact entry point.
-3. [`.marshal/AGENTS.md`](../AGENTS.md) — the merged-in snippet.
-4. [`.marshal/config.yml`](../config.yml) — contract,
+2. [`.marshal/marshal-override.md`](../marshal-override.md) — optional
+   repo-specific overrides on top of `marshal.md`. Read it
+   immediately after `marshal.md`; entries here take precedence on
+   the points they address. If empty or absent, ignore.
+3. [`.marshal/ENTRYPOINT.md`](../ENTRYPOINT.md) — compact entry point.
+4. [`.marshal/AGENTS.md`](../AGENTS.md) — the merged-in snippet.
+5. [`.marshal/config.yml`](../config.yml) — contract,
    implementation, autonomy mode, and knowledge size caps.
-5. [`.marshal/knowledge/INDEX.md`](../knowledge/INDEX.md) — root
+6. [`.marshal/knowledge/INDEX.md`](../knowledge/INDEX.md) — root
    knowledge index (only the index, not topic files, unless the
    question is about a specific topic).
-6. [`.marshal/design/knowledge-design.md`](../design/knowledge-design.md).
-7. [`.marshal/references/`](../references/) — representation,
+7. [`.marshal/design/knowledge-design.md`](../design/knowledge-design.md).
+8. [`.marshal/references/`](../references/) — representation,
    activation, and promotion rules.
-8. The relevant `SKILL.md` or agent file in `.marshal/skills/` /
+9. The relevant `SKILL.md` or agent file in `.marshal/skills/` /
    `.marshal/agents/` when the question is specifically about that
    skill / agent.
-9. The current change's working folder (artifact chain) — only when
-   the question is "what stage am I in?" or "what should I do next?".
+10. The current change's working folder (artifact chain) — only when
+    the question is "what stage am I in?" or "what should I do next?".
 
-Read lazily: trivial questions only need (1) and (2). Don't load the
-whole tree.
+Read lazily: trivial questions only need (1) + (2) + (3). Don't load
+the whole tree.
 
 ## Workflow
 
@@ -92,6 +96,7 @@ whole tree.
    - *tooling* — about a specific skill, subagent, or file format;
    - *handoff* — caller wants to actually run a stage now.
 2. **Read just enough.** Always start with `marshal.md` +
+   `marshal-override.md` (if present and non-empty) +
    `ENTRYPOINT.md` if not already in context. Add files from the
    inputs list only as the question demands.
 3. **For situational questions**, run the artifact-chain detection

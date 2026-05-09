@@ -3,7 +3,7 @@
 Guidance for AI agents working in the MARSHAL repository.
 
 This repo defines **MARSHAL** — a process for AI-assisted software delivery. The canonical spec lives in [`marshal.md`](./marshal.md); the project overview is in [`README.md`](./README.md).
-Agents should read [`marshal.md`](./marshal.md) at the beginning of each session, unless it's clearly isolated work that the agents is doing or the agent's definition says it should work in an isolated, clear context.
+Agents should read [`marshal.md`](./marshal.md) at the beginning of each session, unless it's clearly isolated work that the agents is doing or the agent's definition says it should work in an isolated, clear context. Also read [`marshal-files/marshal-override.md`](./marshal-files/marshal-override.md) (in a consumer repo: `.marshal/marshal-override.md`) when present and non-empty — it carries optional repo-specific overrides on top of `marshal.md`.
 
 ## Repository structure
 

@@ -5,6 +5,11 @@ Read this once per fresh session. It is intentionally compact so it is
 cheap to keep in context.
 
 Reference: [marshal.md](../marshal.md) — full process spec.
+Reference: [marshal-override.md](marshal-override.md) — **optional**
+repo-specific overrides on top of `marshal.md`. Read it after
+`marshal.md`; anything in it takes precedence over the canonical spec
+on the points it addresses. If the file is empty, MARSHAL behaves as
+specified in `marshal.md`.
 Reference: [design/knowledge-design.md](design/knowledge-design.md) — knowledge layer design.
 Knowledge contract: [references/knowledge-contract.md](references/knowledge-contract.md).
 Active implementation: read `knowledge.representation_ref` in

@@ -1024,6 +1024,7 @@ MARSHAL produces two kinds of content:
 | [`.marshal/extensions/{skills,agents,rules}/`](marshal-files/extensions/) | **Repo-specific extensions** — rules / skills / subagents drafted by [`marshal-learner`](marshal-files/agents/marshal-learner.md) (or hand-authored) on top of the built-ins. Every basename is `mx_`-prefixed at creation. Survives MARSHAL upgrades. |
 | [`.marshal/knowledge/`](marshal-files/knowledge/) | Repo knowledge — **not synced**, read in-place via `.marshal/ENTRYPOINT.md`. |
 | [`.marshal/AGENTS.md`](marshal-files/AGENTS.md) | Snippet meant to be **manually merged** into the host repo's root `AGENTS.md` so that AI assistants see the MARSHAL entry point. |
+| [`.marshal/marshal-override.md`](marshal-files/marshal-override.md) | **Optional** repo-specific override file. Free-form Markdown that specifies or modifies how MARSHAL behaves on top of `marshal.md` (stage policy, artifact policy, agent/skill preferences). Read by every MARSHAL-aware agent immediately after `marshal.md`; entries here take precedence on the points they address. Empty by default. **Not synced.** |
 
 ### How they get generated
 
