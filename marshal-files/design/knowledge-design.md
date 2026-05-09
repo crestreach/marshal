@@ -3,9 +3,10 @@
 Status: **draft v0.1** — agreed direction, details to be refined as skills are built out.
 Companion to [marshal.md](../../marshal.md).
 
-This document describes how MARSHAL stores agent-managed memory and knowledge
-about a repository, and how it interacts with the existing tool-agnostic
-configuration sync mechanism.
+This document describes how MARSHAL stores agent-managed knowledge about a
+repository, and how it interacts with the existing tool-agnostic
+configuration sync mechanism. Knowledge is MARSHAL's mid- and long-term
+memory, but the term used throughout the system is **knowledge**.
 
 ## 1. Goals
 
@@ -20,7 +21,7 @@ configuration sync mechanism.
   daemons, via explicit dated stamps and an explicit maintenance skill.
 - Keep the system **tool-agnostic** by piggybacking on the existing
   config-sync mechanism for any tool-facing assets, and keeping the
-  knowledge body itself in a single Marshal-owned format.
+  knowledge body behind an exchangeable MARSHAL representation reference.
 
 ## 2. Two trees, two mechanisms
 
@@ -47,7 +48,9 @@ contains the minimum context an agent needs to operate efficiently in a
 fresh session:
 
 - A short summary of MARSHAL itself (link to `marshal.md` for detail).
-- The knowledge format spec (or a pointer to it).
+- The general knowledge contract and active implementation references
+  (`knowledge.contract_ref` and `knowledge.representation_ref` in
+  `.marshal/config.yml`).
 - The read order: `ENTRYPOINT.md` → `knowledge/INDEX.md` → topic indexes →
   topic files.
 - The list of `marshal-*` skills/agents available, by name, with one-line
@@ -59,7 +62,15 @@ The top-level project `AGENTS.md` (user-owned) only needs a one-line
 reference to `.marshal/ENTRYPOINT.md` so non-Marshal-aware tooling still
 finds it.
 
-## 4. Knowledge tree layout
+## 4. Default implementation: MARSHAL Markdown Spine
+
+The default implementation is **MARSHAL Markdown Spine**, documented by
+[`../references/knowledge-markdown-spine.md`](../references/knowledge-markdown-spine.md).
+The general contract is documented by
+[`../references/knowledge-contract.md`](../references/knowledge-contract.md).
+The active implementation is configured by `knowledge.representation_ref`
+in `.marshal/config.yml`; alternate implementations must satisfy the same
+discovery, metadata, update, staleness, and promotion contract.
 
 ```text
 .marshal/
@@ -104,7 +115,7 @@ Knowledge content is **not limited to code facts**. It also covers logic,
 architectural rationale, design notes, decisions, and conventions — anything
 that helps an agent reason about *why* the code is shaped the way it is.
 
-## 5. File frontmatter contract
+## 5. Default file frontmatter contract
 
 Every knowledge file starts with:
 
@@ -130,7 +141,7 @@ verified_against_commit: 0a3f75e      # short SHA
 There are no git hooks; the maintenance skill explicitly diffs HEAD against
 the recorded SHA on demand or on schedule.
 
-## 6. Index strategy: hybrid
+## 6. Default index strategy: hybrid
 
 - **Discovery is the source of truth.** A directory walk plus frontmatter
   authoritatively defines what knowledge exists. No file is "lost" if
@@ -213,20 +224,24 @@ the Anthropic Agent Skills format used by the config-sync tool.
 
 ## 11. Shared bundle
 
-The format spec lives in **one** place — a top-level shared folder under
-`.marshal/` — referenced by every skill and subagent that needs it:
+The general contract and active implementation references are named by
+`knowledge.contract_ref` and `knowledge.representation_ref` in
+`.marshal/config.yml`. The default reference bundle lives under
+`.marshal/references/`:
 
 ```text
 .marshal/references/
-  knowledge-format.md            # frontmatter + tree layout spec
+  knowledge-contract.md          # required capabilities for any implementation
+  knowledge-markdown-spine.md    # default implementation
   activation-protocol.md         # read order, autonomy, approval
   promotion-rules.md             # what is promotable from learning files
 ```
 
 Knowledge skills (`marshal-knowledge-*`) and subagents (`marshal-researcher`,
-`marshal-knowledge-curator`, …) reference these files via relative paths.
-Keeping the bundle outside any single skill folder makes it equally
-accessible to skills, agents, and any future tooling.
+`marshal-knowledge-curator`, …) read the configured contract and
+implementation references plus the shared activation and promotion
+references. Keeping the bundle outside any single skill folder makes it
+equally accessible to skills, agents, and any future tooling.
 
 ## 12. Out of scope for v1 (future extensions)
 
@@ -237,7 +252,7 @@ accessible to skills, agents, and any future tooling.
 - **Subagents** for the candidates listed in §10. v1 stays skill-only;
   promotion happens once the workflows are proven.
 - **`auto` autonomy mode** with non-interactive write paths.
-- **Cross-repo / user-scoped memory.** Repo-scoped only in v1.
+- **Cross-repo / user-scoped knowledge.** Repo-scoped only in v1.
 
 ## 13. Open follow-ups
 

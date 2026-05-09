@@ -32,6 +32,8 @@ skills and returns a single unified diff for the caller to approve.
     diverged.
   - `rescan`: nothing (operates on whole tree vs HEAD).
   - `from-learning`: contents of `.marshal/knowledge/learn/inbox/`.
+- `.marshal/config.yml` for `knowledge.contract_ref` and
+  `knowledge.representation_ref`, then both configured references.
 
 ## Outputs
 
@@ -44,7 +46,8 @@ skills and returns a single unified diff for the caller to approve.
 
 ## Workflow
 
-1. Read entry point + relevant indexes.
+1. Read entry point + knowledge contract + active implementation +
+  relevant indexes.
 2. Dispatch the matching skill:
    - [marshal-knowledge-init](../skills/marshal-knowledge-init/SKILL.md)
    - [marshal-knowledge-maintain](../skills/marshal-knowledge-maintain/SKILL.md)
@@ -52,8 +55,9 @@ skills and returns a single unified diff for the caller to approve.
    - [marshal-knowledge-branch-merge](../skills/marshal-knowledge-branch-merge/SKILL.md)
    - [marshal-knowledge-rebuild](../skills/marshal-knowledge-rebuild/SKILL.md)
 3. For each touched file: refresh `summary`, `repo_paths`, `updated`,
-   `verified_against_commit`. Apply the field-level merge rules from
-   [knowledge-format](../references/knowledge-format.md) and
+   `verified_against_commit`. Apply the field-level merge rules from the
+   active implementation reference (default:
+   [knowledge-markdown-spine](../references/knowledge-markdown-spine.md)) and
    [promotion-rules](../references/promotion-rules.md).
 4. Regenerate every affected `INDEX.md` from frontmatter.
 5. Build the unified diff and the summary.

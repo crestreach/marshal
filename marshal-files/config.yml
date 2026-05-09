@@ -1,6 +1,13 @@
 # MARSHAL configuration. See .marshal/ENTRYPOINT.md.
 
 knowledge:
+  # General contract every knowledge implementation must satisfy.
+  contract_ref: references/knowledge-contract.md
+
+  # Active knowledge implementation. Swap the representation by pointing this
+  # at another implementation reference that satisfies contract_ref.
+  representation_ref: references/knowledge-markdown-spine.md
+
   # review = every write produces a diff for human approval (default).
   # auto   = agents may write knowledge files without per-change approval.
   autonomy: review

@@ -6,7 +6,9 @@ cheap to keep in context.
 
 Reference: [marshal.md](../marshal.md) — full process spec.
 Reference: [design/knowledge-design.md](design/knowledge-design.md) — knowledge layer design.
-Shared format spec: [references/knowledge-format.md](references/knowledge-format.md).
+Knowledge contract: [references/knowledge-contract.md](references/knowledge-contract.md).
+Active implementation: read `knowledge.representation_ref` in
+[config.yml](config.yml). Default: [references/knowledge-markdown-spine.md](references/knowledge-markdown-spine.md).
 
 ## What MARSHAL is (one paragraph)
 
@@ -48,7 +50,15 @@ Agent-maintained knowledge about this repo lives under
 `.marshal/knowledge/`. It is **separate** from the synced
 skills/rules/agents tree.
 
-Read order:
+Knowledge is MARSHAL's agent-managed mid- and long-term memory. The
+knowledge contract is separate from the active implementation: read
+`knowledge.contract_ref` and `knowledge.representation_ref` in
+`.marshal/config.yml` before assuming a storage layout, metadata fields,
+indexing strategy, or update protocol. The default implementation is
+**MARSHAL Markdown Spine**, documented in
+[`references/knowledge-markdown-spine.md`](references/knowledge-markdown-spine.md).
+
+Default Markdown Spine read order:
 
 1. `.marshal/knowledge/INDEX.md` (always-loaded; link list + summaries).
 2. The folder index for the area you need (`repo/INDEX.md`,
@@ -66,9 +76,6 @@ code path; use `summary` to decide whether to open a file.
 Knowledge content is not limited to code facts — it covers logic,
 architecture, design rationale, decisions, and conventions.
 
-Knowledge content is not limited to code facts — it covers logic,
-architecture, design rationale, decisions, and conventions.
-
 ## Knowledge skills
 
 | Skill | When to use |
@@ -81,9 +88,10 @@ architecture, design rationale, decisions, and conventions.
 
 ## Approval and autonomy
 
-`.marshal/config.yml` controls write behavior. Default: every knowledge
-update produces a diff for human approval. `auto` mode skips approval and
-is intended for later, mature use only.
+`.marshal/config.yml` controls the active representation and write
+behavior. Default: every knowledge update produces a diff for human
+approval. `auto` mode skips approval and is intended for later, mature use
+only.
 
 ## Generated assets and config sync
 

@@ -67,7 +67,7 @@ That rollup is reviewed and optionally promoted into:
 - test strategy docs
 - team checklists
 - reusable prompts
-- memory/knowledge files
+- knowledge files
 
 Promotion rule:
 - promote only recurring or clearly reusable guidance
@@ -900,7 +900,7 @@ When no phase produced a learning file worth promoting (small or routine changes
 - checklists
 - test templates
 - architecture guidance
-- memory/knowledge files
+- knowledge files
 
 ### Promotion rules
 - keep only recurring, reusable guidance
@@ -953,7 +953,7 @@ Setup skills:
 - [`marshal-help`](marshal-files/skills/marshal-help/SKILL.md) — on-demand expert on MARSHAL: answers procedural and conceptual questions, orients the caller in the current change, and hands off to the right stage skill or to `marshal-driver` when work needs to actually progress.
 - [`marshal-promote-assets`](marshal-files/skills/marshal-promote-assets/SKILL.md) — copy MARSHAL durable assets from `.marshal/{skills,agents,rules}/` into the repo's `.agent-config/` source tree (with `mx_` prefix) so the next `agent-conf-sync` run fans them out to all tool layouts.
 
-Knowledge skills (see Memory & Knowledge):
+Knowledge skills (see Knowledge):
 - [`marshal-knowledge-init`](marshal-files/skills/marshal-knowledge-init/SKILL.md)
 - [`marshal-knowledge-maintain`](marshal-files/skills/marshal-knowledge-maintain/SKILL.md) (modes: `from-changes`, `from-learning`, `rescan`)
 - [`marshal-knowledge-research`](marshal-files/skills/marshal-knowledge-research/SKILL.md)
@@ -973,16 +973,27 @@ Every skill states its own prerequisites, inputs, outputs, and handoff (next ski
 
 ---
 
-## Memory and knowledge
+## Knowledge
 
 MARSHAL is paired with an agent-managed knowledge layer kept under [`.marshal/knowledge/`](marshal-files/knowledge/). Knowledge complements the per-change artifact chain: the artifact chain captures *this* change, while knowledge captures durable facts about the repo (architecture, logic, conventions, decisions) that survive across changes.
 
 Key points:
 
 - **Two trees.** The `.marshal/` config-sync source ships marshal-* agents/skills/rules and gets fanned out to tool layouts. The `.marshal/knowledge/` tree is **not synced** — agents read it directly through [`.marshal/ENTRYPOINT.md`](marshal-files/ENTRYPOINT.md).
+- **Exchangeable representation.** [`.marshal/config.yml`](marshal-files/config.yml)
+  names the general `knowledge.contract_ref` and the active
+  `knowledge.representation_ref`. The contract lives at
+  [`references/knowledge-contract.md`](marshal-files/references/knowledge-contract.md).
+  The default implementation is **MARSHAL Markdown Spine**, defined in
+  [`references/knowledge-markdown-spine.md`](marshal-files/references/knowledge-markdown-spine.md).
+  Skills follow the configured implementation instead of hard-coding the
+  default markdown tree.
 - **Progressive disclosure, recursive.** Always-loaded root [`INDEX.md`](marshal-files/knowledge/INDEX.md) (capped at `knowledge.root_index_max_lines`) → per-folder indexes → topic files. Topics may themselves split into a sub-index plus subtopics, recursively, with no fixed depth.
 - **Configurable size limits.** [`config.yml`](marshal-files/config.yml) defines `knowledge.topic_max_lines` (default 400) and `knowledge.subindex_max_lines` (default 150). When a topic exceeds its cap, `marshal-knowledge-maintain` proposes a split: convert the topic into a folder with a sub-index and subtopic files. The split dimension (by component, by concern, by time, by feature, etc.) is chosen for each topic; reviewers may re-split along a different dimension during a knowledge review.
-- **Frontmatter contract.** Every knowledge file has `id`, `kind`, `summary`, `repo_paths`, `importance`, `confidence`, `updated`, `verified_against_commit`. See [`references/knowledge-format.md`](marshal-files/references/knowledge-format.md).
+- **Default metadata implementation.** In MARSHAL Markdown Spine, every
+  knowledge file has `id`, `kind`, `summary`, `repo_paths`, `importance`,
+  `confidence`, `updated`, `verified_against_commit`. See
+  [`references/knowledge-markdown-spine.md`](marshal-files/references/knowledge-markdown-spine.md).
 - **Staleness without hooks.** `verified_against_commit` + `updated` are stamped explicitly. The maintenance skill diffs HEAD against the recorded SHA on demand.
 - **Approval.** [`.marshal/config.yml`](marshal-files/config.yml) controls autonomy (`review` default; `auto` opt-in). Knowledge writes produce a diff for human approval unless `auto` is set.
 - **Where it plugs into the lifecycle.** Stage 3 (Analysis) consults knowledge first to narrow the search surface and may invoke `marshal-knowledge-research`. After each implementation cycle, `marshal-knowledge-maintain` mode `from-changes` keeps knowledge in sync. Stage 7 (Learn) feeds promotable items into knowledge via mode `from-learning`. Larger reconciliation is handled by `marshal-knowledge-branch-merge` and `marshal-knowledge-rebuild`.

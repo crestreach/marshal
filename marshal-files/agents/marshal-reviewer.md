@@ -25,6 +25,8 @@ verification, and conflicts with documented invariants.
 - `verification-report.md`.
 - Relevant `.marshal/knowledge/` files (invariants, contracts,
   conventions).
+- `.marshal/config.yml` for `knowledge.contract_ref` and
+  `knowledge.representation_ref`, then both configured references.
 
 ## Outputs
 
@@ -42,17 +44,21 @@ verification, and conflicts with documented invariants.
 
 1. Read inputs.
 2. Walk packets in the plan; map each to PR file changes.
-3. For each changed area, pull the matching knowledge file(s) by
+3. Read the knowledge contract and active implementation.
+4. For each changed area, pull the matching knowledge file(s) by
    `repo_paths` and check claims.
-4. Walk requirements in `change-brief.md`; verify the PR addresses each.
-5. Check test changes against the testing strategy.
-6. Compose the structured review.
+5. Walk requirements in `change-brief.md`; verify the PR addresses each.
+6. Check test changes against the testing strategy.
+7. Compose the structured review.
 
 ## Skills and references used
 
 - [marshal-pr](../skills/marshal-pr/SKILL.md)
 - [marshal-verify](../skills/marshal-verify/SKILL.md) (cross-checks)
-- [knowledge-format](../references/knowledge-format.md)
+- Knowledge contract from `.marshal/config.yml` (default:
+  [knowledge-contract](../references/knowledge-contract.md))
+- Active knowledge implementation from `.marshal/config.yml` (default:
+  [knowledge-markdown-spine](../references/knowledge-markdown-spine.md))
 
 ## Delegation / handoff contract
 

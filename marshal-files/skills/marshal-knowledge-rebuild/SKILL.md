@@ -34,27 +34,31 @@ Knowledge skill — heavy operation.
 
 - Current HEAD source tree.
 - The previous knowledge tree as-is.
-- [`../../references/knowledge-format.md`](../../references/knowledge-format.md)
+- Contract config: [`../../config.yml`](../../config.yml) (`knowledge.contract_ref`).
+- Implementation config: [`../../config.yml`](../../config.yml) (`knowledge.representation_ref`).
+- Default contract: [`../../references/knowledge-contract.md`](../../references/knowledge-contract.md).
+- Default implementation: [`../../references/knowledge-markdown-spine.md`](../../references/knowledge-markdown-spine.md).
 - [`../../references/activation-protocol.md`](../../references/activation-protocol.md)
 - [`../../references/promotion-rules.md`](../../references/promotion-rules.md)
 
 ## Workflow
 
-1. Run [`marshal-knowledge-init`](../marshal-knowledge-init/SKILL.md)-style
+1. Read the knowledge contract and active implementation.
+2. Run [`marshal-knowledge-init`](../marshal-knowledge-init/SKILL.md)-style
    detection on current HEAD to reproduce the bounded-context map.
-2. Diff against the existing `.marshal/knowledge/` structure:
+3. Diff against the existing `.marshal/knowledge/` structure:
    - new contexts → propose new `domains/<x>/` skeletons.
    - removed contexts → propose archival (move under `learn/rollups/`
      or mark `kind: explanation` if still useful).
    - renamed/merged contexts → propose moves with redirect notes.
-3. For each surviving file, run logic equivalent to
+4. For each surviving file, run logic equivalent to
    [`marshal-knowledge-maintain`](../marshal-knowledge-maintain/SKILL.md)
    mode `rescan`.
-4. Re-derive `repo/architecture.md` and `repo/bounded-contexts.md`
+5. Re-derive `repo/architecture.md` and `repo/bounded-contexts.md`
    from scratch and 3-way merge against the existing versions.
-5. Present a single unified diff covering structure changes + content
+6. Present a single unified diff covering structure changes + content
    changes.
-6. After approval: regenerate every `INDEX.md`.
+7. After approval: regenerate every `INDEX.md`.
 
 ## Outputs
 

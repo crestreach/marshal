@@ -1,6 +1,6 @@
 ---
 name: marshal-load
-description: Session bootstrap for MARSHAL. Reads .marshal/ENTRYPOINT.md, .marshal/knowledge/INDEX.md, and .marshal/config.yml, then reports a one-paragraph orientation so the agent can pick the right next skill with minimal extra context.
+description: Session bootstrap for MARSHAL. Reads .marshal/ENTRYPOINT.md, .marshal/config.yml, the knowledge contract, the active knowledge implementation, and the root knowledge index, then reports a one-paragraph orientation so the agent can pick the right next skill with minimal extra context.
 ---
 
 # marshal-load
@@ -15,13 +15,20 @@ Setup skill — runs once per fresh session.
 
 - [`.marshal/ENTRYPOINT.md`](../../ENTRYPOINT.md)
 - [`.marshal/knowledge/INDEX.md`](../../knowledge/INDEX.md)
-- [`.marshal/config.yml`](../../config.yml) — note `knowledge.autonomy`.
+- [`.marshal/config.yml`](../../config.yml) — note `knowledge.autonomy`,
+  `knowledge.contract_ref`, and `knowledge.representation_ref`.
+- General knowledge contract named by `knowledge.contract_ref` (default
+  [`../../references/knowledge-contract.md`](../../references/knowledge-contract.md)).
+- Active knowledge implementation named by `knowledge.representation_ref`
+  (default
+  [`../../references/knowledge-markdown-spine.md`](../../references/knowledge-markdown-spine.md)).
 - Working folder for the current change, if any (look for the artifact
   chain: `specification.md`, `change-brief.md`, …).
 
 ## Workflow
 
-1. Read entry point + root knowledge index + config.
+1. Read entry point, config, knowledge contract, active implementation,
+   and root knowledge index.
 2. Detect current MARSHAL stage from the artifact chain present in the
    working folder, treating every stage as optional except stage 4 Plan
    (none → not started; `specification.md` only → stage 1 done; `…` up
@@ -31,7 +38,8 @@ Setup skill — runs once per fresh session.
 3. Emit a short orientation block (≤ ~20 lines):
    - process: which stage is current, which artifact is next, which
      stages were skipped per the plan's Scope.
-   - knowledge: autonomy mode, root index summary line count.
+   - knowledge: contract reference, implementation reference, autonomy
+     mode, root index summary line count.
    - skills available: next stage skill + relevant knowledge skills.
 
 ## Outputs

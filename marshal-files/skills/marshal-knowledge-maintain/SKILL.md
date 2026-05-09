@@ -26,16 +26,22 @@ and [`marshal-knowledge-rebuild`](../marshal-knowledge-rebuild/SKILL.md).
 ## Inputs (read at start)
 
 - Mode + mode-specific inputs (above).
-- [`.marshal/config.yml`](../../config.yml) — autonomy.
+- [`.marshal/config.yml`](../../config.yml) — autonomy, size caps,
+  `knowledge.contract_ref`, and `knowledge.representation_ref`.
 - `.marshal/knowledge/INDEX.md` and any topic indexes for affected
   areas.
-- [`../../references/knowledge-format.md`](../../references/knowledge-format.md)
+- General knowledge contract named by `knowledge.contract_ref` (default
+  [`../../references/knowledge-contract.md`](../../references/knowledge-contract.md)).
+- Active knowledge implementation named by `knowledge.representation_ref`
+  (default
+  [`../../references/knowledge-markdown-spine.md`](../../references/knowledge-markdown-spine.md)).
 - [`../../references/activation-protocol.md`](../../references/activation-protocol.md)
 - [`../../references/promotion-rules.md`](../../references/promotion-rules.md)
 
 ## Workflow (shared)
 
-1. Read entry point + relevant indexes.
+1. Read entry point + knowledge contract + active implementation +
+  relevant indexes.
 2. Run mode-specific logic (see below).
 3. Refresh `summary`, `repo_paths`, `updated`,
    `verified_against_commit` on touched files.

@@ -26,11 +26,14 @@ Knowledge skill — read-only by default.
 - Optional: which existing knowledge files (if any) to use as starting
   context.
 - Read-only access to the repo.
-- [`../../references/knowledge-format.md`](../../references/knowledge-format.md)
+- [`.marshal/config.yml`](../../config.yml) for `knowledge.contract_ref`
+  and `knowledge.representation_ref`, then both configured references
+  (defaults: [`../../references/knowledge-contract.md`](../../references/knowledge-contract.md),
+  [`../../references/knowledge-markdown-spine.md`](../../references/knowledge-markdown-spine.md)).
 
 ## Workflow
 
-1. Read entry point + INDEX to find existing knowledge on the topic.
+1. Read entry point, knowledge contract, active implementation, and INDEX.
 2. Identify the smallest set of code paths needed to answer the
    question.
 3. Study those paths (semantic-aware tools preferred over raw reads).
@@ -41,9 +44,10 @@ Knowledge skill — read-only by default.
 
 ## Outputs
 
-- A single markdown delta with the
-  [knowledge-format](../../references/knowledge-format.md) frontmatter
-  (kind: `reference` or `explanation`), ≤ ~150 lines body.
+- A single delta following the active knowledge implementation
+  (default: Markdown Spine frontmatter from
+  [knowledge-markdown-spine](../../references/knowledge-markdown-spine.md), kind
+  `reference` or `explanation`), ≤ ~150 lines body.
 - An "open questions" trailer for items the repo could not answer.
 
 ## Handoff

@@ -60,18 +60,17 @@ Read enough to answer accurately, no more:
 1. [`marshal.md`](../../../marshal.md) — full process spec (canonical).
 2. [`.marshal/ENTRYPOINT.md`](../../ENTRYPOINT.md) — compact entry point.
 3. [`.marshal/AGENTS.md`](../../AGENTS.md) — the merged-in snippet.
-4. [`.marshal/config.yml`](../../config.yml) — autonomy mode and
-   knowledge size caps.
+4. [`.marshal/config.yml`](../../config.yml) — contract,
+   implementation, autonomy mode, and knowledge size caps.
 5. [`.marshal/knowledge/INDEX.md`](../../knowledge/INDEX.md) — root
    knowledge index (only the index, not topic files, unless the
    question is about a specific topic).
-6. [`.marshal/design/knowledge-design.md`](../../design/knowledge-design.md)
-   and [`.marshal/references/`](../../references/) — when the question is
-   about the knowledge format, activation protocol, or promotion rules.
-7. The relevant `SKILL.md` or agent file in `.marshal/skills/` /
+6. [`.marshal/design/knowledge-design.md`](../../design/knowledge-design.md).
+7. [`.marshal/references/`](../../references/) — representation, activation, and promotion rules.
+8. The relevant `SKILL.md` or agent file in `.marshal/skills/` /
    `.marshal/agents/` when the question is specifically about that
    skill / subagent.
-8. The current change's working folder (artifact chain) — only when the
+9. The current change's working folder (artifact chain) — only when the
    question is "what stage am I in?" or "what should I do next?".
 
 Read lazily: the trivial questions only need (1) and (2). Don't load

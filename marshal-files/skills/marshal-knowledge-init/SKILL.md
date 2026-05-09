@@ -17,7 +17,10 @@ Knowledge skill — runs once per repo (typically by `marshal-init`).
 
 - Repo source tree (read-only).
 - Build / package manifests for language and dependency hints.
-- [`../../references/knowledge-format.md`](../../references/knowledge-format.md)
+- Contract config: [`../../config.yml`](../../config.yml) (`knowledge.contract_ref`).
+- Implementation config: [`../../config.yml`](../../config.yml) (`knowledge.representation_ref`).
+- Default contract: [`../../references/knowledge-contract.md`](../../references/knowledge-contract.md).
+- Default implementation: [`../../references/knowledge-markdown-spine.md`](../../references/knowledge-markdown-spine.md).
 - [`../../references/activation-protocol.md`](../../references/activation-protocol.md)
 
 ## Workflow
@@ -26,16 +29,18 @@ Knowledge skill — runs once per repo (typically by `marshal-init`).
 2. Identify bounded contexts (heuristics: top-level package dirs,
    monorepo workspace files, route prefixes, schema modules, service
    boundaries).
-3. Draft `repo/{overview, architecture, bounded-contexts, entrypoints,
+3. Follow the knowledge contract and active implementation for storage layout,
+   metadata, discovery, and update rules.
+4. Draft `repo/{overview, architecture, bounded-contexts, entrypoints,
    build-test-run, conventions}.md`.
-4. For each detected domain, draft
+5. For each detected domain, draft
    `domains/<name>/{INDEX, purpose, logic, contracts, hotspots,
    tests}.md` skeletons populated with high-level summaries.
-5. Stamp every file with `updated: <today>` and
+6. Stamp every file with `updated: <today>` and
    `verified_against_commit: <HEAD short SHA>`.
-6. Generate root `INDEX.md` and per-folder `INDEX.md` files from
+7. Generate root `INDEX.md` and per-folder `INDEX.md` files from
    frontmatter (one-line `summary` per file, ordered by `importance`).
-7. Cap files against the limits in [`config.yml`](../../config.yml):
+8. Cap files against the limits in [`config.yml`](../../config.yml):
    `knowledge.root_index_max_lines` for `INDEX.md`,
    `knowledge.subindex_max_lines` for per-folder indexes,
    `knowledge.topic_max_lines` for topic files. If a draft exceeds its
@@ -44,7 +49,7 @@ Knowledge skill — runs once per repo (typically by `marshal-init`).
    *Multi-level splits*) before presenting the diff. Splits may nest
    recursively; pick the most natural dimension per topic and record
    it in the resulting sub-index.
-8. Present the entire generated tree as one unified diff for human
+9. Present the entire generated tree as one unified diff for human
    approval (or apply directly in `auto` autonomy mode).
 
 ## Outputs

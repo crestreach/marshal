@@ -24,13 +24,16 @@ Knowledge skill — invoked at merge time.
 
 - Two branch refs (or merge base + two heads).
 - Optional: a list of files to focus on.
-- [`../../references/knowledge-format.md`](../../references/knowledge-format.md)
+- [`.marshal/config.yml`](../../config.yml) for `knowledge.contract_ref`
+  and `knowledge.representation_ref`, then both configured references
+  (defaults: [`../../references/knowledge-contract.md`](../../references/knowledge-contract.md),
+  [`../../references/knowledge-markdown-spine.md`](../../references/knowledge-markdown-spine.md)).
 - [`../../references/activation-protocol.md`](../../references/activation-protocol.md)
 
 ## Workflow
 
-1. Compute the set of knowledge files touched on either side since the
-   merge base.
+1. Read the knowledge contract and active implementation, then compute
+  touched knowledge files since the merge base.
 2. Classify each:
    - **Identical** → keep.
    - **Disjoint frontmatter** → field-level merge:

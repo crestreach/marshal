@@ -30,30 +30,36 @@ tree.
 - Optional: a list of likely-relevant paths, or a knowledge-file id to
   refresh.
 - Read-only access to the repo and `.marshal/knowledge/`.
+- `.marshal/config.yml` for `knowledge.contract_ref` and
+  `knowledge.representation_ref`, then both configured references.
 
 ## Outputs
 
-- A single markdown document with the
-  [knowledge-format](../references/knowledge-format.md) frontmatter,
-  ready to drop in. The body is condensed (target ≤ ~150 lines) and
-  source-linked: cites file paths and short SHAs for any claim.
+- A single document following the active knowledge implementation
+  contract, ready to drop in. The body is condensed (target ≤ ~150
+  lines) and source-linked: cites file paths and short SHAs for any
+  claim.
 - A short follow-up list of open questions that could not be answered
   from the repo alone.
 
 ## Workflow
 
-1. Read `.marshal/ENTRYPOINT.md` and `.marshal/knowledge/INDEX.md`.
+1. Read entry point, config, knowledge contract, active implementation,
+   and root INDEX.
 2. Descend into relevant topic indexes for prior knowledge.
 3. Use semantic-aware tools (grep, file reads, symbol lookups) to map the
    relevant code paths. Avoid loading large unrelated files.
-4. Synthesize the delta in the knowledge format.
+4. Synthesize the delta in the active knowledge implementation.
 5. Stamp `verified_against_commit` with the current short SHA.
 6. Return the document. **Do not** write to the knowledge tree directly.
 
 ## Skills and references used
 
 - [marshal-knowledge-research](../skills/marshal-knowledge-research/SKILL.md)
-- [knowledge-format](../references/knowledge-format.md)
+- Knowledge contract from `.marshal/config.yml` (default:
+  [knowledge-contract](../references/knowledge-contract.md))
+- Active knowledge implementation from `.marshal/config.yml` (default:
+  [knowledge-markdown-spine](../references/knowledge-markdown-spine.md))
 - [activation-protocol](../references/activation-protocol.md)
 
 ## Delegation / handoff contract

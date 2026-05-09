@@ -13,6 +13,10 @@ See [`marshal.md`](./marshal.md) for the full specification.
 ## Repository
 
 - [`marshal.md`](./marshal.md) — the process specification (source of truth)
+- [`marshal-files/references/knowledge-contract.md`](./marshal-files/references/knowledge-contract.md) — general knowledge representation contract
+- [`marshal-files/references/knowledge-markdown-spine.md`](./marshal-files/references/knowledge-markdown-spine.md) — default knowledge implementation,
+  **MARSHAL Markdown Spine**; replaceable via `knowledge.representation_ref` in
+  [`marshal-files/config.yml`](./marshal-files/config.yml)
 - [`AGENTS.md`](./AGENTS.md) — guidance for AI agents working in this repo (generated; authored under [`.agent-config/AGENTS.md`](./.agent-config/AGENTS.md))
 - [`marshal-files/`](./marshal-files) — MARSHAL durable assets for *this* product repo (entrypoint, config, knowledge, skills, agents, rules). Equivalent to `.marshal/` in a consumer repo.
 - [`.agent-config/`](./.agent-config) — generic source tree consumed by [`.cyncia`](./.cyncia) (vendored as a submodule). Edit here, then re-run sync to regenerate per-tool layouts (`.cursor/`, `.claude/`, `.github/`, `.junie/`, `.vscode/`, root `AGENTS.md`, `CLAUDE.md`, `.mcp.json`).
