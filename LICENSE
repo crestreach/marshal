@@ -1,33 +1,21 @@
-# MARSHAL Licensing
+MIT License
 
-Copyright (c) 2026 Artur Olszak
+Copyright (c) 2026 CrestReach
 
-MARSHAL is dual-licensed to match what each part of the repository is:
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
 
-| Part of the repo | License | Full text |
-|---|---|---|
-| Documentation, prose, the method itself (`*.md` files, diagrams, images, textual templates) | **CC BY-SA 4.0** — Creative Commons Attribution-ShareAlike 4.0 International | [`LICENSES/CC-BY-SA-4.0.txt`](./LICENSES/CC-BY-SA-4.0.txt) |
-| Code, scripts, executable templates, skill files, and any software tooling | **BSD 2-Clause + Commons Clause** — BSD 2-Clause License with the Commons Clause restriction on sale | [`LICENSES/BSD-2-Clause.txt`](./LICENSES/BSD-2-Clause.txt), [`LICENSES/COMMONS-CLAUSE.txt`](./LICENSES/COMMONS-CLAUSE.txt) |
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
 
-## What this means in practice
-
-You may use MARSHAL — including commercially — to plan, build, and ship your own software. You may adopt it in your company, teach it, consult on it, write about it, adapt it to your context, and integrate MARSHAL scripts into your own (including proprietary) repositories. You may also share modified versions of MARSHAL freely.
-
-In return:
-
-- **Attribution.** Keep the MARSHAL copyright notice and these license terms intact when redistributing (in source or binary form) or sharing derivative works of the method.
-- **Share-alike on the method.** If you publish a modified version of the MARSHAL method itself (the prose/docs), release that modified version under CC BY-SA 4.0 as well.
-- **No selling MARSHAL as a product or service.** The Commons Clause prohibits "selling" MARSHAL — i.e., providing to third parties, for a fee or other consideration, a product or service whose value derives **entirely or substantially from MARSHAL's functionality**. Per the clause text, this explicitly includes charging fees for **hosting MARSHAL** or for **consulting/support services related to MARSHAL**. You *can* charge for services, consulting, training, or products *whose value comes from your own work* and that merely *use* MARSHAL as a tool (e.g. building a client's software with it); you *cannot* sell MARSHAL itself, a repackaged version of it, or a hosting/consulting/support offering whose value is substantially MARSHAL.
-
-In short: use it freely, including to make money with it — but don't take MARSHAL, rebrand it, and sell it as your own product.
-
-## Status clarification
-
-Because of the Commons Clause, MARSHAL's code is technically **source-available** rather than formally "open source" under the OSI definition. It remains freely usable and adaptable for virtually every real-world case (internal use, commercial products built on top, non-commercial redistribution, academic use, etc.) — only resale of MARSHAL itself is restricted.
-
-## When in doubt
-
-- Prose and method content → CC BY-SA 4.0.
-- Anything that is executed by a machine (shell scripts, Python/TS/JS, YAML tool configs, prompt templates intended for programmatic use) → BSD 2-Clause + Commons Clause.
-
-If a specific file's license is ambiguous, the file may carry an SPDX header such as `SPDX-License-Identifier: BSD-2-Clause` or `SPDX-License-Identifier: CC-BY-SA-4.0` that overrides the default above. Files under BSD 2-Clause + Commons Clause should also include a notice of the Commons Clause condition.
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

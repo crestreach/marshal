@@ -173,13 +173,4 @@ Early draft. The spec is being shaped; expect frequent changes.
 
 ## License
 
-MARSHAL is dual-licensed:
-
-- Documentation and the method itself → **CC BY-SA 4.0**
-- Code, scripts, and tooling → **BSD 2-Clause + Commons Clause**
-  (source-available)
-
-You may use MARSHAL commercially — internally, on client work, and in products
-you build on top of it — and you may freely redistribute modified versions for
-free. You may **not** sell MARSHAL itself (or a repackaged version of it) as a
-product. See [`LICENSE`](./LICENSE) for details.
+MARSHAL is licensed under the **MIT License**. See [`LICENSE`](./LICENSE).
