@@ -17,8 +17,8 @@ spec and the repo's MARSHAL files, then answer questions about:
   (current stage, existing artifacts, autonomy mode, what is in the
   knowledge tree);
 - generated-asset / config-sync questions (`.marshal/` ↔
-  `.agent-config/`, the `marshal-promote-assets` skill, the `mx_`
-  prefix).
+  `.agent-config/`, the `marshal-promote-assets` skill, the `marshal-`
+  and `mx-` prefixes).
 
 If the caller asks to *do* a stage rather than just learn about it,
 hand off to [`marshal-driver`](./marshal-driver.md) (or to the

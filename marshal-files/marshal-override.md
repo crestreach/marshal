@@ -21,7 +21,7 @@ Use this file to record repo-specific MARSHAL adjustments such as:
   domain in `.marshal/knowledge/domains/`."
 - **Tone or style overrides.** "Always use British English in
   artifacts." / "Verification reports use the matrix format from
-  `.marshal/extensions/skills/mx_<x>/SKILL.md`."
+  `.marshal/extensions/skills/mx-<x>/SKILL.md`."
 - **Subagent / skill preferences.** "Always run `marshal-researcher`
   before `marshal-architect` in this repo." / "Skip
   `marshal-knowledge-rebuild` even if INDEX.md drift is detected."

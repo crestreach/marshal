@@ -1,0 +1,31 @@
+# MARSHAL agent → tool (MCP) grants.
+#
+# MARSHAL ships baseline tools for its built-in agents, but it does not
+# know a given repo's MCP servers at install time. This file lets a repo
+# grant extra tools (e.g. an issue-tracker MCP for the specifier, a
+# deploy/infra MCP for the implementer) to specific agents. When
+# marshal-promote-assets promotes an agent, the tools listed here are
+# **merged** (union, de-duplicated) into whatever tools the agent
+# already declares — they never replace the agent's baseline tools.
+#
+# Keys are the agent's canonical name:
+#   - built-ins:  marshal-<name>   (e.g. marshal-implementer)
+#   - extensions: mx-<name>        (e.g. mx-deploy-helper)
+#
+# Tool names must match MCP servers defined for the config-sync engine
+# (e.g. files under .agent-config/mcp-servers/). MARSHAL only maps which
+# agent gets which already-defined tool; it does not define the servers.
+#
+# This file survives MARSHAL updates: installers add newly introduced
+# keys but never overwrite or remove a repo's existing entries (same
+# add-but-don't-touch rule as config.yml and marshal-override.md).
+#
+# Empty by default. Example:
+#
+# agents:
+#   marshal-specifier:
+#     tools: [jira]
+#   marshal-implementer:
+#     tools: [init7, postgres]
+
+agents: {}

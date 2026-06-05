@@ -7,17 +7,17 @@ hand-authored on top of MARSHAL's built-ins.
 ```text
 extensions/
   rules/
-    mx_<name>.md
+    mx-<name>.md
   skills/
-    mx_<name>/
+    mx-<name>/
       SKILL.md
   agents/
-    mx_<name>.md
+    mx-<name>.md
 ```
 
 ## Naming
 
-Every file / folder under `extensions/` is prefixed with `mx_`
+Every file / folder under `extensions/` is prefixed with `mx-`
 ("marshal extension") **at creation time**. The prefix:
 
 - distinguishes repo-specific extensions from built-in MARSHAL lifecycle
@@ -29,10 +29,10 @@ Every file / folder under `extensions/` is prefixed with `mx_`
 ## How they get into tool layouts
 
 `marshal-promote-assets` walks **both** the built-in trees and this
-`extensions/` tree, copying everything into `.agent-config/`. Items here
-already start with `mx_`, so promote-assets keeps the names as-is (no
-double-prefix). Then `agent-conf-sync` fans `.agent-config/` out to
-tool-native layouts.
+`extensions/` tree, copying everything into `.agent-config/` with names
+kept as-is — built-ins stay `marshal-*`, extensions here stay `mx-*`
+(no reprefixing either way). Then `agent-conf-sync` fans
+`.agent-config/` out to tool-native layouts.
 
 ## Why split from the built-ins
 
@@ -48,4 +48,4 @@ tool-native layouts.
 The usual author is `marshal-learner` (stage 7). It drafts new
 extensions from accumulated phase learnings and asks for human
 approval per item. You may also hand-author files here; just keep the
-`mx_` prefix and the cyncia-compatible frontmatter format.
+`mx-` prefix and the cyncia-compatible frontmatter format.

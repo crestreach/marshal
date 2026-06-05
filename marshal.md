@@ -957,7 +957,7 @@ Stage skills:
 Setup / main-session skills (no subagent counterpart — these are intentionally main-session intent):
 - [`marshal-init`](marshal-files/skills/marshal-init/SKILL.md) — first-time MARSHAL setup in a repo: scaffolds `.marshal/`, optionally installs [cyncia](https://github.com/crestreach/cyncia) (via the cyncia installer), provisions an `.agent-config/` source tree, runs [`marshal-promote-assets`](marshal-files/skills/marshal-promote-assets/SKILL.md) to wire MARSHAL durable assets into it, and (optionally) runs the sync to fan everything out into tool-native layouts.
 - [`marshal-load`](marshal-files/skills/marshal-load/SKILL.md) — session bootstrap.
-- [`marshal-promote-assets`](marshal-files/skills/marshal-promote-assets/SKILL.md) — copy MARSHAL durable assets from `.marshal/{skills,skills-fallback,agents,rules}/` (built-ins; `mx_` prefix applied at copy) **and** from `.marshal/extensions/{skills,agents,rules}/` (repo-specific extensions; already `mx_`-prefixed) into the repo's `.agent-config/` source tree, so the next `agent-conf-sync` run fans them out to all tool layouts.
+- [`marshal-promote-assets`](marshal-files/skills/marshal-promote-assets/SKILL.md) — copy MARSHAL durable assets from `.marshal/{skills,skills-fallback,agents,rules}/` (built-ins; keep their `marshal-` prefix) **and** from `.marshal/extensions/{skills,agents,rules}/` (repo-specific extensions; keep their `mx-` prefix) into the repo's config-sync source tree (default `.agent-config/`), so the next `agent-conf-sync` run fans them out to all tool layouts. Names are copied as-is — no reprefixing.
 
 Help / orchestration:
 - [`marshal-helper`](marshal-files/agents/marshal-helper.md) — on-demand MARSHAL coach: answers procedural and conceptual questions, orients the caller in the current change, and hands off to the right stage agent or to [`marshal-driver`](marshal-files/agents/marshal-driver.md). Wrappers: [`marshal-delegate-to-help`](marshal-files/skills/marshal-delegate-to-help/SKILL.md) (delegate) / [`marshal-help`](marshal-files/skills-fallback/marshal-help/SKILL.md) (fallback).
@@ -1021,17 +1021,18 @@ MARSHAL produces two kinds of content:
 | [`.marshal/skills-fallback/`](marshal-files/skills-fallback/) | Inline (no-subagent) variants of the lifecycle skills, same names as the originals. Built-in MARSHAL. |
 | [`.marshal/agents/`](marshal-files/agents/) | One file per subagent definition. Built-in MARSHAL subagents (`marshal-*`). |
 | [`.marshal/rules/`](marshal-files/rules/) | One file per rule. Generic rule frontmatter (`description`, `applies-to`, `always-apply`). Built-in MARSHAL rules. |
-| [`.marshal/extensions/{skills,agents,rules}/`](marshal-files/extensions/) | **Repo-specific extensions** — rules / skills / subagents drafted by [`marshal-learner`](marshal-files/agents/marshal-learner.md) (or hand-authored) on top of the built-ins. Every basename is `mx_`-prefixed at creation. Survives MARSHAL upgrades. |
+| [`.marshal/extensions/{skills,agents,rules}/`](marshal-files/extensions/) | **Repo-specific extensions** — rules / skills / subagents drafted by [`marshal-learner`](marshal-files/agents/marshal-learner.md) (or hand-authored) on top of the built-ins. Every basename is `mx-`-prefixed at creation. Survives MARSHAL upgrades. |
 | [`.marshal/knowledge/`](marshal-files/knowledge/) | Repo knowledge — **not synced**, read in-place via `.marshal/ENTRYPOINT.md`. |
 | [`.marshal/AGENTS.md`](marshal-files/AGENTS.md) | Snippet meant to be **manually merged** into the host repo's root `AGENTS.md` so that AI assistants see the MARSHAL entry point. |
 | [`.marshal/marshal-override.md`](marshal-files/marshal-override.md) | **Optional** repo-specific override file. Free-form Markdown that specifies or modifies how MARSHAL behaves on top of `marshal.md` (stage policy, artifact policy, agent/skill preferences). Read by every MARSHAL-aware agent immediately after `marshal.md`; entries here take precedence on the points they address. Empty by default. **Not synced.** |
+| [`.marshal/agent-tools.yml`](marshal-files/agent-tools.yml) | **Optional** per-agent tool (MCP) grants. Maps a built-in (`marshal-<name>`) or extension (`mx-<name>`) agent to extra tools that `marshal-promote-assets` merges (union) into that agent's declared tools at promotion. Survives MARSHAL updates (installers add new keys, never overwrite existing ones). Empty by default. |
 
 ### How they get generated
 
 MARSHAL agents may create or update any of these assets in two situations:
 
-- **From learnings.** During stage 7 Learn, recurring lessons in `learning-rollup.md` can be promoted into a new or updated skill, subagent, rule, or guideline. Newly drafted executable assets land under [`.marshal/extensions/{skills,agents,rules}/`](marshal-files/extensions/) with the `mx_` prefix at creation; the built-in `.marshal/{skills,skills-fallback,agents,rules}/` folders are owned by MARSHAL itself and are not edited from learnings.
-- **On request.** The user can ask the agent at any time to produce a skill / subagent / rule / guideline for a recurring task. The agent drafts it under [`.marshal/extensions/`](marshal-files/extensions/) (with the `mx_` prefix) and surfaces a diff for approval (per the autonomy setting in `.marshal/config.yml`).
+- **From learnings.** During the Learn stage, recurring lessons in `learning-rollup.md` can be promoted into a new or updated skill, subagent, rule, or guideline. Newly drafted executable assets land under [`.marshal/extensions/{skills,agents,rules}/`](marshal-files/extensions/) with the `mx-` prefix at creation; the built-in `.marshal/{skills,skills-fallback,agents,rules}/` folders are owned by MARSHAL itself and are not edited from learnings.
+- **On request.** The user can ask the agent at any time to produce a skill / subagent / rule / guideline for a recurring task. The agent drafts it under [`.marshal/extensions/`](marshal-files/extensions/) (with the `mx-` prefix) and surfaces a diff for approval (per the autonomy setting in `.marshal/config.yml`).
 
 Generated rules use the generic frontmatter understood by the sync tool (see below): `description`, `applies-to` (comma-separated globs), `always-apply` (boolean).
 
@@ -1043,16 +1044,16 @@ Two layouts are supported:
 
 - **Direct.** Point `sync-all -i` at `.marshal/` itself. Simplest setup; only works when MARSHAL's durable assets are the only ones the repo wants synced.
 - **Separate `.agent-config/` source tree.** The repo keeps its own `.agent-config/` (or similarly named) source folder at the root, alongside `.marshal/`. MARSHAL's durable assets are *promoted* into it via the [`marshal-promote-assets`](marshal-files/skills/marshal-promote-assets/SKILL.md) skill, which walks **two** source trees inside `.marshal/`:
-  - **built-ins** — `.marshal/{skills,skills-fallback,agents,rules}/` (`marshal-` prefix). Promoted into `.agent-config/{skills,agents,rules}/` with the `mx_` prefix applied **at copy time** (e.g. `marshal-plan` → `mx_marshal-plan`).
-  - **extensions** — `.marshal/extensions/{skills,agents,rules}/` (already `mx_`-prefixed at creation). Copied into `.agent-config/{skills,agents,rules}/` **as-is** (no double-prefix).
+  - **built-ins** — `.marshal/{skills,skills-fallback,agents,rules}/` (`marshal-` prefix). Promoted into `<config-sync>/{skills,agents,rules}/` **as-is**, keeping the `marshal-` prefix.
+  - **extensions** — `.marshal/extensions/{skills,agents,rules}/` (`mx-`-prefixed at creation). Copied into `<config-sync>/{skills,agents,rules}/` **as-is**, keeping the `mx-` prefix.
 
-  The sync runs over `.agent-config/`.
+  The sync runs over the config-sync source tree (default `.agent-config/`, overridable via `sync.agent_config_dir`).
 
 Naming convention:
 
-- Built-in MARSHAL assets (lifecycle skills, MARSHAL subagents) keep their `marshal-` prefix in `.marshal/`.
-- Repo-specific extensions under `.marshal/extensions/` use the `mx_` prefix at creation.
-- When promoted into `.agent-config/`, every basename ends up `mx_`-prefixed (built-ins by reprefixing at copy, extensions because they already are); items already starting with `mx_` are kept as-is.
+- Built-in MARSHAL assets (lifecycle skills, MARSHAL subagents) use the `marshal-` prefix and keep it everywhere — in `.marshal/` and after promotion.
+- Repo-specific extensions under `.marshal/extensions/` use the `mx-` prefix at creation and keep it everywhere.
+- Promotion never renames or reprefixes; names are copied through unchanged.
 
 Guidelines flow:
 

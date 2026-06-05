@@ -138,7 +138,7 @@ Durable assets MARSHAL produces or maintains live under `.marshal/`:
 - `extensions/{skills,agents,rules}/` — **repo-specific extensions**
   drafted by [`marshal-learner`](agents/marshal-learner.md) (or
   hand-authored) on top of the built-ins. Every basename is
-  `mx_`-prefixed at creation. Lives outside the built-in folders so
+  `mx-`-prefixed at creation. Lives outside the built-in folders so
   it survives MARSHAL upgrades.
 - `knowledge/...` — read in place; **not** part of the sync source.
 - `AGENTS.md` — a snippet to merge **manually** into the host repo's
@@ -148,7 +148,7 @@ Durable assets MARSHAL produces or maintains live under `.marshal/`:
 MARSHAL agents may **create or update** built-in `skills/` / `agents/` /
 `rules/` only when MARSHAL itself is being changed. Repo-specific
 guidance generated from learnings or on user request goes under
-`extensions/{skills,agents,rules}/` with the `mx_` prefix at creation.
+`extensions/{skills,agents,rules}/` with the `mx-` prefix at creation.
 Diffs go through the autonomy gate in `.marshal/config.yml`.
 
 To fan these out into tool-native layouts (Cursor, Claude Code, GitHub

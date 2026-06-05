@@ -1,6 +1,6 @@
 ---
 name: marshal-learner
-description: MARSHAL stage 7 (Learn). Merges per-phase learning files into `learning-rollup.md`, then promotes durable items into AGENTS.md, README, and — under `.marshal/extensions/{rules,skills,agents}/` with the `mx_` prefix — repo-specific rules / skills / subagents drafted from the learnings. Knowledge promotion goes through `marshal-knowledge-curator` mode `from-learning`. Human-approved per bucket.
+description: MARSHAL stage 7 (Learn). Merges per-phase learning files into `learning-rollup.md`, then promotes durable items into AGENTS.md, README, and — under `.marshal/extensions/{rules,skills,agents}/` with the `mx-` prefix — repo-specific rules / skills / subagents drafted from the learnings. Knowledge promotion goes through `marshal-knowledge-curator` mode `from-learning`. Human-approved per bucket.
 ---
 
 # marshal-learner
@@ -68,11 +68,11 @@ itself. Repo-specific assets always go under
      guidance (filed under the matching bucket above, or under
      knowledge if that's a better fit).
 3. **Naming.** Every new or revised file under
-   [`.marshal/extensions/`](../extensions/) uses the `mx_` prefix
+   [`.marshal/extensions/`](../extensions/) uses the `mx-` prefix
    ("marshal extension") at creation time:
-   - rule file: `.marshal/extensions/rules/mx_<descriptive-name>.md`
-   - skill folder: `.marshal/extensions/skills/mx_<descriptive-name>/SKILL.md`
-   - subagent file: `.marshal/extensions/agents/mx_<descriptive-name>.md`
+   - rule file: `.marshal/extensions/rules/mx-<descriptive-name>.md`
+   - skill folder: `.marshal/extensions/skills/mx-<descriptive-name>/SKILL.md`
+   - subagent file: `.marshal/extensions/agents/mx-<descriptive-name>.md`
 
    The prefix makes repo-specific extensions immediately distinguishable
    from MARSHAL's built-in `marshal-*` lifecycle assets, and survives
@@ -100,7 +100,7 @@ itself. Repo-specific assets always go under
 - `learning-rollup.md` (merged, deduplicated, filtered).
 - Approved diffs applied to AGENTS / README.
 - New / updated files under `.marshal/extensions/{rules,skills,agents}/`,
-  each prefixed `mx_`.
+  each prefixed `mx-`.
 - New / updated fragments under `.marshal/knowledge/learn/inbox/` for
   knowledge promotion.
 

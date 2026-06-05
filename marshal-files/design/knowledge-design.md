@@ -84,7 +84,7 @@ discovery, metadata, update, staleness, and promotion contract.
   skills-fallback/                 # marshal-* fallback skills (synced; built-in)
   rules/                           # marshal-* rules (synced; built-in)
   mcp-servers/                     # marshal-* MCP cards (synced; optional)
-  extensions/                      # repo-specific extensions (mx_-prefixed at creation)
+  extensions/                      # repo-specific extensions (mx--prefixed at creation)
     skills/
     agents/
     rules/
@@ -225,7 +225,7 @@ subagent support) and a fallback skill under
 | `marshal-verifier` | Stage 5b — produce `verification-report.md`. | `marshal-delegate-to-verify` / `marshal-verify` |
 | `marshal-reviewer` | Stage 5c (optional) — PR boundary, summary, fixup loop. | `marshal-delegate-to-pr` / `marshal-pr` |
 | `marshal-releaser` | Stage 6 (optional) — produce `rollout-note.md`. | `marshal-delegate-to-rollout` / `marshal-rollout` |
-| `marshal-learner` | Stage 7 (optional) — produce `learning-rollup.md`, draft new repo-specific rules / skills / subagents under `.marshal/extensions/{rules,skills,agents}/` (`mx_` prefix at creation), and feed `marshal-knowledge-curator` mode `from-learning`. | `marshal-delegate-to-learn` / `marshal-learn` |
+| `marshal-learner` | Stage 7 (optional) — produce `learning-rollup.md`, draft new repo-specific rules / skills / subagents under `.marshal/extensions/{rules,skills,agents}/` (`mx-` prefix at creation), and feed `marshal-knowledge-curator` mode `from-learning`. | `marshal-delegate-to-learn` / `marshal-learn` |
 | `marshal-helper` | On-demand procedural / conceptual help on MARSHAL itself. | `marshal-delegate-to-help` / `marshal-help` |
 | `marshal-driver` | Full end-to-end orchestrator across stages. | `marshal-delegate-to-driver` / — |
 
