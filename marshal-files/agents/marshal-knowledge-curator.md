@@ -42,6 +42,18 @@ This keeps the curator portable across knowledge implementations.
   the knowledge tree, or to reconcile content-level overlaps even
   without textual conflict.
 
+The curator can be invoked **at any point in the process**, not only in
+the Learn stage. Mid-process, agents that discover reusable knowledge
+follow `knowledge.capture_during_process`: when **true** they drop a
+knowledge-shaped note into `learn/inbox/` (consumed here via
+`from-learning`); when **false** they record it in that phase's learnings
+file instead. Whether the curator is then run by the agent itself or by
+its caller (the driver / user) is governed by
+`knowledge.curator_invocation`. The single source of truth for this
+capture flow is
+[activation-protocol](../references/activation-protocol.md); this agent
+only ingests what those settings route to the inbox.
+
 ## Inputs
 
 - **Mode** (one of the six above) and the **intent** of the call, plus

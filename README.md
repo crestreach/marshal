@@ -142,10 +142,10 @@ update:
   overwritten.
 
 Run with `--help` for options (`--ref`, `--marshal-dir`, `--agent-config`,
-`--no-cyncia`, `--no-sync`). Wiring the durable assets into `.agent-config/` is
-the `marshal-promote-assets` step; the script (or the `marshal-init` skill,
-when you would rather drive setup from an AI assistant) runs it so the sync has
-MARSHAL skills to fan out.
+`--no-cyncia`, `--no-sync`). The script installs the assets and runs the
+cyncia sync; wiring MARSHAL's durable assets into `.agent-config/` so the sync
+can fan them out to tool layouts is the separate `marshal-promote-assets` step,
+run once from an AI assistant (or as part of the `marshal-init` skill).
 
 ## Repository layout
 

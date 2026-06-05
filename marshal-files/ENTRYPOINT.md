@@ -67,6 +67,15 @@ The full end-to-end orchestrator is `marshal-driver` (delegate skill
 `marshal-delegate-to-driver`); it has no fallback because its value is
 subagent orchestration with isolated context per stage.
 
+**Two communication models** (mixable): call a specialist agent **directly**
+for one stage, or talk only to `marshal-driver` as a **single point of
+contact** that coordinates the specialists. In the driver-mediated model the
+human-in-the-loop level ranges from hands-off (return only for key decisions
+and approval gates) to collaborative (decide together, phase by phase),
+inferred from the prompt and `config.yml` autonomy and adjustable at any stage
+boundary. See `marshal-driver` and `marshal.md` for the full description and
+the turn-based mediation tradeoff.
+
 The agent file states the prerequisites, inputs, outputs, and handoff. Do
 not duplicate workflow content into the wrapper skills.
 
