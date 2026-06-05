@@ -42,7 +42,7 @@ Many complex SDLC processes already exist. This document does not try to invent 
   - recurring repo conventions
 - Learning files must **not** be polluted with case-specific details
 
-## 5. Learning model
+## Learning model
 
 Each phase produces a learning file.
 
@@ -215,7 +215,7 @@ Use only when useful:
   to L2", "go to L4 for the auth work"), follow it. Otherwise the
   agent picks pragmatically and surfaces the choice for approval.
 - Not every level has to be filled in up front — see "Staged planning"
-  in stage 4.
+  in stage 5.
 
 
 
@@ -233,7 +233,7 @@ Use simple inline markers:
 - `[FIXUP yyyy-mm-dd]`
 - `[REVERT yyyy-mm-dd]`
 
-## 4. Parallelism
+## Parallelism
 
 Parallel work is optional and should be marked only when useful. For parallelizable items, append optional thread markers:
 - `<~T1>`
@@ -257,7 +257,7 @@ Two cycle scales exist inside the lifecycle — the big one groups three high-le
 
 ### Implementation round (big)
 
-Stages 5a Implement, 5b Verify, and 5c PR / merge are still three separate high-level stages, but they run together as one **implementation round**. A round can run:
+Stages 6a Implement, 6b Verify, and 6c PR / merge are still three separate high-level stages, but they run together as one **implementation round**. A round can run:
 - **once** for the whole change — one Implement, one Verify, one PR at the end
 - **per phase / slice** — each phase is implemented, verified, and merged before the next begins
 - occasionally **per work packet or small group of packets**, when a coherent, testable delta warrants its own integration boundary
@@ -273,7 +273,7 @@ flowchart LR
 
 ### Implementation cycle (small)
 
-Inside the Implement stage, work itself runs in smaller **implementation cycles** — pick a target (phase / packet / step), execute it, close the cycle. A round contains one or more cycles (see "Implementation cycles" in stage 5).
+Inside the Implement stage, work itself runs in smaller **implementation cycles** — pick a target (phase / packet / step), execute it, close the cycle. A round contains one or more cycles (see "Implementation cycles" in stage 6).
 
 
 ## Specification change
@@ -300,29 +300,29 @@ Individual lifecycle steps will be referred to as **stages**, as opposed to phas
 flowchart LR
     S["1. Specification<br/>(optional)"] --> A["2. Intake<br/>(optional)"]
     A --> B["3. Analysis<br/>(optional)"]
-    B --> C["3.5. Architecture<br/>(optional)"]
-    C --> D["4. Plan<br/>(mandatory)"]
-    subgraph R5["5. Implementation round"]
+    B --> C["4. Architecture<br/>(optional)"]
+    C --> D["5. Plan<br/>(mandatory)"]
+    subgraph R5["6. Implementation round"]
         direction LR
         I[Implement] --> V[Verify]
         V --> P[PR / merge]
     end
     D --> R5
     R5 -. next round .-> R5
-    R5 --> Ro["6. Rollout<br/>(optional)"]
-    Ro --> L["7. Learn<br/>(optional)"]
+    R5 --> Ro["7. Rollout<br/>(optional)"]
+    Ro --> L["8. Learn<br/>(optional)"]
 ```
 
-Stages **5a Implement**, **5b Verify**, and **5c PR / merge** together form one **implementation round** (see the Concept model). The dotted self-loop shows that the round may repeat — once for the whole change, or per phase/slice.
+Stages **6a Implement**, **6b Verify**, and **6c PR / merge** together form one **implementation round** (see the Concept model). The dotted self-loop shows that the round may repeat — once for the whole change, or per phase/slice.
 
 ### Stage optionality
 
-MARSHAL is meant to scale with the size of the change. Only **stage 4 Plan** is mandatory — `delivery-plan.md` is the canonical source of truth for the change and must always exist. Every other stage is optional and may be skipped when it would not add value. Practical guidance:
+MARSHAL is meant to scale with the size of the change. Only **stage 5 Plan** is mandatory — `delivery-plan.md` is the canonical source of truth for the change and must always exist. Every other stage is optional and may be skipped when it would not add value. Practical guidance:
 
 - **Trivial changes** (typo, one-line config, obvious patch): produce a minimal one-section plan, implement, and stop. Skip Specification, Intake, Analysis, Architecture, Verify-as-separate-stage, Rollout, and Learn.
 - **Small but non-trivial changes** (a focused bugfix or a small feature): a short plan plus an Implement+Verify round is usually enough. Specification / Intake / Analysis can be folded into the plan's framing section if separate artifacts are not justified.
 - **Larger or risky changes**: keep the full pipeline. Architecture is recommended whenever the shape of the solution is not obvious.
-- **Always required regardless of size**: any PR must still be preceded by Verify for its content (see stage 5b).
+- **Always required regardless of size**: any PR must still be preceded by Verify for its content (see stage 6b).
 
 If a stage is skipped, do not invent its artifact. The downstream skill that would have consumed it must be able to proceed without it (its `Inputs` section says which artifacts are optional). The chosen scope (which stages are run, which are skipped) should be agreed with the user up front and recorded as the first lines of `delivery-plan.md`.
 
@@ -481,7 +481,7 @@ For changes whose surface is already known (e.g. a single file or component the 
 
 ---
 
-## 3.5. Architecture / design (optional)
+## 4. Architecture / design (optional)
 
 ### Goal
 Agree on a general implementation concept before planning.
@@ -518,7 +518,7 @@ Inputs:
 
 ---
 
-## 4. Plan / shape (mandatory)
+## 5. Plan / shape (mandatory)
 
 ### Goal
 Convert the brief + recon (or, for lightweight runs, the prompt itself) into an executable, reviewable plan.
@@ -656,7 +656,7 @@ Replanning mechanics:
 
 ---
 
-## 5. Implementation round: Implement, Verify, PR
+## 6. Implementation round: Implement, Verify, PR
 
 Three high-level stages — **Implement**, **Verify**, and **PR / integration / merge** — run together as one **implementation round**. They remain distinct stages, but are bundled here because they always flow together and may repeat for parts of the plan (once for the whole change, or per phase / slice).
 
@@ -664,8 +664,8 @@ Rule: **every PR must be preceded by a Verify stage for its content**. Verificat
 
 ```mermaid
 flowchart LR
-    I[5a. Implement] --> V[5b. Verify]
-    V --> P[5c. PR / merge]
+    I[6a. Implement] --> V[6b. Verify]
+    V --> P[6c. PR / merge]
     P -. next round .-> I
 ```
 
@@ -673,7 +673,7 @@ Inside the Implement stage, work runs in smaller **implementation cycles** (see 
 
 ---
 
-### 5a. Implement
+### 6a. Implement
 
 #### Goal
 Execute the approved plan.
@@ -784,7 +784,7 @@ Always log:
 
 ---
 
-### 5b. Verify
+### 6b. Verify
 
 #### Goal
 Run an explicit verification gate, separate from coding. Re-run the Implement stage in case of failed verification.
@@ -845,7 +845,7 @@ The outcome is part of the acceptance criteria check.
 
 ---
 
-### 5c. PR / integration / merge
+### 6c. PR / integration / merge
 
 #### Goal
 Use PRs only at meaningful integration boundaries.
@@ -877,7 +877,7 @@ For work that is not committed to a shared branch (local experiments, scratch wo
 
 ---
 
-## 6. Release / rollout (optional)
+## 7. Release / rollout (optional)
 
 ### When to skip
 For changes with no operational impact — internal refactors, doc-only changes, or work behind a flag that does not yet ship. Skip whenever there is nothing to migrate, toggle, document for users, or roll back.
@@ -909,7 +909,7 @@ For changes with no operational impact — internal refactors, doc-only changes,
 
 ---
 
-## 7. Learn / improve the system (optional)
+## 8. Learn / improve the system (optional)
 
 ### Goal
 Promote generalized learnings into durable system guidance. The user should approve the final update before merging the final update lists to individual buckets.
@@ -949,7 +949,7 @@ When no phase produced a learning file worth promoting (small or routine changes
   - repo navigation heuristics
 - skill file updates, including review/plan convention updates
 
-//TODO each lifecycle stage should be validated by the user, discussed if necessary, only then we can proceed to the next phase — that selection should be recorded in the plan (the "scope" line set during stage 4).
+//TODO each lifecycle stage should be validated by the user, discussed if necessary, only then we can proceed to the next phase — that selection should be recorded in the plan (the "scope" line set during stage 5).
 
 ---
 
@@ -972,13 +972,13 @@ Stage skills:
 | 1. Specification | [`marshal-specifier`](marshal-files/agents/marshal-specifier.md) | [`marshal-delegate-to-specify`](marshal-files/skills/marshal-delegate-to-specify/SKILL.md) | [`marshal-specify`](marshal-files/skills-fallback/marshal-specify/SKILL.md) | `specification.md` | optional |
 | 2. Intake | [`marshal-framer`](marshal-files/agents/marshal-framer.md) | [`marshal-delegate-to-intake`](marshal-files/skills/marshal-delegate-to-intake/SKILL.md) | [`marshal-intake`](marshal-files/skills-fallback/marshal-intake/SKILL.md) | `change-brief.md` | optional |
 | 3. Analysis | [`marshal-code-archaeologist`](marshal-files/agents/marshal-code-archaeologist.md) | [`marshal-delegate-to-analysis`](marshal-files/skills/marshal-delegate-to-analysis/SKILL.md) | [`marshal-analysis`](marshal-files/skills-fallback/marshal-analysis/SKILL.md) | `repo-recon.md` | optional |
-| 3.5. Architecture | [`marshal-architect`](marshal-files/agents/marshal-architect.md) | [`marshal-delegate-to-architecture`](marshal-files/skills/marshal-delegate-to-architecture/SKILL.md) | [`marshal-architecture`](marshal-files/skills-fallback/marshal-architecture/SKILL.md) | `architecture-notes.md` | optional |
-| 4. Plan | [`marshal-planner`](marshal-files/agents/marshal-planner.md) | [`marshal-delegate-to-plan`](marshal-files/skills/marshal-delegate-to-plan/SKILL.md) | [`marshal-plan`](marshal-files/skills-fallback/marshal-plan/SKILL.md) | `delivery-plan.md` | **mandatory** |
-| 5a. Implement | [`marshal-implementer`](marshal-files/agents/marshal-implementer.md) | [`marshal-delegate-to-implement`](marshal-files/skills/marshal-delegate-to-implement/SKILL.md) | [`marshal-implement`](marshal-files/skills-fallback/marshal-implement/SKILL.md) | code + phase logs | mandatory when there is code to write |
-| 5b. Verify | [`marshal-verifier`](marshal-files/agents/marshal-verifier.md) | [`marshal-delegate-to-verify`](marshal-files/skills/marshal-delegate-to-verify/SKILL.md) | [`marshal-verify`](marshal-files/skills-fallback/marshal-verify/SKILL.md) | `verification-report.md` | mandatory before any PR; may be folded into the changelog for trivial changes |
-| 5c. PR | [`marshal-reviewer`](marshal-files/agents/marshal-reviewer.md) | [`marshal-delegate-to-pr`](marshal-files/skills/marshal-delegate-to-pr/SKILL.md) | [`marshal-pr`](marshal-files/skills-fallback/marshal-pr/SKILL.md) | PR description | optional (skip for non-shared work) |
-| 6. Rollout | [`marshal-releaser`](marshal-files/agents/marshal-releaser.md) | [`marshal-delegate-to-rollout`](marshal-files/skills/marshal-delegate-to-rollout/SKILL.md) | [`marshal-rollout`](marshal-files/skills-fallback/marshal-rollout/SKILL.md) | `rollout-note.md` | optional |
-| 7. Learn | [`marshal-learner`](marshal-files/agents/marshal-learner.md) | [`marshal-delegate-to-learn`](marshal-files/skills/marshal-delegate-to-learn/SKILL.md) | [`marshal-learn`](marshal-files/skills-fallback/marshal-learn/SKILL.md) | `learning-rollup.md` | optional |
+| 4. Architecture | [`marshal-architect`](marshal-files/agents/marshal-architect.md) | [`marshal-delegate-to-architecture`](marshal-files/skills/marshal-delegate-to-architecture/SKILL.md) | [`marshal-architecture`](marshal-files/skills-fallback/marshal-architecture/SKILL.md) | `architecture-notes.md` | optional |
+| 5. Plan | [`marshal-planner`](marshal-files/agents/marshal-planner.md) | [`marshal-delegate-to-plan`](marshal-files/skills/marshal-delegate-to-plan/SKILL.md) | [`marshal-plan`](marshal-files/skills-fallback/marshal-plan/SKILL.md) | `delivery-plan.md` | **mandatory** |
+| 6a. Implement | [`marshal-implementer`](marshal-files/agents/marshal-implementer.md) | [`marshal-delegate-to-implement`](marshal-files/skills/marshal-delegate-to-implement/SKILL.md) | [`marshal-implement`](marshal-files/skills-fallback/marshal-implement/SKILL.md) | code + phase logs | mandatory when there is code to write |
+| 6b. Verify | [`marshal-verifier`](marshal-files/agents/marshal-verifier.md) | [`marshal-delegate-to-verify`](marshal-files/skills/marshal-delegate-to-verify/SKILL.md) | [`marshal-verify`](marshal-files/skills-fallback/marshal-verify/SKILL.md) | `verification-report.md` | mandatory before any PR; may be folded into the changelog for trivial changes |
+| 6c. PR | [`marshal-reviewer`](marshal-files/agents/marshal-reviewer.md) | [`marshal-delegate-to-pr`](marshal-files/skills/marshal-delegate-to-pr/SKILL.md) | [`marshal-pr`](marshal-files/skills-fallback/marshal-pr/SKILL.md) | PR description | optional (skip for non-shared work) |
+| 7. Rollout | [`marshal-releaser`](marshal-files/agents/marshal-releaser.md) | [`marshal-delegate-to-rollout`](marshal-files/skills/marshal-delegate-to-rollout/SKILL.md) | [`marshal-rollout`](marshal-files/skills-fallback/marshal-rollout/SKILL.md) | `rollout-note.md` | optional |
+| 8. Learn | [`marshal-learner`](marshal-files/agents/marshal-learner.md) | [`marshal-delegate-to-learn`](marshal-files/skills/marshal-delegate-to-learn/SKILL.md) | [`marshal-learn`](marshal-files/skills-fallback/marshal-learn/SKILL.md) | `learning-rollup.md` | optional |
 
 Setup / main-session skills (no subagent counterpart — these are intentionally main-session intent):
 - [`marshal-init`](marshal-files/skills/marshal-init/SKILL.md) — first-time MARSHAL setup in a repo: scaffolds `.marshal/`, optionally installs [cyncia](https://github.com/crestreach/cyncia) (via the cyncia installer), provisions an `.agent-config/` source tree, runs [`marshal-promote-assets`](marshal-files/skills/marshal-promote-assets/SKILL.md) to wire MARSHAL durable assets into it, and (optionally) runs the sync to fan everything out into tool-native layouts.
@@ -1024,7 +1024,7 @@ Key points:
   [`references/knowledge-markdown-spine.md`](marshal-files/references/knowledge-markdown-spine.md).
 - **Staleness without hooks.** `verified_against_commit` + `updated` are stamped explicitly. The maintenance skill diffs HEAD against the recorded SHA on demand.
 - **Approval.** [`.marshal/config.yml`](marshal-files/config.yml) controls autonomy (`auto` default; `review` opt-in). Under `auto`, knowledge writes are applied without per-change approval and a summary of what changed is returned; under `review` every write produces a full diff for human approval first.
-- **Where it plugs into the lifecycle.** Stage 3 (Analysis) consults knowledge first to narrow the search surface and may invoke `marshal-researcher`. After each implementation cycle, `marshal-knowledge-curator` mode `from-changes` keeps knowledge in sync. Stage 7 (Learn) feeds promotable items into knowledge via mode `from-learning`. Larger reconciliation is handled by modes `branch-merge` and `rebuild`.
+- **Where it plugs into the lifecycle.** Stage 3 (Analysis) consults knowledge first to narrow the search surface and may invoke `marshal-researcher`. After each implementation cycle, `marshal-knowledge-curator` mode `from-changes` keeps knowledge in sync. Stage 8 (Learn) feeds promotable items into knowledge via mode `from-learning`. Larger reconciliation is handled by modes `branch-merge` and `rebuild`.
 
 Full design rationale: [`.marshal/design/knowledge-design.md`](marshal-files/design/knowledge-design.md). A worked example tree lives under [`examples/snippets-api/`](examples/snippets-api/).
 
