@@ -11,9 +11,9 @@ Delegate this to the [`marshal-knowledge-curator`](../../agents/marshal-knowledg
 
 - **Subagent:** `marshal-knowledge-curator`
 - **Mode:** `branch-merge`
-- **Pass:** two branch refs (or merge base + two heads); optional file focus list; `.marshal/config.yml` (contract refs, autonomy).
-- **Expect back:** unified diff for the merged knowledge tree; list of items requiring explicit human resolution (e.g. both sides created the same `id`, both sides changed `summary` of the same file).
-- **On result:** apply after human resolution + approval (or auto-applied under `knowledge.autonomy: auto`).
+- **Pass (request-specific only):** the intent (what the merge is for), two branch refs (or merge base + two heads), and an optional file focus list. The agent reads `.marshal/config.yml`, the knowledge contract / implementation, and the knowledge tree itself — do not pass them.
+- **Expect back:** a **summary** of what was merged and, in `review` mode, the list of items needing explicit human resolution. Not the full knowledge diff.
+- **On result:** under `knowledge.autonomy: auto` (default) the merge is already applied — read the summary. Under `review`, resolve the flagged items with the human and approve.
 
 ## Fallback (no-subagent environments)
 

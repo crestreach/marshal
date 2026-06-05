@@ -1,6 +1,6 @@
 ---
 name: marshal-delegate-to-knowledge-research
-description: Focused research on a topic, codebase area, or library, returning a condensed source-linked markdown delta. Delegate when the user asks to "research X", "study how Y is wired up", "summarize the auth pipeline", "what does the Job table represent?", "deep-dive on this module", "answer this narrow question without polluting the main context", "find a fresh summary I can drop into the knowledge tree", "give me a delta I can promote later". Also delegate during stage 3 (Analysis) when repo-recon needs depth, during stage 5a (Implement) when an unknown surfaces, and any time another agent / skill suggests "research first" rather than guessing. Read-only — does not write to the knowledge tree.
+description: Focused research on a topic, codebase area, or library, returning a condensed source-linked research note. Delegate when the user asks to "research X", "study how Y is wired up", "summarize the auth pipeline", "what does the Job table represent?", "deep-dive on this module", "answer this narrow question without polluting the main context", "find a fresh summary I can drop into the knowledge tree", "give me a research note I can promote later". Also delegate during the Analysis stage when repo-recon needs depth, during the Implement stage when an unknown surfaces, and any time another agent / skill suggests "research first" rather than guessing. Read-only — does not write to the knowledge tree.
 ---
 
 # marshal-delegate-to-knowledge-research
@@ -10,9 +10,9 @@ Delegate this to the [`marshal-researcher`](../../agents/marshal-researcher.md) 
 ## Call contract
 
 - **Subagent:** `marshal-researcher`
-- **Pass:** a narrowly-scoped topic / question; optional list of likely-relevant paths or a knowledge-file id to refresh; read-only access to the repo and `.marshal/knowledge/`; `.marshal/config.yml` for contract / implementation refs.
-- **Expect back:** a single condensed, source-linked markdown delta (target ≤ ~150 lines body) following the active knowledge implementation; an "open questions" trailer.
-- **On result:** consume the delta inline. For promotion to canonical knowledge, drop it into `.marshal/knowledge/learn/inbox/` and invoke [`marshal-delegate-to-knowledge-maintain`](../marshal-delegate-to-knowledge-maintain/SKILL.md) (`from-learning`).
+- **Pass (request-specific only):** the **intent** — a narrowly-scoped topic / question — plus optional likely-relevant paths or a knowledge-file id to refresh, and whether the result is intended for promotion to knowledge. The agent reads `.marshal/config.yml`, the knowledge contract / implementation, and the repo / knowledge tree itself — do not pass them.
+- **Expect back:** a single condensed, source-linked markdown **research note** (target ≤ ~150 lines body); an "open questions" trailer. When the request says it is for knowledge, the note follows the active knowledge implementation so it can be promoted as-is.
+- **On result:** consume the note inline. For promotion to canonical knowledge, drop it into `.marshal/knowledge/learn/inbox/` and invoke [`marshal-delegate-to-knowledge-maintain`](../marshal-delegate-to-knowledge-maintain/SKILL.md) (`from-learning`).
 
 ## Fallback (no-subagent environments)
 

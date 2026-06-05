@@ -11,9 +11,9 @@ Delegate this to the [`marshal-knowledge-curator`](../../agents/marshal-knowledg
 
 - **Subagent:** `marshal-knowledge-curator`
 - **Mode:** `init`
-- **Pass:** repo source tree (read-only); build / package manifests for hints; `.marshal/config.yml` (`knowledge.contract_ref`, `knowledge.representation_ref`); empty or near-empty `.marshal/knowledge/`.
-- **Expect back:** unified diff covering `repo/{overview, architecture, bounded-contexts, entrypoints, build-test-run, conventions}.md`, `domains/<name>/{INDEX, purpose, logic, contracts, hotspots, tests}.md` skeletons, and `INDEX.md` files; summary of detected contexts and unresolved heuristics.
-- **On result:** review and apply the diff (or auto-apply under `knowledge.autonomy: auto`). Resolve open follow-ups with the human.
+- **Pass (request-specific only):** the intent ("bootstrap the knowledge layer for this repo") and any scoping hints. The agent reads the repo, build / package manifests, `.marshal/config.yml`, and the knowledge contract / implementation itself — do not pass them. The exact files produced are defined by the active knowledge implementation, not here.
+- **Expect back:** a **summary** of detected contexts and unresolved heuristics. Not the full knowledge diff.
+- **On result:** under `knowledge.autonomy: auto` (default) the tree is already written — read the summary and resolve any open follow-ups. Under `review`, work the diff with the human before it is applied.
 
 ## Fallback (no-subagent environments)
 

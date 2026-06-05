@@ -11,13 +11,14 @@ Delegate this to the [`marshal-knowledge-curator`](../../agents/marshal-knowledg
 
 - **Subagent:** `marshal-knowledge-curator`
 - **Mode:** one of `from-changes` | `from-learning` | `rescan`
-- **Pass (mode-specific):**
+- **Pass (request-specific only):**
+  - The **intent** (what knowledge update is wanted), always.
   - `from-changes`: a list of changed paths or a git diff range.
-  - `from-learning`: paths to items in `.marshal/knowledge/learn/inbox/`.
-  - `rescan`: nothing — operates on the whole tree vs HEAD.
-  - Always: `.marshal/config.yml` for autonomy + size caps + contract refs; relevant indexes for affected areas.
-- **Expect back:** unified diff against `.marshal/knowledge/` plus regenerated `INDEX.md` files; counts summary (created / updated / removed / flagged).
-- **On result:** apply after human approval (or auto under `knowledge.autonomy: auto`). For larger restructures, escalate to [`marshal-delegate-to-knowledge-rebuild`](../marshal-delegate-to-knowledge-rebuild/SKILL.md).
+  - `from-learning`: paths to the inbox items to promote.
+  - `rescan`: nothing extra — operates on the whole tree vs HEAD.
+  - The agent reads `.marshal/config.yml`, the knowledge contract / implementation, and the indexes itself — do not pass them.
+- **Expect back:** a **summary** of what changed (counts: created / updated / removed / flagged) — not the full knowledge diff.
+- **On result:** under `knowledge.autonomy: auto` (default) it is already applied — read the summary. Under `review`, approve the diff. For larger restructures, escalate to [`marshal-delegate-to-knowledge-rebuild`](../marshal-delegate-to-knowledge-rebuild/SKILL.md).
 
 ## Fallback (no-subagent environments)
 

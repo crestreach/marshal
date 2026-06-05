@@ -11,9 +11,9 @@ Delegate this to the [`marshal-knowledge-curator`](../../agents/marshal-knowledg
 
 - **Subagent:** `marshal-knowledge-curator`
 - **Mode:** `rebuild`
-- **Pass:** current HEAD source tree; previous knowledge tree as-is; the merged feature branch / commit range to incorporate; `.marshal/config.yml` (contract refs, size caps, autonomy).
-- **Expect back:** unified diff covering structure changes (new / removed / renamed `domains/<x>/`, redirect notes) and content changes; structural-changes summary (contexts added / removed / renamed); regenerated `INDEX.md` files.
-- **On result:** apply after human approval (or auto under `knowledge.autonomy: auto`).
+- **Pass (request-specific only):** the **intent** (what to rebuild / incorporate) and the merged feature branch or commit range to incorporate. The agent reads the current HEAD, the previous knowledge tree, `.marshal/config.yml`, and the knowledge contract / implementation itself — do not pass them.
+- **Expect back:** a **summary** of structure changes (contexts added / removed / renamed) and content changes — not the full knowledge diff.
+- **On result:** under `knowledge.autonomy: auto` (default) it is already applied — read the summary. Under `review`, approve the diff.
 
 ## Fallback (no-subagent environments)
 

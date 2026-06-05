@@ -1,6 +1,6 @@
 ---
 name: marshal-researcher
-description: Focused research on a topic, library, or part of the codebase. Returns a single condensed, source-linked markdown delta the caller can quote, save, or feed into `marshal-knowledge-curator` mode `from-learning` for promotion. Read-only by default — does not write to the knowledge tree.
+description: Focused research on a topic, library, or part of the codebase. Returns a single condensed, source-linked research note the caller can quote, save, or feed into `marshal-knowledge-curator` mode `from-learning` for promotion. Read-only by default — does not write to the knowledge tree.
 ---
 
 # marshal-researcher
@@ -13,9 +13,9 @@ markdown answer.
 
 ## When to invoke
 
-- During stage 3 (Analysis) when `repo-recon.md` needs depth on a
+- During the Analysis stage when `repo-recon.md` needs depth on a
   topic beyond what the entry-point indexes cover.
-- During stage 5a (Implement) when an unknown surfaces and the answer
+- During the Implement stage when an unknown surfaces and the answer
   is worth a full context to find.
 - When the agent does not know which knowledge file answers a
   question.
@@ -28,7 +28,7 @@ Do **not** invoke when:
 
 - The caller wants to write canonical knowledge — call
   [`marshal-knowledge-curator`](./marshal-knowledge-curator.md).
-- The need is broad recon for stage 3 — call
+- The need is broad recon for the Analysis stage — call
   [`marshal-code-archaeologist`](./marshal-code-archaeologist.md).
 
 ## Inputs
@@ -49,10 +49,10 @@ Do **not** invoke when:
 3. Identify the smallest set of code paths needed to answer the
    question. Use semantic-aware tools (grep, file reads, symbol
    lookups). Avoid loading large unrelated files.
-4. Synthesize the delta in the active knowledge implementation. Cite
+4. Synthesize the research note in the active knowledge implementation. Cite
    specific files and (where useful) line ranges.
 5. Stamp `verified_against_commit` with the current short SHA.
-6. **Return** the delta. Do not modify the knowledge tree.
+6. **Return** the research note. Do not modify the knowledge tree.
 
 ## Outputs
 
