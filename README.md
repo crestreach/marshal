@@ -10,6 +10,44 @@ A practical operating model for AI-assisted software delivery, with explicit hum
 
 See [`marshal.md`](./marshal.md) for the full specification.
 
+## What MARSHAL is
+
+MARSHAL is an AI-assisted SDLC that moves a change through explicit,
+optional-by-default **stages**, each producing durable artifacts that feed
+the next:
+
+**Specification → Intake → Analysis → Architecture → Plan → Implementation round (Implement → Verify → PR) → Rollout → Learn.**
+
+Only the **Plan** stage is mandatory — `delivery-plan.md` is the canonical
+source of truth for every change. All other stages are skipped or run
+depending on the size and risk of the change (skip more for a typo, run the
+full pipeline for a risky feature). The chosen scope is recorded at the top
+of the plan.
+
+It exists to avoid the predictable failure modes of AI-assisted work:
+broad-search context pollution, coding before the change is framed, plans
+that drift from the code, ad-hoc review feedback, and learnings that are
+either lost or overfit to one case. MARSHAL counters these with focused
+code analysis, structured planning, controlled execution, explicit
+verification, release discipline, and curated learning.
+
+Guiding principles:
+
+- **One canonical flow** — every stage emits explicit artifacts (durable
+  context) consumed by the next.
+- **The plan is the source of truth** — agent "plan mode" is only a helper.
+- **Small, reviewable slices** by default; larger PRs only at integration
+  boundaries.
+- **Human approval gates** at the points that matter.
+- **Curated learning** — each phase emits a learning file of *generalizable*
+  lessons only; durable ones are promoted into rules, skills, agents, and
+  the knowledge layer, while case-specific noise is dropped.
+- **Agent-managed knowledge** — a durable, agent-maintained memory of repo
+  facts, rationale, decisions, and a map that narrows code searches.
+
+A driver agent can run the whole process for you, or you can invoke
+individual stage agents directly — see [`marshal.md`](./marshal.md).
+
 ## Repository
 
 - [`marshal.md`](./marshal.md) — the process specification (source of truth)
@@ -28,25 +66,39 @@ Tooling (skills, prompt templates, artifact templates, examples) will be added a
 
 ## Installing MARSHAL in your repo
 
-The supported entry point is the [`marshal-init`](./marshal-files/skills/marshal-init/SKILL.md) skill — invoke it from any AI assistant that has access to MARSHAL's skills, and it will scaffold `.marshal/`, install [cyncia](https://github.com/crestreach/cyncia) (typically as a git submodule), provision an `.agent-config/` source tree, run [`marshal-promote-assets`](./marshal-files/skills/marshal-promote-assets/SKILL.md) to wire MARSHAL durable assets into it, and (with your approval) run the sync once to fan everything out into per-tool layouts.
+There are two supported ways to install MARSHAL.
 
-If you want to vendor MARSHAL durable assets directly (no `marshal-init`), the recommended pattern is:
+**1. The `marshal-init` skill (recommended).** Invoke
+[`marshal-init`](./marshal-files/skills/marshal-init/SKILL.md) from any AI
+assistant that has access to MARSHAL's skills. It scaffolds `.marshal/`,
+installs [cyncia](https://github.com/crestreach/cyncia) via cyncia's own
+installer (committed into the repo, **not** a git submodule), provisions an
+`.agent-config/` source tree, runs
+[`marshal-promote-assets`](./marshal-files/skills/marshal-promote-assets/SKILL.md)
+to wire MARSHAL durable assets into it, and (with your approval) runs the
+sync once to fan everything out into per-tool layouts.
+
+**2. The install script.** For a non-interactive, re-runnable setup, use
+[`scripts/install-marshal.sh`](./scripts/install-marshal.sh):
 
 ```bash
 # In your target repo
-git submodule add https://github.com/crestreach/marshal.git .marshal-source
-ln -s .marshal-source/marshal-files .marshal
-git add .marshal .gitmodules .marshal-source
-git commit -m "Vendor MARSHAL durable assets"
+curl -fsSL https://raw.githubusercontent.com/crestreach/marshal/main/scripts/install-marshal.sh | bash
+# or, after cloning MARSHAL somewhere:
+/path/to/marshal/scripts/install-marshal.sh --ref main
 ```
 
-`.marshal-source/` tracks the whole source repo; `.marshal/` is a symlink to its `marshal-files/` subtree, which is what MARSHAL skills and agents look for. Pull future updates with:
+It fetches the MARSHAL `marshal-files/` subtree into `.marshal/` (idempotent —
+re-run to update), installs cyncia if it is missing, and runs the cyncia sync
+when an `.agent-config/` source tree is present. Run `--help` for options
+(`--ref`, `--marshal-dir`, `--agent-config`, `--no-cyncia`, `--no-sync`).
+Wiring the durable assets into `.agent-config/` is the
+`marshal-promote-assets` step; run it (or `marshal-init`) once so the sync has
+MARSHAL skills to fan out.
 
-```bash
-git submodule update --remote .marshal-source
-```
-
-A worked example using exactly this layout lives at [`crestreach/marshal-testbed`](https://github.com/crestreach/marshal-testbed) (private — request access if you need it).
+The agent-managed knowledge tree (`.marshal/knowledge/`) and the per-change
+work tree (`.marshal/work/`) are never overwritten by an update; your
+`.marshal/marshal-override.md` is also left untouched.
 
 ## Status
 
