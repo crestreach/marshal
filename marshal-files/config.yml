@@ -18,18 +18,30 @@ knowledge:
   #          for large structural knowledge rebuilds.
   autonomy: auto
 
-  # Who invokes the knowledge curator after a stage / implementation cycle.
-  #   driver = the marshal-driver runs marshal-knowledge-curator (default;
-  #            keeps stage agents focused on their own artifact).
-  #   agent  = each stage agent calls the curator itself.
+  # Who invokes the knowledge curator after an agent populates the
+  # knowledge inbox (or after a stage / implementation cycle).
+  #   driver = the agent does not call the curator; it reports back to its
+  #            caller (the marshal-driver, or the user when called
+  #            directly) that it populated the inbox, and the caller runs
+  #            marshal-knowledge-curator (default; keeps stage agents
+  #            focused on their own artifact).
+  #   agent  = the agent calls marshal-knowledge-curator itself right
+  #            after writing the inbox note.
   # Either way the driver may still run the curator after a stage or cycle.
   curator_invocation: driver
 
-  # When true (default), any agent that discovers important, reusable
-  # knowledge mid-process (e.g. the code-archaeologist during analysis)
-  # suggests capturing it — by leaving a note in the knowledge inbox or
-  # asking the curator to consider it — so it can be reused across the
-  # following stages rather than rediscovered.
+  # Controls whether knowledge is augmented *during* the process or only in
+  # the Learn stage.
+  #   true (default): an agent that discovers important, reusable knowledge
+  #     mid-process (e.g. the code-archaeologist during analysis, or the
+  #     researcher) writes a knowledge-shaped note into
+  #     knowledge/learn/inbox/ so it can be reused across the following
+  #     stages rather than rediscovered. What happens next is governed by
+  #     curator_invocation above.
+  #   false: the agent does not touch the knowledge inbox mid-process;
+  #     instead it records the finding in that phase's learnings file
+  #     (learning/phase-N.learning.md), to be promoted only in the Learn
+  #     stage.
   capture_during_process: true
 
   # Advisory only. The rescan must still be triggered explicitly via

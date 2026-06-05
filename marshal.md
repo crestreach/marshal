@@ -919,6 +919,10 @@ When no phase produced a learning file worth promoting (small or routine changes
 
 ### Inputs
 - all `learning/phase-*.learning.md` files
+- `architecture-notes.md` if the Architecture stage ran — its durable
+  design decisions and rationale are reviewed here and promotable ones
+  go into the knowledge layer (decisions / ADRs) via the curator's
+  `from-learning` mode
 
 ### Promotion targets
 - `AGENTS.md`
@@ -999,7 +1003,7 @@ Knowledge agent and skills (see Knowledge):
   - `branch-merge` → [`marshal-delegate-to-knowledge-branch-merge`](marshal-files/skills/marshal-delegate-to-knowledge-branch-merge/SKILL.md) / [`marshal-knowledge-branch-merge`](marshal-files/skills-fallback/marshal-knowledge-branch-merge/SKILL.md)
 - [`marshal-researcher`](marshal-files/agents/marshal-researcher.md) — read-only research returning a condensed source-linked delta. Wrappers: [`marshal-delegate-to-knowledge-research`](marshal-files/skills/marshal-delegate-to-knowledge-research/SKILL.md) / [`marshal-knowledge-research`](marshal-files/skills-fallback/marshal-knowledge-research/SKILL.md).
 
-Every agent file states its own prerequisites, inputs, outputs, and handoff (next agent + artifacts to pass) so it is safe to run in an isolated context.
+Every agent file states its own prerequisites, inputs, outputs, and handoff (next agent + artifacts to pass) so it is safe to run in an isolated context. Each agent also declares a **load tier** (minimal / standard / full) and follows the shared [`references/activation-protocol.md`](marshal-files/references/activation-protocol.md), which defines what every agent reads on activation, the mid-process knowledge-capture rule, and the resume contract. Every agent hands its result back to the orchestrator ([`marshal-driver`](marshal-files/agents/marshal-driver.md)) — or to the user, when the agent was invoked directly; the driver (or the user) decides what runs next.
 
 ---
 

@@ -95,6 +95,10 @@ Read enough to answer accurately, no more:
 Read lazily: trivial questions only need (1) + (2) + (3). Don't load
 the whole tree.
 
+Load tier: **minimal** (see
+[activation-protocol](../references/activation-protocol.md)) — the
+helper reads lazily and only descends when the question demands it.
+
 ## Workflow
 
 1. **Classify the question** into one of:
@@ -145,13 +149,16 @@ the whole tree.
 - Caller's question is answered, or the caller has been pointed to
   the right agent / skill for what they actually want to do.
 
-## Delegation / handoff contract
+## Handoff
 
-- Returns a single answer block. No side effects on the repo or on
-  `.marshal/`.
-- For "do this stage now" requests, returns a handoff to
-  [`marshal-driver`](./marshal-driver.md) (or the specific stage
-  agent) with an orientation block; does **not** dispatch the stage.
+Returns a single answer block to its caller — the user, or the
+orchestrator ([`marshal-driver`](./marshal-driver.md)) / another agent
+when invoked indirectly.
+
+- No side effects on the repo or on `.marshal/`.
+- For "do this stage now" requests, points the caller to
+  [`marshal-driver`](./marshal-driver.md) (or the specific stage agent)
+  with an orientation block; does **not** dispatch the stage.
 - Honors the "no assumptions" guideline.
 
 ## Out of scope

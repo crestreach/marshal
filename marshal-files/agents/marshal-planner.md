@@ -40,6 +40,9 @@ Do **not** invoke when:
 - Optional: an existing `delivery-plan.md` to deepen / amend.
 - Relevant knowledge for affected areas.
 
+Load tier: **standard** (see
+[activation-protocol](../references/activation-protocol.md)).
+
 ## Workflow
 
 1. Agree planning **target depth** and **timing mode** (the overall
@@ -82,24 +85,23 @@ Do **not** invoke when:
 - Where target depth varies per area, that variation is recorded so
   the implementer knows where to expect detail.
 
-## Returns to the driver
+## Handoff
 
-The planner returns the plan to the orchestrator
-([`marshal-driver`](./marshal-driver.md)); the driver routes what runs
-next. It does not call the implementer itself.
+Returns the plan to the orchestrator
+([`marshal-driver`](./marshal-driver.md)) — or to the user, when this
+agent was invoked directly. The driver (or the user) decides what runs
+next; this agent does not start implementation itself.
 
-- **Next:** the driver routes to
-  [`marshal-implementer`](./marshal-implementer.md), passing
+- **Next stage (per the MARSHAL process):**
+  [`marshal-implementer`](./marshal-implementer.md) (Implement), passing
   `delivery-plan.md` (plus the upstream artifacts as reference).
-- **Staged plans:** the driver re-invokes this agent to deepen a phase
-  **before** its implementation cycle starts. Log the deepening to
-  the affected phase changelog; do not treat it as a replan.
+- **Staged plans:** this agent is re-invoked to deepen a phase **before**
+  its implementation cycle starts — by the driver, the user, or the
+  [`marshal-implementer`](./marshal-implementer.md) **directly**. Log the
+  deepening to the affected phase changelog; do not treat it as a replan.
 - **Replanning:** for replanning during implementation, the planner can
   be reinvoked on the affected phase only.
-
-## Delegation / handoff contract
-
-- Returns a draft plan or patch. Does not start implementation.
+- Returns a draft plan or patch; does not start implementation.
 
 ## Out of scope
 

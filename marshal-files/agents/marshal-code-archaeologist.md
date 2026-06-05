@@ -55,10 +55,19 @@ the brief touches.
 6. **Explicitly exclude** irrelevant areas, with one-line reasons, to
    avoid context pollution downstream.
 7. Produce `repo-recon.md` and the stale-knowledge list.
-8. When `knowledge.capture_during_process` is true (default) and the
-   analysis surfaced important, reusable knowledge, suggest capturing
-   it — leave a note in the knowledge inbox (or ask the curator to
-   consider it) so later stages can reuse it instead of rediscovering.
+8. **Mid-process knowledge capture** (see
+   [activation-protocol](../references/activation-protocol.md) →
+   *Mid-process knowledge capture*). When `knowledge.capture_during_process`
+   is true (default) and the analysis surfaced important, reusable
+   knowledge, write a knowledge-shaped note into
+   `knowledge/learn/inbox/` together with the stale-knowledge pointer
+   list. Then, per `knowledge.curator_invocation`: under `agent`, call
+   [`marshal-knowledge-curator`](./marshal-knowledge-curator.md) yourself;
+   under `driver` (default), report to the caller (driver or user) that
+   the inbox was populated and let them run the curator. When
+   `knowledge.capture_during_process` is false, record the finding in
+   `learning/phase-3.learning.md` instead (promoted only in the Learn
+   stage).
 
 ## Outputs
 
@@ -66,10 +75,14 @@ the brief touches.
   files / classes / services / tables / APIs; invariants and
   contracts; existing tests and test seams; unknowns / risks; explicit
   exclusions).
-- A list of knowledge that looks stale or missing — returned to the
-  driver, which may dispatch
+- A list of knowledge that looks stale or missing. When
+  `knowledge.capture_during_process` is true this is attached to the
+  inbox note; the list is also returned to the caller (driver or user),
+  who may dispatch
   [`marshal-knowledge-curator`](./marshal-knowledge-curator.md) or
-  [`marshal-researcher`](./marshal-researcher.md).
+  [`marshal-researcher`](./marshal-researcher.md) (or, under
+  `knowledge.curator_invocation: agent`, the archaeologist invokes the
+  curator itself).
 - `logs/phase-3.changelog.md` — files inspected, assumptions confirmed
   / rejected, narrowed search surface.
 - `learning/phase-3.learning.md` — reusable lessons only.
@@ -81,13 +94,18 @@ the brief touches.
 - Unknowns explicit.
 - Planning can proceed without broad repo search.
 
-## Returns to the driver
+## Handoff
 
-The archaeologist returns `repo-recon.md` (plus `change-brief.md` and
-any stale-knowledge flags) to the orchestrator
-([`marshal-driver`](./marshal-driver.md)); the driver routes to
-[`marshal-architect`](./marshal-architect.md) (optional) or
-[`marshal-planner`](./marshal-planner.md) next.
+Returns `repo-recon.md` (plus `change-brief.md` and any stale-knowledge
+flags) to the orchestrator
+([`marshal-driver`](./marshal-driver.md)) — or to the user, when this
+agent was invoked directly. The driver (or the user) decides what runs
+next; this agent does not call the next agent itself.
+
+- **Next stage (per the MARSHAL process):**
+  [`marshal-architect`](./marshal-architect.md) (Architecture, optional)
+  or [`marshal-planner`](./marshal-planner.md) (Plan). Pass:
+  `change-brief.md`, `repo-recon.md`.
 
 ## Out of scope
 

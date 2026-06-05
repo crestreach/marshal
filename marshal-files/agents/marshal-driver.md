@@ -62,6 +62,9 @@ Do **not** invoke when:
   the canonical spec on the points they address (stage policy,
   artifact policy, agent / skill preferences).
 
+Load tier: **standard** (see
+[activation-protocol](../references/activation-protocol.md)).
+
 ## Outputs
 
 - The full canonical artifact chain in the working folder (see
@@ -186,7 +189,11 @@ direct model for that stretch and let the driver resume afterwards.
 - Help agent: [`marshal-helper`](./marshal-helper.md) for procedural
   / conceptual questions.
 
-## Delegation / handoff contract
+## Handoff
+
+Returns to the user. The driver is the top-level orchestrator and single
+point of contact — it has no agent above it, so it hands its final
+stage-summary back to the human.
 
 - Always returns a structured stage-summary block (one section per
   stage: artifact path, status, open questions).

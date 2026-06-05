@@ -45,6 +45,9 @@ Do **not** invoke when:
 - [`.marshal/config.yml`](../config.yml) for `knowledge.contract_ref`
   and `knowledge.representation_ref`, then both configured references.
 
+Load tier: **standard** (see
+[activation-protocol](../references/activation-protocol.md)).
+
 ## Workflow
 
 1. Confirm the PR boundary matches the plan (whole change / phase /
@@ -96,19 +99,20 @@ Do **not** invoke when:
 
 ## Handoff
 
-- **Next stage on merge:** [`marshal-releaser`](./marshal-releaser.md)
-  (Rollout stage) if rollout is in scope; otherwise
-  [`marshal-learner`](./marshal-learner.md) (Learn stage) — or
+Returns the PR description + structured review to the orchestrator
+([`marshal-driver`](./marshal-driver.md)) — or to the user, when this
+agent was invoked directly. The driver (or the user) decides what runs
+next; this agent does not edit code or merge.
+
+- **Next stage on merge (per the MARSHAL process):**
+  [`marshal-releaser`](./marshal-releaser.md) (Rollout) if rollout is in
+  scope; otherwise [`marshal-learner`](./marshal-learner.md) (Learn) — or
   end-of-change. Pass: merged commit / tag, summary of what was
   integrated, any rollout-relevant notes from the PR.
-- **Knowledge upkeep:** if not already done in the Implement stage, dispatch
+- **Knowledge upkeep:** if not already done in the Implement stage, run
   [`marshal-knowledge-curator`](./marshal-knowledge-curator.md) mode
-  `from-changes` for the merged diff.
-
-## Delegation / handoff contract
-
-- Produces feedback only; does not edit code or merge.
-- On `request-changes`, findings are fed back into
+  `from-changes` for the merged diff (per `knowledge.curator_invocation`).
+- **On `request-changes`:** findings are fed back into
   [`marshal-implementer`](./marshal-implementer.md) (with plan updates
   per the PR stage rules), not into silent edits.
 

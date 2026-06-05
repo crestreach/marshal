@@ -205,7 +205,11 @@ Heavier than `rescan`. Comparison:
 - Under `review`: the same summary plus a diff to approve before
   anything is applied.
 
-## Delegation / handoff contract
+## Handoff
+
+Returns to its caller — the orchestrator
+([`marshal-driver`](./marshal-driver.md)), another agent, or the user
+when invoked directly.
 
 - Returns a **summary** to the caller (and a diff only under `review`),
   never the full knowledge tree — the caller's context stays light.

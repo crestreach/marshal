@@ -34,6 +34,9 @@ Do **not** invoke when:
 - Relevant architecture / design knowledge for the affected areas.
 - Existing decision records in the knowledge tree.
 
+Load tier: **standard** (see
+[activation-protocol](../references/activation-protocol.md)).
+
 ## Workflow
 
 1. Either propose a design or facilitate the user's proposal.
@@ -63,13 +66,17 @@ Do **not** invoke when:
 - Chosen implementation concept is documented.
 - Key design decisions are captured (with rationale).
 
-## Returns to the driver
+## Handoff
 
-The architect returns `architecture-notes.md` to the orchestrator
-([`marshal-driver`](./marshal-driver.md)); the driver routes to
-[`marshal-planner`](./marshal-planner.md) next, passing
-`architecture-notes.md` alongside `change-brief.md` and
-`repo-recon.md`.
+Returns `architecture-notes.md` to the orchestrator
+([`marshal-driver`](./marshal-driver.md)) — or to the user, when this
+agent was invoked directly. The driver (or the user) decides what runs
+next; this agent does not call the next agent itself.
+
+- **Next stage (per the MARSHAL process):**
+  [`marshal-planner`](./marshal-planner.md) (Plan), passing
+  `architecture-notes.md` alongside `change-brief.md` and
+  `repo-recon.md`.
 
 ## Out of scope
 

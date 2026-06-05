@@ -38,6 +38,9 @@ Do **not** invoke when:
 - Knowledge describing operational conventions (logging, toggles,
   deploy) if any.
 
+Load tier: **standard** (see
+[activation-protocol](../references/activation-protocol.md)).
+
 ## Workflow
 
 1. List introduced toggles / properties.
@@ -65,12 +68,16 @@ Do **not** invoke when:
 - Manual test scenarios for release are listed.
 - Release notes are logged.
 
-## Returns to the driver
+## Handoff
 
-The releaser returns the rollout note to the orchestrator
-([`marshal-driver`](./marshal-driver.md)); the driver routes what runs
-next (typically [`marshal-learner`](./marshal-learner.md)), passing
-`rollout-note.md` plus pointers to all phase learning files.
+Returns the rollout note to the orchestrator
+([`marshal-driver`](./marshal-driver.md)) — or to the user, when this
+agent was invoked directly. The driver (or the user) decides what runs
+next; this agent does not call the next agent itself.
+
+- **Next stage (per the MARSHAL process):** typically
+  [`marshal-learner`](./marshal-learner.md) (Learn), passing
+  `rollout-note.md` plus pointers to all phase learning files.
 
 ## Out of scope
 

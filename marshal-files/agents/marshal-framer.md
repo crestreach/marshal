@@ -34,6 +34,10 @@ Do **not** invoke when:
   index, to know what is available; do not pull domain files (that is
   the Analysis stage).
 
+Load tier: **minimal** (see
+[activation-protocol](../references/activation-protocol.md)) — plus the
+knowledge index to know what exists.
+
 ## Workflow
 
 1. Read the specification end-to-end.
@@ -64,9 +68,15 @@ Do **not** invoke when:
 
 ## Handoff
 
-- **Next stage:** [`marshal-code-archaeologist`](./marshal-code-archaeologist.md)
-  (Analysis stage) or directly to [`marshal-planner`](./marshal-planner.md)
-  (Plan stage) if Analysis / Architecture are skipped.
+Returns `change-brief.md` to the orchestrator
+([`marshal-driver`](./marshal-driver.md)) — or to the user, when this
+agent was invoked directly. The driver (or the user) decides what runs
+next; this agent does not call the next agent itself.
+
+- **Next stage (per the MARSHAL process):**
+  [`marshal-code-archaeologist`](./marshal-code-archaeologist.md)
+  (Analysis), or directly [`marshal-planner`](./marshal-planner.md)
+  (Plan) if Analysis / Architecture are skipped.
 - **Pass:** `change-brief.md`. (Spec stays available but is no longer
   required reading downstream.)
 

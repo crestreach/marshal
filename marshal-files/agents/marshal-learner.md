@@ -36,6 +36,10 @@ Do **not** invoke when:
   (subset of: `phase-1`, `phase-2`, `phase-3`, `phase-architecture`,
   `phase-4`, `phase-N` for each L1 implementation phase,
   `phase-release`).
+- `architecture-notes.md` if the Architecture stage ran — its durable
+  design decisions and rationale are reviewed here and the promotable
+  ones are routed into the knowledge bucket (decisions / ADRs) via the
+  curator's `from-learning` mode.
 - Targets that may be updated:
   - [`AGENTS.md`](../../AGENTS.md) (snippet to merge into the host
     repo's root `AGENTS.md`),
@@ -49,6 +53,9 @@ Do **not** write into `.marshal/{skills,skills-fallback,agents,rules}/`
 — those folders hold built-in MARSHAL assets and are owned by MARSHAL
 itself. Repo-specific assets always go under
 [`.marshal/extensions/`](../extensions/).
+
+Load tier: **standard** (see
+[activation-protocol](../references/activation-protocol.md)).
 
 ## Workflow
 
@@ -114,11 +121,12 @@ itself. Repo-specific assets always go under
 - Each bucket has either an applied update or an explicit "skipped".
 - Knowledge inbox handed off (if non-empty).
 
-## Returns to the driver
+## Handoff
 
-The learner returns the rollup + summary to the orchestrator
-([`marshal-driver`](./marshal-driver.md)); the driver dispatches the
-follow-ups:
+Returns the rollup + summary to the orchestrator
+([`marshal-driver`](./marshal-driver.md)) — or to the user, when this
+agent was invoked directly. The driver (or the user) dispatches the
+follow-ups (or the learner does, when invoked directly):
 
 - **Knowledge promotion:**
   [`marshal-knowledge-curator`](./marshal-knowledge-curator.md) mode

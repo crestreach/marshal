@@ -57,6 +57,9 @@ Do **not** invoke when:
   should account for.
 - Existing `verification-report.md` if a prior round was run.
 
+Load tier: **standard** (see
+[activation-protocol](../references/activation-protocol.md)).
+
 ## Workflow
 
 1. **Requirements validation.** Walk every requirement in
@@ -99,18 +102,19 @@ Do **not** invoke when:
 - Blocking issues were returned to the driver to route back into the
   plan / Implement stage.
 
-## Returns to the driver
+## Handoff
 
-The verifier returns its result to the orchestrator
-([`marshal-driver`](./marshal-driver.md)); the driver decides what
-runs next. It does not call the next agent itself.
+Returns its result to the orchestrator
+([`marshal-driver`](./marshal-driver.md)) — or to the user, when this
+agent was invoked directly. The driver (or the user) decides what runs
+next; this agent does not call the next agent itself.
 
-- **On go (or user override):** the driver routes to
-  [`marshal-reviewer`](./marshal-reviewer.md), or to
+- **On go (or user override):** next is
+  [`marshal-reviewer`](./marshal-reviewer.md), or
   [`marshal-releaser`](./marshal-releaser.md) if PR/Review is skipped.
   Returns: `verification-report.md`, `delivery-plan.md`, packets in
   scope.
-- **On no-go:** the driver routes the blocking items back to
+- **On no-go:** the blocking items go back to
   [`marshal-planner`](./marshal-planner.md) /
   [`marshal-implementer`](./marshal-implementer.md) as plan updates
   ([FIXUP] / [CHANGED] / [ADDED]).

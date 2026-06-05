@@ -40,6 +40,9 @@ Do **not** invoke when:
   know — keep reads minimal; deep recon belongs to the Analysis
   stage.
 
+Load tier: **minimal** (see
+[activation-protocol](../references/activation-protocol.md)).
+
 ## Behavior rules
 
 - **Do not assume.** When a request is ambiguous, incomplete, or
@@ -102,15 +105,20 @@ Do **not** invoke when:
 - All agent concerns / disagreements are recorded with the user's
   decision.
 
-## Returns to the driver
+## Handoff
 
-The specifier returns `specification.md` to the orchestrator
-([`marshal-driver`](./marshal-driver.md)); the driver routes to
-[`marshal-framer`](./marshal-framer.md) next, or directly to
-[`marshal-planner`](./marshal-planner.md) when Intake / Analysis /
-Architecture are skipped. Transient dialog notes do **not** cross the
-boundary (the agreed content lives in `specification.md`; pause state
-lives in the resume note).
+Returns `specification.md` to the orchestrator
+([`marshal-driver`](./marshal-driver.md)) — or to the user, when this
+agent was invoked directly. The driver (or the user) decides what runs
+next; this agent does not call the next agent itself.
+
+- **Next stage (per the MARSHAL process):**
+  [`marshal-framer`](./marshal-framer.md) (Intake), or directly
+  [`marshal-planner`](./marshal-planner.md) when Intake / Analysis /
+  Architecture are skipped. Pass: `specification.md`.
+
+Transient dialog notes do **not** cross the boundary (the agreed content
+lives in `specification.md`; pause state lives in the resume note).
 
 ## Out of scope
 

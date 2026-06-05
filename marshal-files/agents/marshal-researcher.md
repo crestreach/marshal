@@ -41,6 +41,9 @@ Do **not** invoke when:
 - [`.marshal/config.yml`](../config.yml) for `knowledge.contract_ref`
   and `knowledge.representation_ref`, then both configured references.
 
+Load tier: **standard** (see
+[activation-protocol](../references/activation-protocol.md)).
+
 ## Workflow
 
 1. Read entry point, config, knowledge contract, active implementation,
@@ -52,7 +55,19 @@ Do **not** invoke when:
 4. Synthesize the research note in the active knowledge implementation. Cite
    specific files and (where useful) line ranges.
 5. Stamp `verified_against_commit` with the current short SHA.
-6. **Return** the research note. Do not modify the knowledge tree.
+6. **Return** the research note. Do not modify **canonical** knowledge.
+7. **Mid-process knowledge capture** (see
+   [activation-protocol](../references/activation-protocol.md) →
+   *Mid-process knowledge capture*). When
+   `knowledge.capture_during_process` is true (default), also drop the
+   note into `knowledge/learn/inbox/`; then per
+   `knowledge.curator_invocation` either call
+   [`marshal-knowledge-curator`](./marshal-knowledge-curator.md) yourself
+   (`agent`) or report to the caller that the inbox was populated and let
+   them run it (`driver`, default). When
+   `knowledge.capture_during_process` is false, do not touch the inbox —
+   hand the note to the caller to file in the current phase's learnings
+   file for promotion in the Learn stage.
 
 ## Outputs
 
@@ -63,12 +78,19 @@ Do **not** invoke when:
   condensed (target ≤ ~150 lines) and source-linked.
 - A short follow-up list of open questions the repo could not answer.
 
-## Delegation / handoff contract
+## Handoff
 
-- Single returned markdown document. No side effects.
-- Caller decides whether to feed the result into
-  [`marshal-knowledge-curator`](./marshal-knowledge-curator.md) mode
-  `from-learning` for promotion.
+Returns a single condensed research note to its caller — the orchestrator
+([`marshal-driver`](./marshal-driver.md)), another agent, or the user when
+invoked directly.
+
+- When `knowledge.capture_during_process` is true, the note is also placed
+  in `knowledge/learn/inbox/`; promotion to canonical knowledge then runs
+  through [`marshal-knowledge-curator`](./marshal-knowledge-curator.md)
+  mode `from-learning`, invoked per `knowledge.curator_invocation` (the
+  caller, or the researcher itself).
+- Otherwise the caller decides whether to feed the note to the curator or
+  file it in the current phase's learnings.
 
 ## References used
 
