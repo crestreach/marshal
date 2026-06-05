@@ -50,7 +50,7 @@ Setup skill — runs once per repo.
      `marshal-learner` (or hand-authored), all `mx-`-prefixed at
      creation. Empty at init time.
    - `knowledge/INDEX.md`, `knowledge/repo/INDEX.md`,
-     `knowledge/learn/inbox/`, `knowledge/learn/rollups/`.
+     `knowledge/learn/inbox/`.
 3. **Merge the AGENTS.md snippet.** Surface
    [`.marshal/AGENTS.md`](../../AGENTS.md) and ask the user to merge
    it into the repo's root `AGENTS.md`. Do **not** auto-edit the root

@@ -30,7 +30,7 @@ This keeps the curator portable across knowledge implementations.
   repo (typically dispatched by `marshal-init`).
 - **`from-changes`** — after an implementation cycle that changed
   code, to update the knowledge units that the change may have
-  invalidated.
+  invalidated, or to add new knowledge units or remove outdated ones.
 - **`from-learning`** — at the end of the Learn stage, to promote
   items from `learn/inbox/` into canonical knowledge.
 - **`rescan`** — on demand or schedule, full sweep against HEAD.
@@ -151,8 +151,7 @@ follows whatever that implementation prescribes.
 
 1. Process `learn/inbox/` per
    [promotion-rules](../references/promotion-rules.md).
-2. Promote durable items into canonical knowledge; archive one-off
-   items into `learn/rollups/`; reject the rest.
+2. Promote durable items into canonical knowledge; drop the rest.
 
 ### `rescan`
 
@@ -176,9 +175,9 @@ Heavier than `rescan`. Comparison:
 
 1. Re-derive the knowledge groupings on current HEAD (as in `init`).
 2. Diff against the existing structure: new groupings → add; removed →
-   archive (e.g. under `learn/rollups/`) or keep as an explanation;
-   renamed / merged → move with a redirect note. The exact grouping
-   and file kinds are implementation-defined.
+   archive as an explanation or drop; renamed / merged → move with a
+   redirect note. The exact grouping and file kinds are
+   implementation-defined.
 3. For each surviving unit, run `rescan` logic.
 4. Re-derive the repo-level overview units and reconcile them against
    the existing versions.

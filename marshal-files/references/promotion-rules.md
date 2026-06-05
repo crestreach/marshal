@@ -30,7 +30,7 @@ Mirrors the rules in [marshal.md](../../marshal.md).
 | Stable fact about a domain | `domains/<x>/{logic,contracts,...}.md` |
 | Repo-wide architectural shift | `repo/architecture.md` |
 | Decision with rationale | `decisions/adr-NNNN-<slug>.md` |
-| Cross-cutting reusable lesson | `learn/rollups/<topic>.md` |
+| Cross-cutting reusable lesson | a general / cross-cutting topic in the active knowledge layer |
 | Anything else that is still reusable | a general / miscellaneous topic in the active knowledge layer — **do not drop reusable knowledge** |
 | Not reusable (see "Do not promote") | drop |
 

@@ -36,4 +36,3 @@ runs against this repo.
 ## Learn
 
 - `learn/inbox/` — raw per-phase learning files awaiting promotion.
-- `learn/rollups/` — promoted, deduplicated learnings.
