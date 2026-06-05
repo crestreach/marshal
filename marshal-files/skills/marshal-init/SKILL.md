@@ -1,6 +1,6 @@
 ---
 name: marshal-init
-description: First-time MARSHAL setup in a repository. Creates the .marshal/ scaffolding, copies default config, optionally installs cyncia (as a submodule) and an .agent-config/ source tree, runs marshal-promote-assets to wire MARSHAL durable assets into .agent-config/, optionally runs the sync to fan everything out into tool-native layouts, and triggers marshal-knowledge-init for the initial knowledge snapshot. Idempotent.
+description: First-time MARSHAL setup in a repository. Creates the .marshal/ scaffolding, copies default config, optionally installs cyncia (via the cyncia installer) and an .agent-config/ source tree, runs marshal-promote-assets to wire MARSHAL durable assets into .agent-config/, optionally runs the sync to fan everything out into tool-native layouts, and triggers marshal-knowledge-init for the initial knowledge snapshot. Idempotent.
 ---
 
 # marshal-init
@@ -19,8 +19,8 @@ Setup skill — runs once per repo.
 - Existing `.marshal/` if present (for idempotent re-runs).
 - Existing `.agent-config/` (or similarly named config-sync source
   tree) if present.
-- Existing `.cyncia` checkout (submodule, vendored
-  copy, or installed binary) if present.
+- Existing `.cyncia` checkout (installed via the cyncia installer) if
+  present.
 
 ## Workflow
 
@@ -54,13 +54,11 @@ Setup skill — runs once per repo.
 4. **Install [cyncia](https://github.com/crestreach/cyncia)
    if needed.** Detect it first (look for `.cyncia/`
    at the repo root, or any directory containing `scripts/sync-all.sh`
-   the user already uses). If absent, **ask the user** which install
-   method they want and execute it:
-   - **Git submodule (recommended):**
-     `git submodule add https://github.com/crestreach/cyncia.git cyncia`
-   - **Subtree:** see the sync tool's
-     [README](https://github.com/crestreach/cyncia#installation)
-     for the `git subtree add` invocation.
+   the user already uses). If absent, install it with the **cyncia
+   installer** (see the [cyncia
+   README](https://github.com/crestreach/cyncia#installation)), which
+   fetches the engine and commits it under `.cyncia/`. It is **not** a
+   git submodule and uses no symlinks.
    - **Skip:** the user can run MARSHAL without fanning durable assets
      out to tool layouts. In that case, jump to step 7.
 5. **Provision an `.agent-config/` source tree** (or whatever the user
@@ -103,9 +101,10 @@ Setup skill — runs once per repo.
 ## Outputs
 
 - `.marshal/` directory populated with scaffolding.
-- (Optional) `.cyncia/` installed as a submodule.
+- (Optional) `.cyncia/` installed via the cyncia installer.
 - (Optional) `.agent-config/` scaffolded as the config-sync source
-  tree, with MARSHAL durable assets promoted into it (`mx_` prefix).
+  tree, with MARSHAL durable assets promoted into it (built-ins keep
+  their `marshal-` prefix; extensions keep their `mx-` prefix).
 - (Optional) Tool-layout files written by the sync.
 - (Optional) Updated `.gitignore`.
 - An initial knowledge tree under `.marshal/knowledge/` produced by
