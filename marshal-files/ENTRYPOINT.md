@@ -88,7 +88,7 @@ Default Markdown Spine read order:
 
 1. `.marshal/knowledge/INDEX.md` (always-loaded; link list + summaries).
 2. The folder index for the area you need (`repo/INDEX.md`,
-   `domains/<x>/INDEX.md`, `decisions/`, `learn/rollups/`).
+   `domains/<x>/INDEX.md`, `decisions/`).
 3. Specific topic files only when you need them. Topics may be split into
    their own sub-index plus subtopic files when they exceed
    `knowledge.topic_max_lines` in `.marshal/config.yml`; descend

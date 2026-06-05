@@ -5,9 +5,8 @@ It stores canonical knowledge as small markdown files under
 `.marshal/knowledge/`, with a root index, folder indexes, and progressively
 disclosed topic files.
 
-The name is MARSHAL-specific (not borrowed from another tool). "Spine"
-refers to the always-loaded index backbone — the root `INDEX.md` and the
-folder indexes — that holds the body of knowledge together: individual
+"Spine" refers to the always-loaded index backbone — the root `INDEX.md`
+and the folder indexes — that holds the body of knowledge together: individual
 topic files hang off this spine and are pulled in only when needed.
 
 This implementation satisfies the general
@@ -43,8 +42,7 @@ rationale.
     adr-NNNN-<slug>.md
   generated/                     # mechanical, v1.5+
   learn/
-    inbox/                       # raw phase learnings (Marshal Implementation round)
-    rollups/                     # promoted, deduped
+    inbox/                       # raw phase learnings awaiting promotion
 ```
 
 Knowledge content covers code facts, logic, architecture, design rationale,
@@ -116,8 +114,7 @@ Update paths:
 - `marshal-knowledge-maintain from-changes` re-verifies files whose
   `repo_paths` intersect changed paths and refreshes touched indexes.
 - `marshal-knowledge-maintain from-learning` promotes approved learning
-  items from `learn/inbox/` into canonical knowledge or archives them in
-  `learn/rollups/`.
+  items from `learn/inbox/` into canonical knowledge and drops the rest.
 - `marshal-knowledge-maintain rescan` checks every knowledge file for
   staleness and size-limit violations.
 - `marshal-knowledge-branch-merge` reconciles divergent knowledge updates

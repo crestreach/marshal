@@ -113,7 +113,6 @@ discovery, metadata, update, staleness, and promotion contract.
       dependency-map.md
     learn/
       inbox/                       # raw per-phase learning files
-      rollups/                     # promoted, deduped
 ```
 
 Knowledge content is **not limited to code facts**. It also covers logic,
@@ -186,7 +185,7 @@ config-sync rules mechanism.
     against `verified_against_commit` for each file's `repo_paths` and
     proposes patches.
   - **`from-learning`** — promotes items from `learn/inbox/` to canonical
-    files (or `learn/rollups/`), aligned with marshal.md.
+    files (dropping the rest), aligned with marshal.md.
   - **`rescan`** — full sweep; flags or refreshes stale files.
   - **`branch-merge`** and **`rebuild`** — the larger reconciliation cases.
 - All write paths produce a diff for human approval unless
