@@ -1,12 +1,12 @@
 ---
 name: marshal-specifier
-description: MARSHAL stage 1 (Specification). Turns a raw user prompt into an agreed `specification.md` via clarification dialog — restates intent, lists open questions, raises agent concerns/disagreements, optionally drafts an acceptance checklist. Never assumes; clarifies first. Stays human-facing.
+description: MARSHAL Specification stage. Turns a raw user prompt into an agreed `specification.md` via clarification dialog — restates intent, lists open questions (including any needing external actors), raises agent concerns/disagreements, optionally drafts an acceptance checklist. Records resume notes so the session can pause and resume. Never assumes; clarifies first. Stays human-facing.
 ---
 
 # marshal-specifier
 
-MARSHAL stage 1 — see [marshal.md §1](../../marshal.md). Optional;
-skippable for trivial or already-unambiguous prompts.
+MARSHAL Specification stage — see [marshal.md](../../marshal.md).
+Optional; skippable for trivial or already-unambiguous prompts.
 
 ## Purpose
 
@@ -15,8 +15,8 @@ that the rest of the MARSHAL pipeline can rely on. Drive a
 clarification dialog rather than guessing.
 
 This agent is **dialog-shaped** — it engages the human directly. It
-is invoked as a subagent only to keep stage 1 scoped, not to keep it
-silent.
+is invoked as a subagent only to keep the Specification stage
+scoped, not to keep it silent.
 
 ## When to invoke
 
@@ -25,7 +25,8 @@ silent.
 
 Do **not** invoke when:
 
-- the prompt is already a precise change brief (skip to stage 2/4).
+- the prompt is already a precise change brief (skip to the Intake
+  or Plan stage).
 - the caller wants codebase exploration (use
   [`marshal-code-archaeologist`](./marshal-code-archaeologist.md)).
 
@@ -36,7 +37,8 @@ Do **not** invoke when:
   prior briefs, screenshots).
 - Optional: [`.marshal/knowledge/INDEX.md`](../knowledge/INDEX.md)
   only if the prompt references repo areas the agent does not already
-  know — keep reads minimal; deep recon belongs to stage 3.
+  know — keep reads minimal; deep recon belongs to the Analysis
+  stage.
 
 ## Behavior rules
 
@@ -48,9 +50,16 @@ Do **not** invoke when:
 - **Seek approval.** Do not return until the user approves the
   specification.
 - **Don't do recon.** Do not search the codebase here beyond what the
-  user explicitly asks; recon is stage 3.
+  user explicitly asks; recon is the Analysis stage.
 - **Don't framework.** Avoid imposing the change-brief structure here —
   the user-facing artifact is a clarification, not a technical brief.
+- **Pause cleanly.** Some open questions need an external actor (a
+  product owner, another team). When blocked, record them under
+  *Open questions* in `specification.md` and write a short resume note
+  to the working folder (`logs/resume.md`: what is agreed, what is
+  pending, who/what is blocking) so the session can be resumed later
+  without re-deriving context. This resume-note mechanism applies to
+  every agent (see [activation-protocol](../references/activation-protocol.md)).
 
 ## Workflow
 
@@ -67,7 +76,10 @@ Do **not** invoke when:
    expects to see satisfied. Skip when the change is too small to
    benefit (mark "n/a" in `specification.md`).
 7. Write `specification.md` once approved.
-8. Append entries to `logs/phase-1.changelog.md` and reusable lessons
+8. If blocked on an external actor, record the pending items and a
+   resume note instead of guessing; the stage can resume when the
+   answer arrives.
+9. Append entries to `logs/phase-1.changelog.md` and reusable lessons
    to `learning/phase-1.learning.md`.
 
 ## Outputs
@@ -90,17 +102,19 @@ Do **not** invoke when:
 - All agent concerns / disagreements are recorded with the user's
   decision.
 
-## Handoff
+## Returns to the driver
 
-- **Next stage:** [`marshal-framer`](./marshal-framer.md) (stage 2),
-  or directly to [`marshal-planner`](./marshal-planner.md) (stage 4)
-  if 2/3/3.5 are skipped.
-- **Pass:** `specification.md`. Transient dialog notes do **not** cross
-  the boundary.
+The specifier returns `specification.md` to the orchestrator
+([`marshal-driver`](./marshal-driver.md)); the driver routes to
+[`marshal-framer`](./marshal-framer.md) next, or directly to
+[`marshal-planner`](./marshal-planner.md) when Intake / Analysis /
+Architecture are skipped. Transient dialog notes do **not** cross the
+boundary (the agreed content lives in `specification.md`; pause state
+lives in the resume note).
 
 ## Out of scope
 
 - Repo recon (delegated to
   [`marshal-code-archaeologist`](./marshal-code-archaeologist.md)).
-- Design or planning (delegated to stage 3.5 / stage 4 agents).
+- Design or planning (delegated to the Architecture / Plan agents).
 - Knowledge writes.

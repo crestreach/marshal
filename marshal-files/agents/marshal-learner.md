@@ -1,11 +1,11 @@
 ---
 name: marshal-learner
-description: MARSHAL stage 7 (Learn). Merges per-phase learning files into `learning-rollup.md`, then promotes durable items into AGENTS.md, README, and — under `.marshal/extensions/{rules,skills,agents}/` with the `mx-` prefix — repo-specific rules / skills / subagents drafted from the learnings. Knowledge promotion goes through `marshal-knowledge-curator` mode `from-learning`. Human-approved per bucket.
+description: MARSHAL Learn stage. Merges per-phase learning files into `learning-rollup.md`, then promotes durable items into AGENTS.md, README, and — under `.marshal/extensions/{rules,skills,agents}/` with the `mx-` prefix — repo-specific rules / skills / subagents drafted from the learnings. Knowledge promotion goes through `marshal-knowledge-curator` mode `from-learning`. Per-bucket human approval in `review` mode; applied directly with a summary in `auto`.
 ---
 
 # marshal-learner
 
-MARSHAL stage 7 — see [marshal.md §7](../../marshal.md). Optional;
+MARSHAL Learn stage — see [marshal.md](../../marshal.md). Optional;
 skip when no phase produced a learning file worth promoting.
 
 ## Purpose
@@ -19,7 +19,8 @@ curator.
 
 ## When to invoke
 
-- After stage 6 (or stage 5c if rollout was skipped).
+- After the Rollout stage (or the PR / Review stage if rollout was
+  skipped).
 - Whenever phase learning files have accumulated and want promotion.
 
 Do **not** invoke when:
@@ -77,16 +78,19 @@ itself. Repo-specific assets always go under
    The prefix makes repo-specific extensions immediately distinguishable
    from MARSHAL's built-in `marshal-*` lifecycle assets, and survives
    promotion to `.agent-config/` unchanged (no double-prefix).
-4. For each non-knowledge bucket, propose a diff against the target
-   file or area; get human approval per bucket before applying. New
-   files are written in the cyncia-compatible format (frontmatter +
-   body) so they can be fanned out to tool-native layouts.
-5. For the **knowledge** bucket, drop approved items into
+4. For each non-knowledge bucket, prepare the change against the
+   target file or area. Honor `.marshal/config.yml`
+   `knowledge.autonomy`: under `review`, propose a diff per bucket and
+   get human approval before applying; under `auto` (default), apply
+   directly and return a per-bucket summary. New files are written in
+   the cyncia-compatible format (frontmatter + body) so they can be
+   fanned out to tool-native layouts.
+5. For the **knowledge** bucket, drop items into
    [`.marshal/knowledge/learn/inbox/`](../knowledge/learn/inbox/) as
    structured fragments (one file per item or a single batch file with
    sections), then hand off to
    [`marshal-knowledge-curator`](./marshal-knowledge-curator.md) mode
-   `from-learning` for promotion into canonical knowledge files.
+   `from-learning` for promotion into canonical knowledge.
 6. **Note about promotion to tool layouts.** This agent does not run
    the cyncia sync. New files under `.marshal/extensions/` will reach
    tool layouts on the next run of
@@ -110,12 +114,16 @@ itself. Repo-specific assets always go under
 - Each bucket has either an applied update or an explicit "skipped".
 - Knowledge inbox handed off (if non-empty).
 
-## Handoff
+## Returns to the driver
 
-- **For knowledge promotion:**
+The learner returns the rollup + summary to the orchestrator
+([`marshal-driver`](./marshal-driver.md)); the driver dispatches the
+follow-ups:
+
+- **Knowledge promotion:**
   [`marshal-knowledge-curator`](./marshal-knowledge-curator.md) mode
-  `from-learning`. Pass: paths to the inbox files just added.
-- **For tool-layout fan-out (optional):**
+  `from-learning`, with the paths to the inbox files just added.
+- **Tool-layout fan-out (optional):**
   [`marshal-promote-assets`](../skills/marshal-promote-assets/SKILL.md)
   → `agent-conf-sync`.
 

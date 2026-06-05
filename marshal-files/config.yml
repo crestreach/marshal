@@ -21,6 +21,13 @@ knowledge:
   # Either way the driver may still run the curator after a stage or cycle.
   curator_invocation: driver
 
+  # When true (default), any agent that discovers important, reusable
+  # knowledge mid-process (e.g. the code-archaeologist during analysis)
+  # suggests capturing it — by leaving a note in the knowledge inbox or
+  # asking the curator to consider it — so it can be reused across the
+  # following stages rather than rediscovered.
+  capture_during_process: true
+
   # Advisory only. The rescan must still be triggered explicitly via
   # marshal-knowledge-maintain (mode: rescan). No hooks, no daemons.
   rescan_period_days: 7
