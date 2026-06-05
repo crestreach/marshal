@@ -17,7 +17,7 @@ In return:
 
 - **Attribution.** Keep the MARSHAL copyright notice and these license terms intact when redistributing (in source or binary form) or sharing derivative works of the method.
 - **Share-alike on the method.** If you publish a modified version of the MARSHAL method itself (the prose/docs), release that modified version under CC BY-SA 4.0 as well.
-- **No selling MARSHAL as a product.** The Commons Clause prohibits "selling" MARSHAL — i.e., providing MARSHAL (or a product or service whose value derives substantially from MARSHAL) to third parties for a fee. You can still sell services, consulting, training, or products *that use* MARSHAL; you just can't sell MARSHAL itself or a repackaged version of it.
+- **No selling MARSHAL as a product or service.** The Commons Clause prohibits "selling" MARSHAL — i.e., providing to third parties, for a fee or other consideration, a product or service whose value derives **entirely or substantially from MARSHAL's functionality**. Per the clause text, this explicitly includes charging fees for **hosting MARSHAL** or for **consulting/support services related to MARSHAL**. You *can* charge for services, consulting, training, or products *whose value comes from your own work* and that merely *use* MARSHAL as a tool (e.g. building a client's software with it); you *cannot* sell MARSHAL itself, a repackaged version of it, or a hosting/consulting/support offering whose value is substantially MARSHAL.
 
 In short: use it freely, including to make money with it — but don't take MARSHAL, rebrand it, and sell it as your own product.
 

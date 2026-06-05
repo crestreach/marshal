@@ -2,9 +2,9 @@
 
 Shared by knowledge skills that ingest `learn/inbox/` (mainly
 `marshal-knowledge-maintain` mode `from-learning`, invoked at end of
-MARSHAL stage 5).
+MARSHAL stage 7 (Learn)).
 
-Mirrors the rules in [marshal.md §5](../../../../marshal.md).
+Mirrors the rules in [marshal.md §7](../../marshal.md).
 
 ## Promote
 

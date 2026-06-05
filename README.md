@@ -20,7 +20,7 @@ See [`marshal.md`](./marshal.md) for the full specification.
   [`marshal-files/config.yml`](./marshal-files/config.yml)
 - [`AGENTS.md`](./AGENTS.md) — guidance for AI agents working in this repo (generated; authored under [`.agent-config/AGENTS.md`](./.agent-config/AGENTS.md))
 - [`marshal-files/`](./marshal-files) — MARSHAL durable assets for *this* product repo (entrypoint, config, knowledge, skills, agents, rules). Equivalent to `.marshal/` in a consumer repo.
-- [`.agent-config/`](./.agent-config) — generic source tree consumed by [`.cyncia`](./.cyncia) (vendored as a submodule). Edit here, then re-run sync to regenerate per-tool layouts (`.cursor/`, `.claude/`, `.github/`, `.junie/`, `.vscode/`, root `AGENTS.md`, `CLAUDE.md`, `.mcp.json`).
+- [`.agent-config/`](./.agent-config) — generic source tree consumed by the cyncia sync engine, exposed through the [`.cyncia`](./.cyncia) wrapper directory (which symlinks into the [`.cyncia-source`](./.cyncia-source) submodule). Edit here, then re-run sync to regenerate per-tool layouts (`.cursor/`, `.claude/`, `.github/`, `.junie/`, `.vscode/`, root `AGENTS.md`, `CLAUDE.md`, `.mcp.json`).
 - [`examples/`](./examples) — worked examples of MARSHAL installed in a repo.
 - `assets/` — branding (untracked).
 
