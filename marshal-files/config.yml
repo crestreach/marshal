@@ -9,9 +9,13 @@ knowledge:
   representation_ref: references/knowledge-markdown-spine.md
 
   # auto   = agents write knowledge files without per-change approval and
-  #          return a summary of what changed (default).
+  #          return a summary of what changed (default). Best for normal
+  #          operation: the knowledge layer is agent-managed memory that is
+  #          rarely read directly by humans.
   # review = every write produces a full diff for human approval before
-  #          it is applied.
+  #          it is applied. Prefer this for sensitive repositories, during
+  #          initial bootstrap when you want to vet the first snapshot, or
+  #          for large structural knowledge rebuilds.
   autonomy: auto
 
   # Who invokes the knowledge curator after a stage / implementation cycle.
