@@ -107,6 +107,10 @@ for item in AGENTS.md ENTRYPOINT.md config.yml marshal-override.md \
 done
 
 # 2. Ensure cyncia is available.
+# Note: the cyncia installer is fetched over HTTPS and piped to a shell, the
+# same trust model cyncia documents for its own install. If you need a
+# stronger guarantee, install cyncia separately (vetting/pinning a release)
+# and re-run this script with --no-cyncia.
 if [ -x ".cyncia/scripts/sync-all.sh" ]; then
   _info "cyncia already installed at .cyncia"
 elif [ "$INSTALL_CYNCIA" = true ]; then
