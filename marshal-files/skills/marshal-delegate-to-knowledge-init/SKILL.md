@@ -1,6 +1,6 @@
 ---
 name: marshal-delegate-to-knowledge-init
-description: First-time bootstrap of the MARSHAL knowledge layer. Delegate when the user asks to "bootstrap the knowledge layer", "initialize .marshal/knowledge/", "scan the repo and draft repo/ and domains/ knowledge files", "build initial INDEX.md files", "set up the knowledge tree from scratch", or when running marshal-init in a repo whose .marshal/knowledge/ is empty or near-empty. The subagent (curator in `init` mode) detects bounded contexts, drafts skeleton topic files, generates indexes, and returns a single proposed unified diff for human approval.
+description: First-time bootstrap of the MARSHAL knowledge layer. Delegate when the user asks to "bootstrap the knowledge layer", "initialize .marshal/knowledge/", "scan the repo and draft repo/ and domains/ knowledge files", "build initial INDEX.md files", "set up the knowledge tree from scratch", or when running marshal-init in a repo whose .marshal/knowledge/ is empty or near-empty. The subagent (curator in `init` mode) detects bounded contexts, drafts skeleton topic files, and generates indexes per the autonomy mode — writing them and returning a short summary in `auto`, or a summary diff for approval in `review`.
 ---
 
 # marshal-delegate-to-knowledge-init

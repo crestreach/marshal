@@ -1,6 +1,6 @@
 ---
 name: marshal-delegate-to-knowledge-maintain
-description: Maintain the MARSHAL knowledge layer. Delegate when the user asks to "update the knowledge tree from this diff / commit range", "promote learnings from learn/inbox/", "rescan the knowledge tree", "refresh stale knowledge files", "split oversize topics", "sweep the knowledge layer", "update knowledge after this implementation cycle", "after stage 7 promote inbox items into canonical files". Modes — `from-changes` (after an implementation cycle that changed code), `from-learning` (after stage 7 Learn), `rescan` (full sweep). The subagent (curator) updates topic files and indexes, splits oversize topics into sub-indexes recursively, respects autonomy mode, and returns a unified diff.
+description: Maintain the MARSHAL knowledge layer. Delegate when the user asks to "update the knowledge tree from this diff / commit range", "promote learnings from learn/inbox/", "rescan the knowledge tree", "refresh stale knowledge files", "split oversize topics", "sweep the knowledge layer", "update knowledge after this implementation cycle", "after the Learn stage promote inbox items into canonical files". Modes — `from-changes` (after an implementation cycle that changed code), `from-learning` (after the Learn stage), `rescan` (full sweep). The subagent (curator) updates topic files and indexes, splits oversize topics into sub-indexes recursively, respects autonomy mode, and returns a short summary of what changed (a full diff only in `review` mode).
 ---
 
 # marshal-delegate-to-knowledge-maintain

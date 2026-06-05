@@ -1,11 +1,11 @@
 ---
 name: marshal-framer
-description: MARSHAL stage 2 (Intake). Turns the approved `specification.md` (or the raw prompt, if stage 1 was skipped) into `change-brief.md` — the structured engineering framing covering problem, scope, non-goals, acceptance criteria, constraints, rollout expectations. Dialog-shaped — engages the human for new ambiguities surfaced during framing.
+description: MARSHAL Intake stage. Turns the approved `specification.md` (or the raw prompt, if the Specification stage was skipped) into `change-brief.md` — the structured engineering framing covering problem, scope, non-goals, acceptance criteria, constraints, rollout expectations. Dialog-shaped — engages the human for new ambiguities surfaced during framing.
 ---
 
 # marshal-framer
 
-MARSHAL stage 2 — see [marshal.md §2](../../marshal.md). Optional;
+MARSHAL Intake stage — see [marshal.md](../../marshal.md). Optional;
 may be skipped for trivial changes or folded into the plan's framing
 section.
 
@@ -16,7 +16,7 @@ downstream stage anchors on (`change-brief.md`).
 
 ## When to invoke
 
-- After [`marshal-specifier`](./marshal-specifier.md) when stage 2 is
+- After [`marshal-specifier`](./marshal-specifier.md) when the Intake stage is
   in scope.
 - When the caller has a clear prompt but no spec, and a structured
   brief is wanted before analysis/planning.
@@ -32,7 +32,7 @@ Do **not** invoke when:
 - Top-level [`AGENTS.md`](../../AGENTS.md) (project conventions).
 - [`.marshal/knowledge/INDEX.md`](../knowledge/INDEX.md) — only the
   index, to know what is available; do not pull domain files (that is
-  stage 3).
+  the Analysis stage).
 
 ## Workflow
 
@@ -51,7 +51,7 @@ Do **not** invoke when:
 
 ## Outputs
 
-- `change-brief.md` per the stage 2 template.
+- `change-brief.md` per the the Intake stage template.
 - `logs/phase-2.changelog.md` — clarifications added, scope changes,
   acceptance criteria changes.
 - `learning/phase-2.learning.md` — reusable lessons only.
@@ -65,13 +65,13 @@ Do **not** invoke when:
 ## Handoff
 
 - **Next stage:** [`marshal-code-archaeologist`](./marshal-code-archaeologist.md)
-  (stage 3) or directly to [`marshal-planner`](./marshal-planner.md)
-  (stage 4) if 3/3.5 are skipped.
+  (Analysis stage) or directly to [`marshal-planner`](./marshal-planner.md)
+  (Plan stage) if Analysis / Architecture are skipped.
 - **Pass:** `change-brief.md`. (Spec stays available but is no longer
   required reading downstream.)
 
 ## Out of scope
 
-- Codebase exploration / recon (stage 3).
-- Architectural decisions (stage 3.5).
-- Plan composition (stage 4).
+- Codebase exploration / recon (Analysis stage).
+- Architectural decisions (Architecture stage).
+- Plan composition (Plan stage).

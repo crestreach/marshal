@@ -13,8 +13,8 @@ agents / rules.
 
 Use this file to record repo-specific MARSHAL adjustments such as:
 
-- **Stage policy.** "Stage 1 (Specification) is mandatory in this repo,
-  not optional." / "Stage 6 (Rollout) is always skipped — this is a
+- **Stage policy.** "The Specification stage is mandatory in this repo, not
+  optional." / "The Rollout stage is always skipped — this is a
   library and there is no rollout."
 - **Artifact policy.** "`repo-recon.md` must include a section on
   database migrations." / "`delivery-plan.md` must list every touched
@@ -79,17 +79,23 @@ in place.
 
 - Created (empty) by [`marshal-init`](skills/marshal-init/SKILL.md).
 - Hand-edited by humans, or proposed by
-  [`marshal-learner`](agents/marshal-learner.md) at stage 7 with human
+  [`marshal-learner`](agents/marshal-learner.md) at the Learn stage with human
   approval per entry.
 - Read on every fresh session by any MARSHAL-aware agent / skill that
   also reads `marshal.md`.
 - **Not synced** by cyncia — it is read directly from `.marshal/`.
 
-## Authoring this file in this product repo
+## Where this file lives
 
-Inside this product repo (the one that defines MARSHAL itself), the
-file lives at [`marshal-files/marshal-override.md`](./marshal-override.md).
-In a consumer repo it lives at `.marshal/marshal-override.md`. The
-file is identical in structure either way.
+This documented version lives in the **MARSHAL product repo** (the repo
+that defines MARSHAL itself) at
+[`marshal-files/marshal-override.md`](./marshal-override.md), where the
+explanatory sections above double as the template's documentation.
+
+In a **consumer repo**, `marshal-init` creates an **empty**
+`.marshal/marshal-override.md` (just the header note that an empty file
+means "no overrides"); it does not carry this meta-section, and any
+"this repo" wording here refers to the repo the override lives in — not
+the MARSHAL product repo.
 
 <!-- Add your overrides below this line. Empty file = no overrides. -->

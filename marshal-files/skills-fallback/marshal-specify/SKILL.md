@@ -1,6 +1,6 @@
 ---
 name: marshal-specify
-description: MARSHAL stage 1 (Specification). Fallback skill for environments without subagent support. Triggers on "specify the change", "write a specification", "clarify requirements before building", "produce specification.md", "do the requirements clarification dialog", "I have a vague idea — help me sharpen it before planning". Runs the full specification dialog inline in the current session.
+description: MARSHAL Specification stage. Fallback skill for environments without subagent support. Triggers on "specify the change", "write a specification", "clarify requirements before building", "produce specification.md", "do the requirements clarification dialog", "I have a vague idea — help me sharpen it before planning". Runs the full specification dialog inline in the current session.
 ---
 
 # marshal-specify (fallback — no-subagent environments)

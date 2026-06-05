@@ -1,6 +1,6 @@
 ---
 name: marshal-architecture
-description: MARSHAL stage 3.5 (Architecture). Fallback skill for environments without subagent support. Triggers on "do the architecture step", "produce architecture-notes.md", "compare design options", "do a design conversation", "ADR-worthy decision", "draft an ADR". Runs architecture conversation inline in the current session.
+description: MARSHAL Architecture stage. Fallback skill for environments without subagent support. Triggers on "do the architecture step", "produce architecture-notes.md", "compare design options", "do a design conversation", "ADR-worthy decision", "draft an ADR". Runs architecture conversation inline in the current session.
 ---
 
 # marshal-architecture (fallback — no-subagent environments)

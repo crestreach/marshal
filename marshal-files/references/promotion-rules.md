@@ -2,9 +2,9 @@
 
 Shared by knowledge skills that ingest `learn/inbox/` (mainly
 `marshal-knowledge-maintain` mode `from-learning`, invoked at end of
-MARSHAL stage 7 (Learn)).
+MARSHAL Learn stage).
 
-Mirrors the rules in [marshal.md §7](../../marshal.md).
+Mirrors the rules in [marshal.md](../../marshal.md).
 
 ## Promote
 
@@ -31,14 +31,23 @@ Mirrors the rules in [marshal.md §7](../../marshal.md).
 | Repo-wide architectural shift | `repo/architecture.md` |
 | Decision with rationale | `decisions/adr-NNNN-<slug>.md` |
 | Cross-cutting reusable lesson | `learn/rollups/<topic>.md` |
-| Anything else | drop |
+| Anything else that is still reusable | a general / miscellaneous topic in the active knowledge layer — **do not drop reusable knowledge** |
+| Not reusable (see "Do not promote") | drop |
+
+The exact target paths above reflect the default Markdown Spine layout;
+the active knowledge implementation defines the real destinations (read
+`knowledge.representation_ref`). The point is the routing intent, not the
+literal folders.
 
 ## Process
 
 1. Read all files under `learn/inbox/`.
 2. Cluster by topic; deduplicate.
 3. For each cluster, decide promote / drop / out-of-scope (e.g. should be a
-   rule, not knowledge).
-4. For promotables, propose diffs against the target files.
-5. After approval: apply diffs, archive the inbox files (or delete in
-   `auto` mode), regenerate affected `INDEX.md`.
+   rule, not knowledge). Reusable items that fit no specific bucket go to
+   the general / miscellaneous bucket rather than being dropped.
+4. Apply the promotions per the autonomy mode: in `auto`, write the
+   changes and return a short summary; in `review`, present a summary diff
+   for approval first.
+5. Archive the inbox files (or delete in `auto` mode) and regenerate
+   affected `INDEX.md`.

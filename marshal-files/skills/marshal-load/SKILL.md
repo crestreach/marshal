@@ -35,9 +35,9 @@ Setup skill — runs once per fresh session.
    config, knowledge contract, active implementation, and root
    knowledge index.
 2. Detect current MARSHAL stage from the artifact chain present in the
-   working folder, treating every stage as optional except stage 4 Plan
-   (none → not started; `specification.md` only → stage 1 done; `…` up
-   to `learning-rollup.md` → stage 7 done). If `delivery-plan.md` is
+   working folder, treating every stage as optional except the Plan stage
+   (none → not started; `specification.md` only → the Specification stage done; `…` up
+   to `learning-rollup.md` → the Learn stage done). If `delivery-plan.md` is
    present, read its `Scope:` line to learn which stages were chosen
    for this change.
 3. Emit a short orientation block (≤ ~20 lines):
@@ -60,15 +60,21 @@ Setup skill — runs once per fresh session.
 - The agent (or human) knows the current stage, the next skill to
   invoke, and the autonomy mode.
 
-## Handoff
+## Suggested next step
 
-- **Next skill:** the stage skill matching the detected stage. Most
-  commonly [`marshal-specify`](../marshal-specify/SKILL.md) at stage 1
-  or [`marshal-intake`](../marshal-intake/SKILL.md) at stage 2; or
-  jump straight to [`marshal-plan`](../marshal-plan/SKILL.md) (stage 4)
-  if upstream stages are out of scope.
-- **Pass:** the orientation block. The next skill re-reads its own
-  inputs from disk.
+This skill only orients; it does **not** invoke anything itself. It
+reports which step would come next so the user (or the driver) can decide.
+
+- **Likely next:** the stage matching the detected position — typically
+  the Specification stage
+  ([`marshal-delegate-to-specify`](../marshal-delegate-to-specify/SKILL.md)
+  or the [`marshal-specifier`](../../agents/marshal-specifier.md) agent),
+  the Intake stage
+  ([`marshal-delegate-to-intake`](../marshal-delegate-to-intake/SKILL.md)),
+  or, when upstream stages are out of scope, the Plan stage
+  ([`marshal-delegate-to-plan`](../marshal-delegate-to-plan/SKILL.md)).
+- Whatever runs next re-reads its own inputs from disk; this skill passes
+  only the orientation block.
 
 ## Subagent
 

@@ -1,6 +1,6 @@
 ---
 name: marshal-intake
-description: MARSHAL stage 2 (Intake). Fallback skill for environments without subagent support. Triggers on "do intake", "produce change-brief.md", "frame this prompt as a change", "turn this idea / specification into a change brief", "what's the scope and risk?". Runs intake inline in the current session.
+description: MARSHAL Intake stage. Fallback skill for environments without subagent support. Triggers on "do intake", "produce change-brief.md", "frame this prompt as a change", "turn this idea / specification into a change brief", "what's the scope and risk?". Runs intake inline in the current session.
 ---
 
 # marshal-intake (fallback — no-subagent environments)

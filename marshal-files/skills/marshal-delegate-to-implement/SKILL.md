@@ -1,6 +1,6 @@
 ---
 name: marshal-delegate-to-implement
-description: MARSHAL stage 5a (Implement). Delegate when the user asks to "implement phase X", "work on packet Y", "code this packet", "execute the plan", "start the next implementation cycle", "do the work for the current target", "write the code + tests for this", "run a Dev-QA pass", "close this cycle". Also delegate after stage 4 (plan approved) to drive each implementation cycle, and after a verifier failure or reviewer fixup loop to resume coding. The subagent picks the cycle target, confirms / deepens the plan, executes (code + tests + Dev-QA where possible), and closes the cycle by updating plan status, changelog, and learning files. Stays in the main human-facing context.
+description: MARSHAL Implement stage. Delegate when the user asks to "implement phase X", "work on packet Y", "code this packet", "execute the plan", "start the next implementation cycle", "do the work for the current target", "write the code + tests for this", "run a Dev-QA pass", "close this cycle". Also delegate after the Plan stage (plan approved) to drive each implementation cycle, and after a verifier failure or reviewer fixup loop to resume coding. The subagent picks the cycle target, confirms / deepens the plan, executes (code + tests + Dev-QA where possible), and closes the cycle by updating plan status, changelog, and learning files. Stays in the main human-facing context.
 ---
 
 # marshal-delegate-to-implement
