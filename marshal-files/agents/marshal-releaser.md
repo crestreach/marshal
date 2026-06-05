@@ -1,11 +1,11 @@
 ---
 name: marshal-releaser
-description: MARSHAL stage 6 (Rollout). Drives creation of `rollout-note.md` covering toggles, properties, log changes, migrations, rollback path, porting instructions, user-visible docs, and a manual test scenario list for release.
+description: MARSHAL Rollout stage. Drives creation of `rollout-note.md` covering toggles, properties, log changes, migrations, rollback path, porting instructions, user-visible docs, suggested areas for extended / regression testing, and a manual test scenario list for release.
 ---
 
 # marshal-releaser
 
-MARSHAL stage 6 — see [marshal.md §6](../../marshal.md). Optional;
+MARSHAL Rollout stage — see [marshal.md](../../marshal.md). Optional;
 skip for changes with no operational impact.
 
 ## Purpose
@@ -16,7 +16,7 @@ hand at release time.
 
 ## When to invoke
 
-- After stage 5c (PR merged), or after stage 5b if PR was skipped.
+- After the PR is merged, or after the Verify stage if PR was skipped.
 - For any change with toggles, migrations, log/observability changes,
   or user-visible doc impact.
 
@@ -30,10 +30,13 @@ Do **not** invoke when:
 - `change-brief.md` — rollout expectations.
 - `delivery-plan.md` — the rollout boundary marked on phases.
 - `verification-report.md`
+- `implementation-report.md` — operational notes captured during
+  implementation (needed migrations, introduced toggles, limitations)
+  that often only became clear while building.
 - Migration files / config / feature-flag definitions touched by the
   change.
-- Knowledge files describing operational conventions (logging,
-  toggles, deploy) if any.
+- Knowledge describing operational conventions (logging, toggles,
+  deploy) if any.
 
 ## Workflow
 
@@ -42,12 +45,15 @@ Do **not** invoke when:
 3. Document required migrations and the rollback path.
 4. Add porting instructions if relevant (patches).
 5. Note user-visible docs changes.
-6. Generate a basic manual test scenario list for release.
+6. Suggest areas for extended testing or regression testing (surfaces
+   most affected by the change, risky integrations, prior hotspots).
+7. Generate a basic manual test scenario list for release.
 
 ## Outputs
 
 - `rollout-note.md` (toggles, properties, log changes, migrations,
-  rollback path, porting instructions, user-visible docs).
+  rollback path, porting instructions, user-visible docs, suggested
+  extended / regression testing areas, manual test scenarios).
 - `logs/phase-rollout.changelog.md` — additions / changes to the
   rollout note.
 - `learning/phase-release.learning.md` — reusable lessons only.
@@ -55,17 +61,19 @@ Do **not** invoke when:
 ## Exit criteria
 
 - Migrations are documented.
+- Suggested extended / regression testing areas are listed.
 - Manual test scenarios for release are listed.
 - Release notes are logged.
 
-## Handoff
+## Returns to the driver
 
-- **Next stage:** [`marshal-learner`](./marshal-learner.md) (stage 7).
-- **Pass:** `rollout-note.md` plus pointers to all phase learning
-  files.
+The releaser returns the rollout note to the orchestrator
+([`marshal-driver`](./marshal-driver.md)); the driver routes what runs
+next (typically [`marshal-learner`](./marshal-learner.md)), passing
+`rollout-note.md` plus pointers to all phase learning files.
 
 ## Out of scope
 
 - Actually deploying / running migrations.
 - Code edits.
-- Knowledge promotion (stage 7).
+- Knowledge promotion (Learn stage).
