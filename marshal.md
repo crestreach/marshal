@@ -129,13 +129,40 @@ folder** under `.marshal/work/<change-id>/`:
 - Inside it: `specification.md`, `change-brief.md`, `repo-recon.md`,
   optional `architecture-notes.md`, `delivery-plan.md`,
   `implementation-report.md`, `verification-report.md`,
-  `rollout-note.md`, `learning-rollup.md`, plus `logs/` (per-stage
-  changelogs) and `learning/` (per-phase learning files).
+  `rollout-note.md`, `learning-rollup.md`, plus `logs/` (see below)
+  and `learning/` (per-phase learning files).
 - `.marshal/work/current` is a one-line pointer naming the active
   `<change-id>`. Agents and the driver read it at the start of a
   session so the active working folder never has to be guessed.
 - `.marshal/work/` is transient and **gitignored** by default — the
   durable cross-change record is knowledge, not the artifact chain.
+
+The working folder is created by whichever component starts the change —
+the [`marshal-driver`](marshal-files/agents/marshal-driver.md) in the
+driver-mediated model, or the first specialist agent / skill in the
+direct model — not the driver alone.
+
+The `logs/` folder is what lets any session **resume** from disk. It
+holds three kinds of file, kept separate so resuming stays cheap:
+
+- `resume.md` — a single short "where are we" file (current stage,
+  active phase / cycle, next action, open decisions). It is **rewritten
+  and compacted, not appended**, on each update, and is the only log
+  loaded by default on resume.
+- `<agent>.log.md` — one append-only log per agent role (e.g.
+  `planner.log.md`, `implementer.log.md`); detailed history, consulted
+  only when a role's thread must be reconstructed.
+- `phase-N.changelog.md` — the per-phase changelog (what changed in each
+  phase).
+
+Because an agent can run many times for one change (replanning, one
+implementation cycle per phase), each invocation opens a **new run
+section** (`## Run <n> — <timestamp> — trigger: <stage/phase/cycle>`) in
+its `<agent>.log.md`. The caller passes the run context so the agent can
+tell a **fresh run** from a continuation. Every agent refreshes
+`resume.md` and appends to its run log before handing back, so the next
+dispatch continues where the last left off. The full contract lives in
+[`references/activation-protocol.md`](marshal-files/references/activation-protocol.md).
 
 When a change is finalized, the working folder is **archived** to
 `.marshal/archive/<change-id>/` (retained for reference; deleted
@@ -1004,6 +1031,19 @@ Knowledge agent and skills (see Knowledge):
 - [`marshal-researcher`](marshal-files/agents/marshal-researcher.md) — read-only research returning a condensed source-linked delta. Wrappers: [`marshal-delegate-to-knowledge-research`](marshal-files/skills/marshal-delegate-to-knowledge-research/SKILL.md) / [`marshal-knowledge-research`](marshal-files/skills-fallback/marshal-knowledge-research/SKILL.md).
 
 Every agent file states its own prerequisites, inputs, outputs, and handoff (next agent + artifacts to pass) so it is safe to run in an isolated context. Each agent also declares a **load tier** (minimal / standard / full) and follows the shared [`references/activation-protocol.md`](marshal-files/references/activation-protocol.md), which defines what every agent reads on activation, the mid-process knowledge-capture rule, and the resume contract. Every agent hands its result back to the orchestrator ([`marshal-driver`](marshal-files/agents/marshal-driver.md)) — or to the user, when the agent was invoked directly; the driver (or the user) decides what runs next.
+
+---
+
+## Communication models
+
+There are two supported ways to drive MARSHAL; the choice is the user's and the two can be mixed across a change:
+
+1. **Direct.** The user calls a specialist agent (or its `marshal-delegate-to-*` skill) directly for a single stage. The specialist answers the user directly and still writes its artifact into the working folder, so the driver can pick the change up later. Best when the user knows the process and wants one focused step.
+2. **Driver-mediated (single point of contact).** The user talks only to [`marshal-driver`](marshal-files/agents/marshal-driver.md), which coordinates the specialists, keeps the user oriented, and relays questions and answers. Best when the user wants one point of contact and does not want to track the process.
+
+**How much the user is involved.** In the driver-mediated model the level of interaction is not fixed: it ranges from *hands-off* (the driver runs end-to-end and returns only for important decisions or approval gates) to *collaborative* (driver and user shape the specification, plan, and key choices together, phase by phase). The driver infers the level from the prompt and the autonomy setting in [`config.yml`](marshal-files/config.yml), asks once when genuinely ambiguous, and the level may differ per phase and be changed at any stage boundary.
+
+**Tradeoff.** Agent dispatch is turn-based — there is no portable held-open live subagent session — so the driver mediates by *re-dispatching* the relevant agent with the accumulated context each turn. State is carried on disk through the artifact chain and the working folder's resume notes, not in an in-memory conversation. This is robust (any session can resume from `.marshal/work/<change-id>/`) but can be lossy at the margins: nuance from a long back-and-forth that was never written down is not automatically available to the next dispatch. To keep mediation faithful, agents **log everything important** (decisions, open questions, rejected options) into their artifact and resume notes. When a tight live back-and-forth with one specialist is needed, prefer the direct model for that stretch and let the driver resume afterwards.
 
 ---
 

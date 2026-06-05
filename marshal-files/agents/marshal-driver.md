@@ -162,6 +162,20 @@ the choice is the user's:
    oriented, and relays questions/answers. Best when the user does not
    want to track the process.
 
+**How much the user is involved (human-in-the-loop level).** In the
+driver-mediated model the amount of interaction is not fixed — it ranges
+from *hands-off* (the driver runs the process end-to-end and comes back
+only for important decisions or at approval gates) to *collaborative*
+(the driver and user shape the specification, plan, and key choices
+together, phase by phase). The driver infers the desired level from the
+user's prompt and the autonomy setting in
+[`config.yml`](../config.yml); when it is genuinely ambiguous it asks
+once, up front, rather than guessing. The level can also differ per
+phase — e.g. collaborate closely on Specification and Plan, then run
+Implementation and Verify hands-off — and the user can dial it up or
+down at any stage boundary. Regardless of level, the driver never
+bypasses an approval gate.
+
 **Tradeoff (driver-mediated).** There is no portable "live" held-open
 subagent session that the driver can keep open and stream through:
 agent dispatch is turn-based, so the driver mediates by *re-dispatching*
