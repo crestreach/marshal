@@ -1,6 +1,6 @@
 ---
 name: marshal-knowledge-curator
-description: Knowledge maintenance agent. Modes — `init` (first-time bootstrap), `from-changes` (after an implementation cycle), `from-learning` (after stage 7 Learn), `rescan` (full sweep), `rebuild` (post-feature restructure), `branch-merge` (reconcile diverged knowledge trees). Always returns a single proposed unified diff for human approval (or auto-applies under `knowledge.autonomy: auto`).
+description: Knowledge maintenance agent. Modes — `init` (first-time bootstrap), `from-changes` (after an implementation cycle), `from-learning` (after the Learn stage), `rescan` (full sweep), `rebuild` (post-feature restructure), `branch-merge` (reconcile diverged knowledge trees). Applies changes and returns a summary under `knowledge.autonomy: auto` (default); returns a unified diff for human approval under `review`.
 ---
 
 # marshal-knowledge-curator
@@ -66,8 +66,9 @@ the caller to approve.
 5. Regenerate every affected `INDEX.md` from frontmatter. Cap each at
    `knowledge.subindex_max_lines` — if an index would exceed the
    cap, split the folder it covers further.
-6. Build the unified diff and the summary. Apply after human approval
-   (or directly under `knowledge.autonomy: auto`).
+6. Build the diff and the summary. Under `knowledge.autonomy: auto`
+   (default) apply directly and return the summary; under `review`
+   apply only after human approval of the full diff.
 
 ## Multi-level splits
 
@@ -205,8 +206,9 @@ Heavier than `rescan`. Comparison:
   top rationale, open questions. For `rebuild`: structural-changes
   summary (contexts added / removed / renamed). For `branch-merge`:
   list of items requiring explicit human resolution.
-- Never auto-applied unless `.marshal/config.yml` sets
-  `knowledge.autonomy: auto`.
+- Applied directly under `.marshal/config.yml` `knowledge.autonomy:
+  auto` (default), returning the summary; held for approval of the full
+  diff under `review`.
 
 ## Delegation / handoff contract
 

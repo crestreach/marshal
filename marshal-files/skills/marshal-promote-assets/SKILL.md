@@ -125,7 +125,7 @@ inline content; there is no parallel fallback tree.
    them as-is regardless.
 4. **Show the plan**: list the source files / folders and their
    destinations (built-ins as `marshal-*`, extensions as `mx-*`), then
-   ask for approval before copying (default autonomy). Skip the prompt
+   ask for approval before copying. Skip the prompt
    if the user explicitly said "go ahead", "just do it", or similar.
 5. **Copy.** Use `cp -R` (Unix) or `Copy-Item -Recurse -Force`
    (PowerShell). Overwrite existing files in the config-sync source —

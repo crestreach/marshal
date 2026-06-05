@@ -119,6 +119,32 @@ Every change should move through this chain:
 
 Each artifact becomes input to the next phase.
 
+### Where the artifact chain lives
+
+The whole per-change artifact chain lives in a **per-change working
+folder** under `.marshal/work/<change-id>/`:
+
+- `<change-id>` is the ticket / issue number when the user gives one
+  (e.g. `PROJ-1234`), otherwise a dated slug `YYYY-MM-DD-<brief-slug>`.
+- Inside it: `specification.md`, `change-brief.md`, `repo-recon.md`,
+  optional `architecture-notes.md`, `delivery-plan.md`,
+  `implementation-report.md`, `verification-report.md`,
+  `rollout-note.md`, `learning-rollup.md`, plus `logs/` (per-stage
+  changelogs) and `learning/` (per-phase learning files).
+- `.marshal/work/current` is a one-line pointer naming the active
+  `<change-id>`. Agents and the driver read it at the start of a
+  session so the active working folder never has to be guessed.
+- `.marshal/work/` is transient and **gitignored** by default — the
+  durable cross-change record is knowledge, not the artifact chain.
+
+When a change is finalized, the working folder is **archived** to
+`.marshal/archive/<change-id>/` (retained for reference; deleted
+instead when `knowledge.autonomy: auto` and the user has not asked to
+keep it), and `.marshal/work/current` is cleared. The
+[`marshal-driver`](marshal-files/agents/marshal-driver.md) performs this
+move on final handoff by default; the user can also trigger it on
+demand (or do it manually).
+
 
 ---
 
@@ -997,7 +1023,7 @@ Key points:
   `confidence`, `updated`, `verified_against_commit`. See
   [`references/knowledge-markdown-spine.md`](marshal-files/references/knowledge-markdown-spine.md).
 - **Staleness without hooks.** `verified_against_commit` + `updated` are stamped explicitly. The maintenance skill diffs HEAD against the recorded SHA on demand.
-- **Approval.** [`.marshal/config.yml`](marshal-files/config.yml) controls autonomy (`review` default; `auto` opt-in). Knowledge writes produce a diff for human approval unless `auto` is set.
+- **Approval.** [`.marshal/config.yml`](marshal-files/config.yml) controls autonomy (`auto` default; `review` opt-in). Under `auto`, knowledge writes are applied without per-change approval and a summary of what changed is returned; under `review` every write produces a full diff for human approval first.
 - **Where it plugs into the lifecycle.** Stage 3 (Analysis) consults knowledge first to narrow the search surface and may invoke `marshal-researcher`. After each implementation cycle, `marshal-knowledge-curator` mode `from-changes` keeps knowledge in sync. Stage 7 (Learn) feeds promotable items into knowledge via mode `from-learning`. Larger reconciliation is handled by modes `branch-merge` and `rebuild`.
 
 Full design rationale: [`.marshal/design/knowledge-design.md`](marshal-files/design/knowledge-design.md). A worked example tree lives under [`examples/snippets-api/`](examples/snippets-api/).
@@ -1008,7 +1034,7 @@ Full design rationale: [`.marshal/design/knowledge-design.md`](marshal-files/des
 
 MARSHAL produces two kinds of content:
 
-1. **Per-change artifacts** — specification, brief, recon, plan, logs, learnings, etc. They live in the per-change working folder.
+1. **Per-change artifacts** — specification, brief, recon, plan, logs, learnings, etc. They live in the per-change working folder `.marshal/work/<change-id>/` (transient, gitignored; archived to `.marshal/archive/<change-id>/` on finalize). See [Where the artifact chain lives](#where-the-artifact-chain-lives).
 2. **Durable assets** — skills, subagents, rules, and guidelines that codify reusable behavior. They live under [`.marshal/`](marshal-files/) and are versioned with the repo.
 
 > **Naming note.** In a consumer repo, the durable-assets directory is `.marshal/`. In this product repo (the MARSHAL source) the same tree lives under [`marshal-files/`](marshal-files/) so it is not confused with a real installed `.marshal/` instance. Documentation refers to it as `.marshal/` because that is what consumers see; the link targets in this document point at `marshal-files/` for in-repo navigation.

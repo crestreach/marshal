@@ -25,8 +25,10 @@ Before doing any repo work:
 2. Read `.marshal/knowledge/INDEX.md` for the agent-maintained repo
    knowledge. Descend into folder / topic / subtopic indexes only as
    needed.
-3. Honor the autonomy mode in `.marshal/config.yml` — by default,
-   knowledge updates require human approval.
+3. Honor the autonomy mode in `.marshal/config.yml` — by default
+   (`auto`), knowledge updates are written without per-change approval
+   and a summary of what changed is returned; under `review` every
+   write produces a full diff for human approval first.
 
 If the task is trivial (e.g. small docs typo) and does not require repo
 knowledge, you may skip steps 2–3.

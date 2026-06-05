@@ -93,7 +93,10 @@ Setup skill — runs once per repo.
 8. **Update `.gitignore`** if the user agrees: ignore the generated
    directories (`.claude/`, `.cursor/`, `.github/`, `.junie/`,
    `.vscode/`) and the generated root files (`CLAUDE.md`, `.mcp.json`)
-   so they are not committed alongside the source tree.
+   so they are not committed alongside the source tree. Also ignore the
+   transient per-change working tree `.marshal/work/` (the artifact
+   chain is rebuilt per change; `.marshal/archive/` is retained, so do
+   **not** ignore it).
 9. **Hand off** to
    [`marshal-knowledge-init`](../marshal-knowledge-init/SKILL.md) to
    build the initial knowledge snapshot.

@@ -8,9 +8,18 @@ knowledge:
   # at another implementation reference that satisfies contract_ref.
   representation_ref: references/knowledge-markdown-spine.md
 
-  # review = every write produces a diff for human approval (default).
-  # auto   = agents may write knowledge files without per-change approval.
-  autonomy: review
+  # auto   = agents write knowledge files without per-change approval and
+  #          return a summary of what changed (default).
+  # review = every write produces a full diff for human approval before
+  #          it is applied.
+  autonomy: auto
+
+  # Who invokes the knowledge curator after a stage / implementation cycle.
+  #   driver = the marshal-driver runs marshal-knowledge-curator (default;
+  #            keeps stage agents focused on their own artifact).
+  #   agent  = each stage agent calls the curator itself.
+  # Either way the driver may still run the curator after a stage or cycle.
+  curator_invocation: driver
 
   # Advisory only. The rescan must still be triggered explicitly via
   # marshal-knowledge-maintain (mode: rescan). No hooks, no daemons.

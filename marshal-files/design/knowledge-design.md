@@ -197,12 +197,14 @@ config-sync rules mechanism.
 ```yaml
 # .marshal/config.yml
 knowledge:
-  autonomy: review        # review | auto
+  autonomy: auto          # auto | review
   rescan_period_days: 30  # advisory; rescan must be triggered explicitly
 ```
 
-`review` is the default. `auto` is intended for later, after the system
-proves trustworthy on the repo.
+`auto` is the default: knowledge writes are applied without per-change
+approval and a summary of what changed is returned. `review` is the
+opt-in stricter mode, producing a full diff for human approval before
+each write.
 
 ## 10. Subagents and skills
 
