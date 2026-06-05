@@ -113,8 +113,8 @@ next; this agent does not call the next stage agent itself.
   [`marshal-planner`](./marshal-planner.md) **directly** on the affected
   phase (see Workflow) without routing through the driver.
 - **Replanning:** if assumptions break, re-invoke
-  [`marshal-planner`](./marshal-planner.md) for the affected phase
-  (directly, or via the driver) before continuing.
+  [`marshal-planner`](./marshal-planner.md) **directly** for the affected
+  phase before continuing — no need to route through the driver.
 
 ## Out of scope
 

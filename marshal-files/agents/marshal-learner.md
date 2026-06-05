@@ -125,8 +125,8 @@ Load tier: **standard** (see
 
 Returns the rollup + summary to the orchestrator
 ([`marshal-driver`](./marshal-driver.md)) — or to the user, when this
-agent was invoked directly. The driver (or the user) dispatches the
-follow-ups (or the learner does, when invoked directly):
+agent was invoked directly. The driver (or the user) decides what runs
+next; this agent does not call the next agent itself:
 
 - **Knowledge promotion:**
   [`marshal-knowledge-curator`](./marshal-knowledge-curator.md) mode
