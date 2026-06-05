@@ -186,7 +186,7 @@ config-sync rules mechanism.
     against `verified_against_commit` for each file's `repo_paths` and
     proposes patches.
   - **`from-learning`** — promotes items from `learn/inbox/` to canonical
-    files (or `learn/rollups/`), aligned with marshal.md §5.
+    files (or `learn/rollups/`), aligned with marshal.md.
   - **`rescan`** — full sweep; flags or refreshes stale files.
   - **`branch-merge`** and **`rebuild`** — the larger reconciliation cases.
 - All write paths produce a diff for human approval unless
@@ -218,16 +218,16 @@ subagent support) and a fallback skill under
 |---|---|---|
 | `marshal-knowledge-curator` | Knowledge bootstrap + maintenance + reconciliation (modes: `init`, `from-changes`, `from-learning`, `rescan`, `rebuild`, `branch-merge`). | `marshal-delegate-to-knowledge-{init,maintain,rebuild,branch-merge}` / `marshal-knowledge-{init,maintain,rebuild,branch-merge}` |
 | `marshal-researcher` | Read-only topic / codebase deep-dive returning a condensed delta. | `marshal-delegate-to-knowledge-research` / `marshal-knowledge-research` |
-| `marshal-specifier` | Stage 1 (optional) — produce `specification.md`. | `marshal-delegate-to-specify` / `marshal-specify` |
-| `marshal-framer` | Stage 2 (optional) — produce `change-brief.md`. | `marshal-delegate-to-intake` / `marshal-intake` |
-| `marshal-code-archaeologist` | Stage 3 (optional) — produce `repo-recon.md`. | `marshal-delegate-to-analysis` / `marshal-analysis` |
-| `marshal-architect` | Stage 3.5 (optional) — produce `architecture-notes.md`. | `marshal-delegate-to-architecture` / `marshal-architecture` |
-| `marshal-planner` | Stage 4 (**mandatory**) — produce `delivery-plan.md`. | `marshal-delegate-to-plan` / `marshal-plan` |
-| `marshal-implementer` | Stage 5a — drive implementation cycles. | `marshal-delegate-to-implement` / `marshal-implement` |
-| `marshal-verifier` | Stage 5b — produce `verification-report.md`. | `marshal-delegate-to-verify` / `marshal-verify` |
-| `marshal-reviewer` | Stage 5c (optional) — PR boundary, summary, fixup loop. | `marshal-delegate-to-pr` / `marshal-pr` |
-| `marshal-releaser` | Stage 6 (optional) — produce `rollout-note.md`. | `marshal-delegate-to-rollout` / `marshal-rollout` |
-| `marshal-learner` | Stage 7 (optional) — produce `learning-rollup.md`, draft new repo-specific rules / skills / subagents under `.marshal/extensions/{rules,skills,agents}/` (`mx-` prefix at creation), and feed `marshal-knowledge-curator` mode `from-learning`. | `marshal-delegate-to-learn` / `marshal-learn` |
+| `marshal-specifier` | The Specification stage (optional) — produce `specification.md`. | `marshal-delegate-to-specify` / `marshal-specify` |
+| `marshal-framer` | The Intake stage (optional) — produce `change-brief.md`. | `marshal-delegate-to-intake` / `marshal-intake` |
+| `marshal-code-archaeologist` | The Analysis stage (optional) — produce `repo-recon.md`. | `marshal-delegate-to-analysis` / `marshal-analysis` |
+| `marshal-architect` | The Architecture stage (optional) — produce `architecture-notes.md`. | `marshal-delegate-to-architecture` / `marshal-architecture` |
+| `marshal-planner` | The Plan stage (**mandatory**) — produce `delivery-plan.md`. | `marshal-delegate-to-plan` / `marshal-plan` |
+| `marshal-implementer` | The Implement stage — drive implementation cycles. | `marshal-delegate-to-implement` / `marshal-implement` |
+| `marshal-verifier` | The Verify stage — produce `verification-report.md`. | `marshal-delegate-to-verify` / `marshal-verify` |
+| `marshal-reviewer` | The PR stage (optional) — PR boundary, summary, fixup loop. | `marshal-delegate-to-pr` / `marshal-pr` |
+| `marshal-releaser` | The Rollout stage (optional) — produce `rollout-note.md`. | `marshal-delegate-to-rollout` / `marshal-rollout` |
+| `marshal-learner` | The Learn stage (optional) — produce `learning-rollup.md`, draft new repo-specific rules / skills / subagents under `.marshal/extensions/{rules,skills,agents}/` (`mx-` prefix at creation), and feed `marshal-knowledge-curator` mode `from-learning`. | `marshal-delegate-to-learn` / `marshal-learn` |
 | `marshal-helper` | On-demand procedural / conceptual help on MARSHAL itself. | `marshal-delegate-to-help` / `marshal-help` |
 | `marshal-driver` | Full end-to-end orchestrator across stages. | `marshal-delegate-to-driver` / — |
 

@@ -1,6 +1,6 @@
 ---
 name: marshal-verify
-description: MARSHAL stage 5b (Verify) — REQUIRED before any PR. Fallback skill for environments without subagent support. Triggers on "verify the change", "run the verification gate", "produce verification-report.md", "is this ready for PR?", "do Dev-QA", "audit tests / static / lint / typecheck / migrations / observability / security for this PR boundary". Runs verification inline in the current session.
+description: MARSHAL Verify stage — REQUIRED before any PR. Fallback skill for environments without subagent support. Triggers on "verify the change", "run the verification gate", "produce verification-report.md", "is this ready for PR?", "do Dev-QA", "audit tests / static / lint / typecheck / migrations / observability / security for this PR boundary". Runs verification inline in the current session.
 ---
 
 # marshal-verify (fallback — no-subagent environments)

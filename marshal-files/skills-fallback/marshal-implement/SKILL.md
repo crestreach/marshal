@@ -1,6 +1,6 @@
 ---
 name: marshal-implement
-description: MARSHAL stage 5a (Implement). Fallback skill for environments without subagent support. Triggers on "implement the next phase", "do the next packet", "code this packet", "apply the plan", "drive the implement-verify-pr cycle", "write the code for delivery-plan.md phase N". Runs implementation cycles inline in the current session.
+description: MARSHAL Implement stage. Fallback skill for environments without subagent support. Triggers on "implement the next phase", "do the next packet", "code this packet", "apply the plan", "drive the implement-verify-pr cycle", "write the code for delivery-plan.md phase N". Runs implementation cycles inline in the current session.
 ---
 
 # marshal-implement (fallback — no-subagent environments)

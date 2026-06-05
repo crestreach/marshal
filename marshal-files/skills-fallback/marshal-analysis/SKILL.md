@@ -1,6 +1,6 @@
 ---
 name: marshal-analysis
-description: MARSHAL stage 3 (Analysis). Fallback skill for environments without subagent support. Triggers on "analyze the repo", "do code archaeology", "produce repo-recon.md", "find call-sites and integration points", "build a code map for this change", "what code is affected by this change?". Runs analysis inline in the current session.
+description: MARSHAL Analysis stage. Fallback skill for environments without subagent support. Triggers on "analyze the repo", "do code archaeology", "produce repo-recon.md", "find call-sites and integration points", "build a code map for this change", "what code is affected by this change?". Runs analysis inline in the current session.
 ---
 
 # marshal-analysis (fallback — no-subagent environments)

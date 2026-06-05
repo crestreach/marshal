@@ -1,17 +1,17 @@
 ---
 name: marshal-reviewer
-description: MARSHAL stage 5c (PR review and integration). Composes the PR description from `delivery-plan.md` and `verification-report.md`, runs AI-side review against the plan and the knowledge layer, and handles review-driven fixups by updating the plan before any silent edits. Produces structured review comments and a recommendation.
+description: MARSHAL PR review and integration stage. Composes the PR description from `delivery-plan.md` and `verification-report.md`, runs AI-side review against the plan and the knowledge layer, and handles review-driven fixups by updating the plan before any silent edits. Produces structured review comments and a recommendation.
 ---
 
 # marshal-reviewer
 
-MARSHAL stage 5c — see [marshal.md §5c](../../marshal.md). Optional;
+MARSHAL PR stage — see [marshal.md](../../marshal.md). Optional;
 skip for non-shared work or trunk-direct workflows. The Verify rule
 still applies before any code is shared.
 
 ## Purpose
 
-Provide AI-side review at MARSHAL stage 5c, complementing or
+Provide AI-side review at MARSHAL the PR stage, complementing or
 substituting human review. Catches drift between plan and code,
 missing tests, weak verification, and conflicts with documented
 invariants. Also composes the PR description and converts review
@@ -19,10 +19,10 @@ feedback into plan updates rather than silent edits.
 
 ## When to invoke
 
-- A PR has been opened (or is being prepared) at stage 5c.
+- A PR has been opened (or is being prepared) at the PR stage.
 - The author wants a self-review pass before requesting a human
   review.
-- Stage 5b passed and a coherent integration boundary is ready.
+- The Verify stage passed and a coherent integration boundary is ready.
 
 Do **not** invoke when:
 
@@ -56,7 +56,7 @@ Do **not** invoke when:
 5. Walk requirements in `change-brief.md`; verify the PR addresses
    each.
 6. Check test changes against the testing strategy
-   (marshal.md §5a).
+   (marshal.md).
 7. Compose PR description: linked phase(s) / packet(s), change summary,
    test summary, rollout note pointer, known limitations, follow-up
    packets.
@@ -69,7 +69,7 @@ Do **not** invoke when:
    - Isolatable correction → create a new sibling packet
      `Wxa. Review fixups [ADDED yyyy-mm-dd]`.
 10. Append rationale to the affected `logs/phase-N.changelog.md`.
-11. Loop back through stage 5a and stage 5b for any updated packets
+11. Loop back through the Implement stage and the Verify stage for any updated packets
     before re-requesting review.
 
 ## Outputs
@@ -78,7 +78,7 @@ Do **not** invoke when:
 - A review document with sections:
   - **Plan alignment** — packets in the diff vs. packets marked done.
   - **Test coverage** — regression / unit / integration / E2E
-    adequacy against marshal.md §5a strategy.
+    adequacy against marshal.md strategy.
   - **Knowledge conflicts** — any claim invalidated by the diff.
   - **Risks** — rollout risk, hidden coupling, naming / convention
     issues.
@@ -97,11 +97,11 @@ Do **not** invoke when:
 ## Handoff
 
 - **Next stage on merge:** [`marshal-releaser`](./marshal-releaser.md)
-  (stage 6) if rollout is in scope; otherwise
-  [`marshal-learner`](./marshal-learner.md) (stage 7) — or
+  (Rollout stage) if rollout is in scope; otherwise
+  [`marshal-learner`](./marshal-learner.md) (Learn stage) — or
   end-of-change. Pass: merged commit / tag, summary of what was
   integrated, any rollout-relevant notes from the PR.
-- **Knowledge upkeep:** if not already done in stage 5a, dispatch
+- **Knowledge upkeep:** if not already done in the Implement stage, dispatch
   [`marshal-knowledge-curator`](./marshal-knowledge-curator.md) mode
   `from-changes` for the merged diff.
 
@@ -110,7 +110,7 @@ Do **not** invoke when:
 - Produces feedback only; does not edit code or merge.
 - On `request-changes`, findings are fed back into
   [`marshal-implementer`](./marshal-implementer.md) (with plan updates
-  per stage 5c rules), not into silent edits.
+  per the PR stage rules), not into silent edits.
 
 ## Out of scope
 

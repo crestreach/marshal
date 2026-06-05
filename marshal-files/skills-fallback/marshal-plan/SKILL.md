@@ -1,6 +1,6 @@
 ---
 name: marshal-plan
-description: MARSHAL stage 4 (Plan) — MANDATORY. Fallback skill for environments without subagent support. Triggers on "produce delivery-plan.md", "plan this change", "break it into phases", "agree scope and depth (L1/L2/L3/L4)", "set timing mode (full/staged/mixed)", "do the planning stage". Runs planning inline in the current session.
+description: MARSHAL Plan stage — MANDATORY. Fallback skill for environments without subagent support. Triggers on "produce delivery-plan.md", "plan this change", "break it into phases", "agree scope and depth (L1/L2/L3/L4)", "set timing mode (full/staged/mixed)", "do the planning stage". Runs planning inline in the current session.
 ---
 
 # marshal-plan (fallback — no-subagent environments)

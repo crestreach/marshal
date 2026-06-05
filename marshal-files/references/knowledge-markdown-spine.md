@@ -5,13 +5,10 @@ It stores canonical knowledge as small markdown files under
 `.marshal/knowledge/`, with a root index, folder indexes, and progressively
 disclosed topic files.
 
-It is active when `.marshal/config.yml` sets:
-
-```yaml
-knowledge:
-  contract_ref: references/knowledge-contract.md
-  representation_ref: references/knowledge-markdown-spine.md
-```
+The name is MARSHAL-specific (not borrowed from another tool). "Spine"
+refers to the always-loaded index backbone — the root `INDEX.md` and the
+folder indexes — that holds the body of knowledge together: individual
+topic files hang off this spine and are pulled in only when needed.
 
 This implementation satisfies the general
 [knowledge contract](knowledge-contract.md). Agents read this file before
@@ -46,7 +43,7 @@ rationale.
     adr-NNNN-<slug>.md
   generated/                     # mechanical, v1.5+
   learn/
-    inbox/                       # raw phase learnings (Marshal §5)
+    inbox/                       # raw phase learnings (Marshal Implementation round)
     rollups/                     # promoted, deduped
 ```
 
@@ -85,7 +82,11 @@ Recommended: `repo_paths` (enables staleness detection),
   in the index logic itself.
 - Each `INDEX.md` lists files in its scope as `- [path](path): summary`,
   ordered by `importance` then tree position.
-- The root `INDEX.md` lists folder indexes only, not every leaf file.
+- The root `INDEX.md` lists folder indexes only, not every leaf file. This
+  is progressive disclosure, not omission: every file is still reachable
+  through the index hierarchy (root → folder `INDEX.md` → topic file), so
+  an agent loads the cheap root first and descends only into the branch it
+  needs instead of paying for every leaf up front.
 - Cap on root: ~150 lines, configurable in `.marshal/config.yml`.
 
 ## Staleness
@@ -94,6 +95,12 @@ A file is **stale** when any path in its `repo_paths` has changed in git
 between `verified_against_commit` and current HEAD. Detection is on demand
 via `marshal-knowledge-maintain` (mode `from-changes` or `rescan`). There
 are no git hooks.
+
+Staleness can also surface **while reading** knowledge: if an agent using a
+topic finds it no longer matches the code (drifted `repo_paths`, outdated
+facts), it should treat the entry as stale and re-research the topic —
+refreshing the knowledge (via the curator) rather than trusting the stale
+entry.
 
 ## Update protocol
 

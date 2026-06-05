@@ -1,6 +1,6 @@
 ---
 name: marshal-rollout
-description: MARSHAL stage 6 (Rollout / release). Fallback skill for environments without subagent support. Triggers on "draft the rollout note", "produce rollout-note.md", "list toggles / properties / log changes / migrations / rollback path / porting instructions / user-visible docs / manual test scenarios". Runs rollout note authoring inline in the current session.
+description: MARSHAL Rollout / release stage. Fallback skill for environments without subagent support. Triggers on "draft the rollout note", "produce rollout-note.md", "list toggles / properties / log changes / migrations / rollback path / porting instructions / user-visible docs / manual test scenarios". Runs rollout note authoring inline in the current session.
 ---
 
 # marshal-rollout (fallback — no-subagent environments)

@@ -963,7 +963,9 @@ MARSHAL ships a set of `marshal-*` **subagents** under [`.marshal/agents/`](mars
 Two flavors of stage skill ship for every stage:
 
 - `marshal-delegate-to-<x>` (under `.marshal/skills/`) — for environments **with** subagent support. High-recall trigger phrases; delegates to the matching subagent in fresh context.
-- `marshal-<x>` (under `.marshal/skills-fallback/`) — for environments **without** subagent support. Same name as the historical full-bodied skills. Instructs the assistant to follow the agent's source-of-truth file inline in the current session.
+- `marshal-<x>` (under `.marshal/skills-fallback/`) — for environments **without** subagent support. Same name as the full-bodied skills they replace. Instructs the assistant to follow the agent's source-of-truth file inline in the current session.
+
+Each delegated agent works **independently** and keeps its internals out of the caller's context — it returns only what the caller needs (a summary or an artifact path), not its full working detail. This avoids context pollution and keeps long runs cheap.
 
 Stage skills:
 

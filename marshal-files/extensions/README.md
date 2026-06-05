@@ -1,7 +1,7 @@
 # `.marshal/extensions/`
 
 Repo-specific MARSHAL assets — rules, skills, and subagents — that were
-**generated** (typically by `marshal-learner` at stage 7) or
+**generated** (typically by `marshal-learner` at the Learn stage) or
 hand-authored on top of MARSHAL's built-ins.
 
 ```text
@@ -45,7 +45,7 @@ kept as-is — built-ins stay `marshal-*`, extensions here stay `mx-*`
 
 ## Authoring
 
-The usual author is `marshal-learner` (stage 7). It drafts new
+The usual author is `marshal-learner` (Learn stage). It drafts new
 extensions from accumulated phase learnings and asks for human
 approval per item. You may also hand-author files here; just keep the
 `mx-` prefix and the cyncia-compatible frontmatter format.

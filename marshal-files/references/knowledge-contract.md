@@ -3,7 +3,10 @@
 This is the tool-agnostic MARSHAL contract for agent-managed knowledge.
 Knowledge is MARSHAL's mid- and long-term memory: durable repo facts,
 rationale, decisions, conventions, and reusable learnings that survive
-across changes.
+across changes. It is also a body of **notes about the code** and a
+**map that helps narrow down code searches** — pointers from concepts and
+areas to where the relevant code lives, so agents can find the right
+files without re-exploring the whole repo each time.
 
 The contract defines what any knowledge representation must provide. The
 active implementation is configured separately by `knowledge.representation_ref`

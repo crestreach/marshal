@@ -10,7 +10,6 @@ repo-specific overrides on top of `marshal.md`. Read it after
 `marshal.md`; anything in it takes precedence over the canonical spec
 on the points it addresses. If the file is empty, MARSHAL behaves as
 specified in `marshal.md`.
-Reference: [design/knowledge-design.md](design/knowledge-design.md) — knowledge layer design.
 Knowledge contract: [references/knowledge-contract.md](references/knowledge-contract.md).
 Active implementation: read `knowledge.representation_ref` in
 [config.yml](config.yml). Default: [references/knowledge-markdown-spine.md](references/knowledge-markdown-spine.md).
@@ -20,7 +19,7 @@ Active implementation: read `knowledge.representation_ref` in
 MARSHAL is an AI-assisted SDLC. It moves a change through explicit stages
 (Specification → Intake → Analysis → optional Architecture → Plan →
 Implementation round[Implement → Verify → PR] → Rollout → Learn). Only
-**stage 4 Plan** is mandatory — every other stage is optional and may be
+**the Plan stage** is mandatory — every other stage is optional and may be
 skipped when it would not add value (skip more for trivial changes, fewer
 for risky ones). Each run’s scope is recorded at the top of
 `delivery-plan.md`. Each stage that is run produces durable artifacts that
@@ -40,23 +39,29 @@ shipped layout is:
 - `.marshal/skills-fallback/marshal-<x>/SKILL.md` — equivalent skills for
   environments **without** subagent support; they instruct the assistant
   to follow the agent's source-of-truth file inline in the current
-  session. Same names as the historical full-bodied skills.
+  session. Same names as the full-bodied skills they replace.
 
-Stage 4 Plan is the only mandatory stage; all others are optional unless
+Each delegated agent is meant to work **independently** and to keep its
+internals out of the caller's context: it returns only what the caller
+needs (a summary or an artifact path), not its full working detail. This
+keeps long runs cheap and avoids context pollution (see the general rule
+"share only what is needed across agent boundaries").
+
+The Plan stage is the only mandatory stage; all others are optional unless
 noted.
 
 | Stage | Subagent | Delegate skill | Fallback skill | Artifact | Optional? |
 |---|---|---|---|---|---|
-| 1. Specification | `marshal-specifier` | `marshal-delegate-to-specify` | `marshal-specify` | `specification.md` | optional |
-| 2. Intake | `marshal-framer` | `marshal-delegate-to-intake` | `marshal-intake` | `change-brief.md` | optional |
-| 3. Analysis | `marshal-code-archaeologist` | `marshal-delegate-to-analysis` | `marshal-analysis` | `repo-recon.md` | optional |
-| 3.5. Architecture | `marshal-architect` | `marshal-delegate-to-architecture` | `marshal-architecture` | `architecture-notes.md` | optional |
-| 4. Plan | `marshal-planner` | `marshal-delegate-to-plan` | `marshal-plan` | `delivery-plan.md` | **mandatory** |
-| 5a. Implement | `marshal-implementer` | `marshal-delegate-to-implement` | `marshal-implement` | code + `logs/phase-N.changelog.md` | required when there is code to write |
-| 5b. Verify | `marshal-verifier` | `marshal-delegate-to-verify` | `marshal-verify` | `verification-report.md` | required before any PR |
-| 5c. PR | `marshal-reviewer` | `marshal-delegate-to-pr` | `marshal-pr` | PR description | optional (skip for non-shared work) |
-| 6. Rollout | `marshal-releaser` | `marshal-delegate-to-rollout` | `marshal-rollout` | `rollout-note.md` | optional |
-| 7. Learn | `marshal-learner` | `marshal-delegate-to-learn` | `marshal-learn` | `learning-rollup.md` | optional |
+| Specification | `marshal-specifier` | `marshal-delegate-to-specify` | `marshal-specify` | `specification.md` | optional |
+| Intake | `marshal-framer` | `marshal-delegate-to-intake` | `marshal-intake` | `change-brief.md` | optional |
+| Analysis | `marshal-code-archaeologist` | `marshal-delegate-to-analysis` | `marshal-analysis` | `repo-recon.md` | optional |
+| Architecture | `marshal-architect` | `marshal-delegate-to-architecture` | `marshal-architecture` | `architecture-notes.md` | optional |
+| Plan | `marshal-planner` | `marshal-delegate-to-plan` | `marshal-plan` | `delivery-plan.md` | **mandatory** |
+| Implement | `marshal-implementer` | `marshal-delegate-to-implement` | `marshal-implement` | code + `logs/phase-N.changelog.md` | required when there is code to write |
+| Verify | `marshal-verifier` | `marshal-delegate-to-verify` | `marshal-verify` | `verification-report.md` | required before any PR |
+| PR | `marshal-reviewer` | `marshal-delegate-to-pr` | `marshal-pr` | PR description | optional (skip for non-shared work) |
+| Rollout | `marshal-releaser` | `marshal-delegate-to-rollout` | `marshal-rollout` | `rollout-note.md` | optional |
+| Learn | `marshal-learner` | `marshal-delegate-to-learn` | `marshal-learn` | `learning-rollup.md` | optional |
 
 The full end-to-end orchestrator is `marshal-driver` (delegate skill
 `marshal-delegate-to-driver`); it has no fallback because its value is
@@ -108,21 +113,23 @@ subagent (modes `init`, `from-changes`, `from-learning`, `rescan`,
 | When | Subagent / mode | Delegate skill | Fallback skill |
 |---|---|---|---|
 | First-time bootstrap of `.marshal/knowledge/` | `marshal-knowledge-curator` (`init`) | `marshal-delegate-to-knowledge-init` | `marshal-knowledge-init` |
-| After an implementation cycle, after stage 7, or on schedule | `marshal-knowledge-curator` (`from-changes` / `from-learning` / `rescan`) | `marshal-delegate-to-knowledge-maintain` | `marshal-knowledge-maintain` |
+| After an implementation cycle, after the Learn stage, or on schedule | `marshal-knowledge-curator` (`from-changes` / `from-learning` / `rescan`) | `marshal-delegate-to-knowledge-maintain` | `marshal-knowledge-maintain` |
 | Read-only deep-dive on a narrow topic | `marshal-researcher` | `marshal-delegate-to-knowledge-research` | `marshal-knowledge-research` |
 | Reconciling knowledge changes from two branches | `marshal-knowledge-curator` (`branch-merge`) | `marshal-delegate-to-knowledge-branch-merge` | `marshal-knowledge-branch-merge` |
 | Post-feature restructure of the knowledge tree | `marshal-knowledge-curator` (`rebuild`) | `marshal-delegate-to-knowledge-rebuild` | `marshal-knowledge-rebuild` |
 
 ## Approval and autonomy
 
-`.marshal/config.yml` controls the active representation and write
-behavior. Default: every knowledge update produces a diff for human
-approval. `auto` mode skips approval and is intended for later, mature use
-only.
+`.marshal/config.yml` (`knowledge.autonomy`) controls how **knowledge
+writes** are applied. Default `auto`: the curator applies the knowledge
+update and returns a short summary (no per-change approval) — knowledge is
+agent-managed memory that is rarely read by humans. Set `review` to get a
+diff for approval before each knowledge write. This gate governs knowledge
+writes only, not code or plan changes.
 
 ## Generated assets and config sync
 
-Durable assets MARSHAL produces or maintains live under `.marshal/`:
+Durable assets MARSHAL comes with, produces, or maintains live under `.marshal/`:
 
 - `agents/<name>.md` — one file per subagent. **Source of truth for
   workflow logic.**
