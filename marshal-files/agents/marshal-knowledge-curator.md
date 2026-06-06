@@ -50,8 +50,8 @@ knowledge-shaped note into `learn/inbox/` (consumed here via
 file instead. Whether the curator is then run by the agent itself or by
 its caller (the driver / user) is governed by
 `knowledge.curator_invocation`. The single source of truth for this
-capture flow is
-[activation-protocol](../references/activation-protocol.md); this agent
+capture flow is [ENTRYPOINT](../ENTRYPOINT.md) →
+*Mid-process knowledge capture*; this agent
 only ingests what those settings route to the inbox.
 
 ## Inputs

@@ -57,7 +57,7 @@ Load tier: **standard** (see
 5. Stamp `verified_against_commit` with the current short SHA.
 6. **Return** the research note. Do not modify **canonical** knowledge.
 7. **Mid-process knowledge capture** (see
-   [activation-protocol](../references/activation-protocol.md) →
+   [ENTRYPOINT](../ENTRYPOINT.md) →
    *Mid-process knowledge capture*). When
    `knowledge.capture_during_process` is true (default), also drop the
    note into `knowledge/learn/inbox/`; then per

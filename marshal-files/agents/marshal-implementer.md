@@ -72,7 +72,7 @@ Do **not** invoke when:
    under `driver` the implementer reports the changed paths to the caller
    (driver / user) and they run the curator; under `agent` the
    implementer invokes it itself (see
-   [activation-protocol](../references/activation-protocol.md) →
+   [ENTRYPOINT](../ENTRYPOINT.md) →
    *Mid-process knowledge capture*).
 
 ## Outputs

@@ -1033,7 +1033,7 @@ Knowledge agent and skills (see Knowledge):
   - `branch-merge` → [`marshal-delegate-to-knowledge-branch-merge`](marshal-files/skills/marshal-delegate-to-knowledge-branch-merge/SKILL.md) / [`marshal-knowledge-branch-merge`](marshal-files/skills-fallback/marshal-knowledge-branch-merge/SKILL.md)
 - [`marshal-researcher`](marshal-files/agents/marshal-researcher.md) — read-only research returning a condensed source-linked delta. Wrappers: [`marshal-delegate-to-knowledge-research`](marshal-files/skills/marshal-delegate-to-knowledge-research/SKILL.md) / [`marshal-knowledge-research`](marshal-files/skills-fallback/marshal-knowledge-research/SKILL.md).
 
-Every agent file states its own prerequisites, inputs, outputs, and handoff (next agent + artifacts to pass) so it is safe to run in an isolated context. Each agent also declares a **load tier** (minimal / standard / full) and follows the shared [`references/activation-protocol.md`](marshal-files/references/activation-protocol.md), which defines what every agent reads on activation, the mid-process knowledge-capture rule, and the resume contract. Every agent hands its result back to the orchestrator ([`marshal-driver`](marshal-files/agents/marshal-driver.md)) — or to the user, when the agent was invoked directly; the driver (or the user) decides what runs next.
+Every agent file states its own prerequisites, inputs, outputs, and handoff (next agent + artifacts to pass) so it is safe to run in an isolated context. Each agent also declares a **load tier** (minimal / standard / full) and follows the shared [`references/activation-protocol.md`](marshal-files/references/activation-protocol.md), which defines what every agent reads on activation and the resume contract. The knowledge write discipline and mid-process knowledge-capture rules every agent follows are defined above (§ Knowledge) and in [`ENTRYPOINT.md`](marshal-files/ENTRYPOINT.md). Every agent hands its result back to the orchestrator ([`marshal-driver`](marshal-files/agents/marshal-driver.md)) — or to the user, when the agent was invoked directly; the driver (or the user) decides what runs next.
 
 ---
 
@@ -1076,6 +1076,29 @@ Key points:
 - **Where it plugs into the lifecycle.** Stage 3 (Analysis) consults knowledge first to narrow the search surface and may invoke `marshal-researcher`. After each implementation cycle, `marshal-knowledge-curator` mode `from-changes` keeps knowledge in sync. Stage 8 (Learn) feeds promotable items into knowledge via mode `from-learning`. Larger reconciliation is handled by modes `branch-merge` and `rebuild`.
 
 Full design rationale: [`.marshal/design/knowledge-design.md`](marshal-files/design/knowledge-design.md). A worked example tree lives under [`examples/snippets-api/`](examples/snippets-api/).
+
+### Knowledge write discipline
+
+Every agent that writes knowledge follows the same rule:
+
+- Honor [`.marshal/config.yml`](marshal-files/config.yml) `knowledge.autonomy`:
+  - `auto` (default): write without per-change approval and return a summary of what changed.
+  - `review`: produce a diff and wait for the human's approval before applying; group related edits into one diff.
+- Never silently rewrite knowledge mid-task — either apply under `auto`, propose a diff under `review`, or drop a note into `knowledge/learn/inbox/` for later promotion.
+- Follow the active knowledge implementation for which metadata to refresh and how to regenerate indexes after a write.
+
+### Mid-process knowledge capture
+
+Some agents (e.g. [`marshal-code-archaeologist`](marshal-files/agents/marshal-code-archaeologist.md), [`marshal-researcher`](marshal-files/agents/marshal-researcher.md), and occasionally any stage agent) discover durable, reusable knowledge while doing their work. Two [`.marshal/config.yml`](marshal-files/config.yml) settings govern what they do with it, and **every** agent that wants to augment knowledge follows the same rule:
+
+- `knowledge.capture_during_process`:
+  - **true** (default): write a knowledge-shaped note into `knowledge/learn/inbox/` (the archaeologist also attaches its stale-knowledge pointer list) so later stages can reuse it instead of rediscovering it.
+  - **false**: do **not** touch the knowledge inbox mid-process; record the finding in the current phase's learnings file (`learning/phase-N.learning.md`) instead, to be promoted only in the Learn stage.
+- `knowledge.curator_invocation` (only relevant when a note was written to the inbox):
+  - **agent**: the agent calls [`marshal-knowledge-curator`](marshal-files/agents/marshal-knowledge-curator.md) itself right after writing the note.
+  - **driver** (default): the agent does **not** call the curator; it reports back to its caller (the driver, or the user when invoked directly) that it populated the inbox, and the caller runs the curator.
+
+Agents never edit canonical knowledge directly — promotion always goes through the curator.
 
 ---
 
