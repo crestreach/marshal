@@ -245,7 +245,7 @@ The general contract and active implementation references are named by
 .marshal/references/
   knowledge-contract.md          # required capabilities for any implementation
   knowledge-markdown-spine.md    # default implementation
-  activation-protocol.md         # read order, autonomy, approval
+  activation-protocol.md         # load tiers, read order, logging / resume
   promotion-rules.md             # what is promotable from learning files
 ```
 

@@ -56,7 +56,7 @@ the brief touches.
    avoid context pollution downstream.
 7. Produce `repo-recon.md` and the stale-knowledge list.
 8. **Mid-process knowledge capture** (see
-   [activation-protocol](../references/activation-protocol.md) →
+   [ENTRYPOINT](../ENTRYPOINT.md) →
    *Mid-process knowledge capture*). When `knowledge.capture_during_process`
    is true (default) and the analysis surfaced important, reusable
    knowledge, write a knowledge-shaped note into
