@@ -19,10 +19,8 @@ verified_against_commit: 0a3f75e
 
 - `code` is required, non-empty, ≤ 64 KiB after trim.
 - `language` is required, must match `^[a-z][a-z0-9+-]{0,31}$`.
-- `tags` optional; each tag normalized to lower-case, trimmed, deduped;
-  empty tags rejected.
-- `metadata` optional; arbitrary JSON ≤ 4 KiB serialized; stored as
-  `jsonb` (see [ADR-0001](../../decisions/adr-0001-postgres-jsonb.md)).
+- `tags` optional; each tag normalized to lower-case, trimmed, deduped; empty tags rejected.
+- `metadata` optional; arbitrary JSON ≤ 4 KiB serialized; stored as `jsonb` (see [ADR-0001](../../decisions/adr-0001-postgres-jsonb.md)).
 - `id` is a UUID v4 generated server-side.
 
 ## Retrieval

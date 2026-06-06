@@ -11,7 +11,8 @@ verified_against_commit: ""
 
 # Repo — Index
 
-Stub. Populated by `marshal-knowledge-init`.
+Stub.
+Populated by `marshal-knowledge-init`.
 
 Expected files (created on demand):
 

@@ -7,6 +7,8 @@ description: MARSHAL Learn stage. Fallback skill for environments without subage
 
 This skill performs the work that the [`marshal-learner`](../../agents/marshal-learner.md) subagent does, but inline in the current session, for tools that don't support custom subagents.
 
-**Source of truth:** [`marshal-learner.md`](../../agents/marshal-learner.md). Read it and follow its **Inputs / Workflow / Outputs / Exit criteria / Handoff** sections exactly. Do not duplicate that content here.
+**Source of truth:** [`marshal-learner.md`](../../agents/marshal-learner.md).
+Read it and follow its **Inputs / Workflow / Outputs / Exit criteria / Handoff** sections exactly.
+Do not duplicate that content here.
 
 > If subagents *are* available, prefer [`marshal-delegate-to-learn`](../../skills/marshal-delegate-to-learn/SKILL.md) so the work runs in fresh context.

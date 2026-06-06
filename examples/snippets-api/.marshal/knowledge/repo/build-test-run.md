@@ -37,9 +37,8 @@ pnpm test:unit    # services only, no DB
 pnpm test:int     # routes + db, requires Postgres
 ```
 
-Service unit tests pass an in-memory fake `db` object that satisfies
-`{ query(sql, params): Promise<{ rows: T[] }> }`. Route tests use
-`supertest` and a stubbed service.
+Service unit tests pass an in-memory fake `db` object that satisfies `{ query(sql, params): Promise<{ rows: T[] }> }`.
+Route tests use `supertest` and a stubbed service.
 
 ## Migrations
 

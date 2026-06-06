@@ -17,12 +17,12 @@ verified_against_commit: 0a3f75e
 
 # Overview
 
-`snippets-api` is a small HTTP service for creating and retrieving code
-snippets keyed by id and tag.
+`snippets-api` is a small HTTP service for creating and retrieving code snippets keyed by id and tag.
 
 ## Surface
 
-- `POST /snippets` — create a snippet. Body: `{ language, code, tags?, metadata? }`.
+- `POST /snippets` — create a snippet.
+  Body: `{ language, code, tags?, metadata? }`.
 - `GET  /snippets/:id` — fetch one.
 - `GET  /snippets?tag=:tag` — list by tag (paginated, `cursor` query param).
 
@@ -35,5 +35,5 @@ All requests require `Authorization: Bearer <api-key>`.
 - `src/services/` — domain logic.
 - `src/db/` — pg client + migrations.
 
-There is exactly one domain: **snippets**. There is no user / org
-modeling; api keys are static (see [conventions](conventions.md)).
+There is exactly one domain: **snippets**.
+There is no user / org modeling; api keys are static (see [conventions](conventions.md)).

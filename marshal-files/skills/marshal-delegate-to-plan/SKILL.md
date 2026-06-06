@@ -5,17 +5,20 @@ description: MARSHAL Plan / shape stage — MANDATORY for every MARSHAL change. 
 
 # marshal-delegate-to-plan
 
-Delegate this to the [`marshal-planner`](../../agents/marshal-planner.md) subagent. Do **not** inline the workflow — the agent owns it.
+Delegate this to the [`marshal-planner`](../../agents/marshal-planner.md) subagent.
+Do **not** inline the workflow — the agent owns it.
 
 ## Call contract
 
 - **Subagent:** `marshal-planner`
 - **Pass:** whichever upstream artifacts exist (`specification.md`, `change-brief.md`, `repo-recon.md`, `architecture-notes.md`); planning timing mode (`full` | `staged` | `mixed`) if the user has a preference; target depth if pinned (e.g. "L2", "L4 in P1, L2 elsewhere"); existing `delivery-plan.md` if deepening / amending.
 - **Expect back:** approved `delivery-plan.md` (Scope line + Planning mode + Target depth, then phases / packets / steps to the agreed depth), plus `logs/phase-4.changelog.md` and `learning/phase-4.learning.md`.
-- **On result:** confirm approval and hand off to [`marshal-delegate-to-implement`](../marshal-delegate-to-implement/SKILL.md) (Implement stage). For staged deepening, re-invoke this delegate before each implementation cycle of a still-shallow phase.
+- **On result:** confirm approval and hand off to [`marshal-delegate-to-implement`](../marshal-delegate-to-implement/SKILL.md) (Implement stage).
+  For staged deepening, re-invoke this delegate before each implementation cycle of a still-shallow phase.
 
 The Plan stage is **mandatory** in MARSHAL — every change has a plan, even a single phase with one step.
 
 ## Fallback (no-subagent environments)
 
-If subagents are not available, use [`marshal-plan`](../../skills-fallback/marshal-plan/SKILL.md). Source of truth: [`marshal-planner.md`](../../agents/marshal-planner.md).
+If subagents are not available, use [`marshal-plan`](../../skills-fallback/marshal-plan/SKILL.md).
+Source of truth: [`marshal-planner.md`](../../agents/marshal-planner.md).

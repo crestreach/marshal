@@ -5,15 +5,19 @@ description: MARSHAL on-demand help. Delegate when the user asks "how does MARSH
 
 # marshal-delegate-to-help
 
-Delegate this to the [`marshal-helper`](../../agents/marshal-helper.md) subagent. Do **not** inline the workflow — the agent owns it.
+Delegate this to the [`marshal-helper`](../../agents/marshal-helper.md) subagent.
+Do **not** inline the workflow — the agent owns it.
 
 ## Call contract
 
 - **Subagent:** `marshal-helper`
-- **Pass:** the user's question (free text); optional working folder path for situational questions like "what stage am I in?". Read-only access to the repo and `.marshal/`.
-- **Expect back:** a single concise answer block (default ≤ ~30 lines), ending with a one-line "next step" pointer. No files written.
+- **Pass:** the user's question (free text); optional working folder path for situational questions like "what stage am I in?".
+  Read-only access to the repo and `.marshal/`.
+- **Expect back:** a single concise answer block (default ≤ ~30 lines), ending with a one-line "next step" pointer.
+  No files written.
 - **On result:** if the answer includes a handoff to a stage agent (driver or specific stage), invoke the matching `marshal-delegate-to-*` next.
 
 ## Fallback (no-subagent environments)
 
-If subagents are not available, use [`marshal-help`](../../skills-fallback/marshal-help/SKILL.md). Source of truth: [`marshal-helper.md`](../../agents/marshal-helper.md).
+If subagents are not available, use [`marshal-help`](../../skills-fallback/marshal-help/SKILL.md).
+Source of truth: [`marshal-helper.md`](../../agents/marshal-helper.md).

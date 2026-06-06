@@ -7,6 +7,8 @@ description: MARSHAL Verify stage — REQUIRED before any PR. Fallback skill for
 
 This skill performs the work that the [`marshal-verifier`](../../agents/marshal-verifier.md) subagent does, but inline in the current session, for tools that don't support custom subagents.
 
-**Source of truth:** [`marshal-verifier.md`](../../agents/marshal-verifier.md). Read it and follow its **Inputs / Workflow / Outputs / Exit criteria / Handoff** sections exactly. Do not duplicate that content here.
+**Source of truth:** [`marshal-verifier.md`](../../agents/marshal-verifier.md).
+Read it and follow its **Inputs / Workflow / Outputs / Exit criteria / Handoff** sections exactly.
+Do not duplicate that content here.
 
 > If subagents *are* available, prefer [`marshal-delegate-to-verify`](../../skills/marshal-delegate-to-verify/SKILL.md) so the work runs in fresh context.

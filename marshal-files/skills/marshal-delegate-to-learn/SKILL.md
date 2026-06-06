@@ -5,15 +5,18 @@ description: MARSHAL Learn / improve stage. Delegate when the user asks to "merg
 
 # marshal-delegate-to-learn
 
-Delegate this to the [`marshal-learner`](../../agents/marshal-learner.md) subagent. Do **not** inline the workflow — the agent owns it.
+Delegate this to the [`marshal-learner`](../../agents/marshal-learner.md) subagent.
+Do **not** inline the workflow — the agent owns it.
 
 ## Call contract
 
 - **Subagent:** `marshal-learner`
 - **Pass:** all `learning/phase-*.learning.md` files for the change; pointers to update targets (`AGENTS.md`, `README.md`, `.marshal/rules/`, `.marshal/skills/`, `.marshal/agents/`, `.marshal/knowledge/`).
 - **Expect back:** `learning-rollup.md`; per-bucket proposed diffs (human-approved before applying); files dropped into `.marshal/knowledge/learn/inbox/` for the knowledge bucket.
-- **On result:** for the knowledge bucket, hand off to [`marshal-delegate-to-knowledge-maintain`](../marshal-delegate-to-knowledge-maintain/SKILL.md) (`from-learning`) with paths to the inbox files just added. For new skills / subagents / rules drafted under `.marshal/`, run the agent-config sync afterwards.
+- **On result:** for the knowledge bucket, hand off to [`marshal-delegate-to-knowledge-maintain`](../marshal-delegate-to-knowledge-maintain/SKILL.md) (`from-learning`) with paths to the inbox files just added.
+  For new skills / subagents / rules drafted under `.marshal/`, run the agent-config sync afterwards.
 
 ## Fallback (no-subagent environments)
 
-If subagents are not available, use [`marshal-learn`](../../skills-fallback/marshal-learn/SKILL.md). Source of truth: [`marshal-learner.md`](../../agents/marshal-learner.md).
+If subagents are not available, use [`marshal-learn`](../../skills-fallback/marshal-learn/SKILL.md).
+Source of truth: [`marshal-learner.md`](../../agents/marshal-learner.md).

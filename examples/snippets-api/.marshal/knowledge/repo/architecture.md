@@ -19,13 +19,12 @@ verified_against_commit: 0a3f75e
 
 ## Layers
 
-1. **Route layer** (`src/routes/`) — Express handlers. Responsibilities:
-   parse + validate input, translate service results to HTTP, map known
-   errors to status codes. **No domain logic.**
-2. **Service layer** (`src/services/`) — domain logic. Pure with respect
-   to HTTP. Talks to the DB through `src/db/client.ts`.
-3. **DB layer** (`src/db/`) — `pg` client, parameterized queries,
-   migrations.
+1. **Route layer** (`src/routes/`) — Express handlers.
+   Responsibilities: parse + validate input, translate service results to HTTP, map known errors to status codes.
+   **No domain logic.**
+2. **Service layer** (`src/services/`) — domain logic.
+   Pure with respect to HTTP. Talks to the DB through `src/db/client.ts`.
+3. **DB layer** (`src/db/`) — `pg` client, parameterized queries, migrations.
 
 ## Invariants
 
@@ -36,7 +35,5 @@ verified_against_commit: 0a3f75e
 
 ## Test seams
 
-- Service unit tests use a fake `db.query` (see
-  [build-test-run](build-test-run.md)).
-- Route tests use `supertest` against the Express app with a stubbed
-  service.
+- Service unit tests use a fake `db.query` (see [build-test-run](build-test-run.md)).
+- Route tests use `supertest` against the Express app with a stubbed service.

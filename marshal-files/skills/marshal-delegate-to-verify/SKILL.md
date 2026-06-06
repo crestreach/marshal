@@ -5,7 +5,8 @@ description: MARSHAL Verify stage — REQUIRED before any PR. Delegate when the 
 
 # marshal-delegate-to-verify
 
-Delegate this to the [`marshal-verifier`](../../agents/marshal-verifier.md) subagent. Do **not** inline the workflow — the agent owns it.
+Delegate this to the [`marshal-verifier`](../../agents/marshal-verifier.md) subagent.
+Do **not** inline the workflow — the agent owns it.
 
 ## Call contract
 
@@ -19,4 +20,5 @@ Nothing merges without an explicit verification step recorded somewhere.
 
 ## Fallback (no-subagent environments)
 
-If subagents are not available, use [`marshal-verify`](../../skills-fallback/marshal-verify/SKILL.md). Source of truth: [`marshal-verifier.md`](../../agents/marshal-verifier.md).
+If subagents are not available, use [`marshal-verify`](../../skills-fallback/marshal-verify/SKILL.md).
+Source of truth: [`marshal-verifier.md`](../../agents/marshal-verifier.md).

@@ -5,7 +5,8 @@ description: MARSHAL Specification / clarify stage. Delegate when the user asks 
 
 # marshal-delegate-to-specify
 
-Delegate this to the [`marshal-specifier`](../../agents/marshal-specifier.md) subagent. Do **not** inline the workflow — the agent owns it.
+Delegate this to the [`marshal-specifier`](../../agents/marshal-specifier.md) subagent.
+Do **not** inline the workflow — the agent owns it.
 
 ## Call contract
 
@@ -16,4 +17,5 @@ Delegate this to the [`marshal-specifier`](../../agents/marshal-specifier.md) su
 
 ## Fallback (no-subagent environments)
 
-If subagents are not available, use [`marshal-specify`](../../skills-fallback/marshal-specify/SKILL.md) — same workflow, runs inline. Both share [`marshal-specifier.md`](../../agents/marshal-specifier.md) as source of truth.
+If subagents are not available, use [`marshal-specify`](../../skills-fallback/marshal-specify/SKILL.md) — same workflow, runs inline.
+Both share [`marshal-specifier.md`](../../agents/marshal-specifier.md) as source of truth.

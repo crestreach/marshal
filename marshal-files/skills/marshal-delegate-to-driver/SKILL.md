@@ -5,7 +5,8 @@ description: Run a whole MARSHAL change end-to-end. Delegate when the user asks 
 
 # marshal-delegate-to-driver
 
-Delegate this to the [`marshal-driver`](../../agents/marshal-driver.md) subagent. Do **not** inline the orchestration — the driver owns it.
+Delegate this to the [`marshal-driver`](../../agents/marshal-driver.md) subagent.
+Do **not** inline the orchestration — the driver owns it.
 
 ## Call contract
 
@@ -18,4 +19,6 @@ For one-off stage runs, prefer the per-stage `marshal-delegate-to-*` skills dire
 
 ## Fallback (no-subagent environments)
 
-The driver's value is subagent orchestration with isolated context per stage. In environments without subagent support, chain the per-stage fallback skills under [`marshal-files/skills-fallback/`](../../skills-fallback/) manually instead — same workflows, same artifact chain. There is no separate driver fallback skill.
+The driver's value is subagent orchestration with isolated context per stage.
+In environments without subagent support, chain the per-stage fallback skills under [`marshal-files/skills-fallback/`](../../skills-fallback/) manually instead — same workflows, same artifact chain.
+There is no separate driver fallback skill.

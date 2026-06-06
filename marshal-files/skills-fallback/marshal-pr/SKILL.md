@@ -7,6 +7,8 @@ description: MARSHAL PR / integration stage. Fallback skill for environments wit
 
 This skill performs the work that the [`marshal-reviewer`](../../agents/marshal-reviewer.md) subagent does, but inline in the current session, for tools that don't support custom subagents.
 
-**Source of truth:** [`marshal-reviewer.md`](../../agents/marshal-reviewer.md). Read it and follow its **Inputs / Workflow / Outputs / Exit criteria / Handoff** sections exactly. Do not duplicate that content here.
+**Source of truth:** [`marshal-reviewer.md`](../../agents/marshal-reviewer.md).
+Read it and follow its **Inputs / Workflow / Outputs / Exit criteria / Handoff** sections exactly.
+Do not duplicate that content here.
 
 > If subagents *are* available, prefer [`marshal-delegate-to-pr`](../../skills/marshal-delegate-to-pr/SKILL.md) so the work runs in fresh context.

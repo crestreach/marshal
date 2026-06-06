@@ -16,8 +16,7 @@ verified_against_commit: 0a3f75e
 
 # Purpose
 
-The snippets domain stores small pieces of code with optional tags and
-arbitrary metadata, and serves them back by id or tag.
+The snippets domain stores small pieces of code with optional tags and arbitrary metadata, and serves them back by id or tag.
 
 ## Owns
 

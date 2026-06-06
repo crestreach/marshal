@@ -7,6 +7,8 @@ description: MARSHAL Implement stage. Fallback skill for environments without su
 
 This skill performs the work that the [`marshal-implementer`](../../agents/marshal-implementer.md) subagent does, but inline in the current session, for tools that don't support custom subagents.
 
-**Source of truth:** [`marshal-implementer.md`](../../agents/marshal-implementer.md). Read it and follow its **Inputs / Workflow / Outputs / Exit criteria / Handoff** sections exactly. Do not duplicate that content here.
+**Source of truth:** [`marshal-implementer.md`](../../agents/marshal-implementer.md).
+Read it and follow its **Inputs / Workflow / Outputs / Exit criteria / Handoff** sections exactly.
+Do not duplicate that content here.
 
 > If subagents *are* available, prefer [`marshal-delegate-to-implement`](../../skills/marshal-delegate-to-implement/SKILL.md) so the work runs in fresh context.

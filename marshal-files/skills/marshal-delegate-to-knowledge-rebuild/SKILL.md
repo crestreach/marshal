@@ -5,16 +5,20 @@ description: Post-feature rebuild of the MARSHAL knowledge layer. Delegate when 
 
 # marshal-delegate-to-knowledge-rebuild
 
-Delegate this to the [`marshal-knowledge-curator`](../../agents/marshal-knowledge-curator.md) subagent in mode `rebuild`. Do **not** inline the workflow — the agent owns it.
+Delegate this to the [`marshal-knowledge-curator`](../../agents/marshal-knowledge-curator.md) subagent in mode `rebuild`.
+Do **not** inline the workflow — the agent owns it.
 
 ## Call contract
 
 - **Subagent:** `marshal-knowledge-curator`
 - **Mode:** `rebuild`
-- **Pass (request-specific only):** the **intent** (what to rebuild / incorporate) and, **optionally**, the merged feature branch or commit range to incorporate. The change is optional — omit it to rebuild from the whole tree vs current HEAD. The agent reads the current HEAD, the previous knowledge tree, `.marshal/config.yml`, and the knowledge contract / implementation itself — do not pass them.
+- **Pass (request-specific only):** the **intent** (what to rebuild / incorporate) and, **optionally**, the merged feature branch or commit range to incorporate.
+  The change is optional — omit it to rebuild from the whole tree vs current HEAD. The agent reads the current HEAD, the previous knowledge tree, `.marshal/config.yml`, and the knowledge contract / implementation itself — do not pass them.
 - **Expect back:** a **summary** of structure changes (contexts added / removed / renamed) and content changes — not the full knowledge diff.
-- **On result:** under `knowledge.autonomy: auto` (default) it is already applied — read the summary. Under `review`, approve the diff.
+- **On result:** under `knowledge.autonomy: auto` (default) it is already applied — read the summary.
+  Under `review`, approve the diff.
 
 ## Fallback (no-subagent environments)
 
-If subagents are not available, use [`marshal-knowledge-rebuild`](../../skills-fallback/marshal-knowledge-rebuild/SKILL.md). Source of truth: [`marshal-knowledge-curator.md`](../../agents/marshal-knowledge-curator.md).
+If subagents are not available, use [`marshal-knowledge-rebuild`](../../skills-fallback/marshal-knowledge-rebuild/SKILL.md).
+Source of truth: [`marshal-knowledge-curator.md`](../../agents/marshal-knowledge-curator.md).

@@ -5,15 +5,19 @@ description: MARSHAL Repo recon / analysis stage. Delegate when the user asks to
 
 # marshal-delegate-to-analysis
 
-Delegate this to the [`marshal-code-archaeologist`](../../agents/marshal-code-archaeologist.md) subagent. Do **not** inline the workflow — the agent owns it.
+Delegate this to the [`marshal-code-archaeologist`](../../agents/marshal-code-archaeologist.md) subagent.
+Do **not** inline the workflow — the agent owns it.
 
 ## Call contract
 
 - **Subagent:** `marshal-code-archaeologist`
-- **Pass:** `change-brief.md`; pointers to `.marshal/knowledge/INDEX.md` and any topic indexes. Read-only repo access.
+- **Pass:** `change-brief.md`; pointers to `.marshal/knowledge/INDEX.md` and any topic indexes.
+  Read-only repo access.
 - **Expect back:** draft `repo-recon.md`, a list of stale/missing knowledge files, plus `logs/phase-3.changelog.md` and `learning/phase-3.learning.md`.
-- **On result:** review and save the recon under the change folder; surface the stale-knowledge list (consider [`marshal-delegate-to-knowledge-research`](../marshal-delegate-to-knowledge-research/SKILL.md) or [`marshal-delegate-to-knowledge-maintain`](../marshal-delegate-to-knowledge-maintain/SKILL.md)). Hand off to [`marshal-delegate-to-architecture`](../marshal-delegate-to-architecture/SKILL.md) (Architecture stage) or [`marshal-delegate-to-plan`](../marshal-delegate-to-plan/SKILL.md) (Plan stage).
+- **On result:** review and save the recon under the change folder; surface the stale-knowledge list (consider [`marshal-delegate-to-knowledge-research`](../marshal-delegate-to-knowledge-research/SKILL.md) or [`marshal-delegate-to-knowledge-maintain`](../marshal-delegate-to-knowledge-maintain/SKILL.md)).
+  Hand off to [`marshal-delegate-to-architecture`](../marshal-delegate-to-architecture/SKILL.md) (Architecture stage) or [`marshal-delegate-to-plan`](../marshal-delegate-to-plan/SKILL.md) (Plan stage).
 
 ## Fallback (no-subagent environments)
 
-If subagents are not available, use [`marshal-analysis`](../../skills-fallback/marshal-analysis/SKILL.md). Source of truth: [`marshal-code-archaeologist.md`](../../agents/marshal-code-archaeologist.md).
+If subagents are not available, use [`marshal-analysis`](../../skills-fallback/marshal-analysis/SKILL.md).
+Source of truth: [`marshal-code-archaeologist.md`](../../agents/marshal-code-archaeologist.md).

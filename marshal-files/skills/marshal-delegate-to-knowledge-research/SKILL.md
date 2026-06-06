@@ -5,15 +5,20 @@ description: Focused research on a topic, codebase area, or library, returning a
 
 # marshal-delegate-to-knowledge-research
 
-Delegate this to the [`marshal-researcher`](../../agents/marshal-researcher.md) subagent. Do **not** inline the workflow — the agent owns it.
+Delegate this to the [`marshal-researcher`](../../agents/marshal-researcher.md) subagent.
+Do **not** inline the workflow — the agent owns it.
 
 ## Call contract
 
 - **Subagent:** `marshal-researcher`
-- **Pass (request-specific only):** the **intent** — a narrowly-scoped topic / question — plus optional likely-relevant paths or a knowledge-file id to refresh, and whether the result is intended for promotion to knowledge. The agent reads `.marshal/config.yml`, the knowledge contract / implementation, and the repo / knowledge tree itself — do not pass them.
-- **Expect back:** a single condensed, source-linked markdown **research note** (target ≤ ~150 lines body); an "open questions" trailer. When the request says it is for knowledge, the note follows the active knowledge implementation so it can be promoted as-is.
-- **On result:** consume the note inline. For promotion to canonical knowledge, drop it into `.marshal/knowledge/learn/inbox/` and invoke [`marshal-delegate-to-knowledge-maintain`](../marshal-delegate-to-knowledge-maintain/SKILL.md) (`from-learning`).
+- **Pass (request-specific only):** the **intent** — a narrowly-scoped topic / question — plus optional likely-relevant paths or a knowledge-file id to refresh, and whether the result is intended for promotion to knowledge.
+  The agent reads `.marshal/config.yml`, the knowledge contract / implementation, and the repo / knowledge tree itself — do not pass them.
+- **Expect back:** a single condensed, source-linked markdown **research note** (target ≤ ~150 lines body); an "open questions" trailer.
+  When the request says it is for knowledge, the note follows the active knowledge implementation so it can be promoted as-is.
+- **On result:** consume the note inline.
+  For promotion to canonical knowledge, drop it into `.marshal/knowledge/learn/inbox/` and invoke [`marshal-delegate-to-knowledge-maintain`](../marshal-delegate-to-knowledge-maintain/SKILL.md) (`from-learning`).
 
 ## Fallback (no-subagent environments)
 
-If subagents are not available, use [`marshal-knowledge-research`](../../skills-fallback/marshal-knowledge-research/SKILL.md). Source of truth: [`marshal-researcher.md`](../../agents/marshal-researcher.md).
+If subagents are not available, use [`marshal-knowledge-research`](../../skills-fallback/marshal-knowledge-research/SKILL.md).
+Source of truth: [`marshal-researcher.md`](../../agents/marshal-researcher.md).

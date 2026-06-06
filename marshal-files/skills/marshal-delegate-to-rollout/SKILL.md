@@ -5,7 +5,8 @@ description: MARSHAL Release / rollout stage. Delegate when the user asks to "dr
 
 # marshal-delegate-to-rollout
 
-Delegate this to the [`marshal-releaser`](../../agents/marshal-releaser.md) subagent. Do **not** inline the workflow — the agent owns it.
+Delegate this to the [`marshal-releaser`](../../agents/marshal-releaser.md) subagent.
+Do **not** inline the workflow — the agent owns it.
 
 ## Call contract
 
@@ -16,4 +17,5 @@ Delegate this to the [`marshal-releaser`](../../agents/marshal-releaser.md) suba
 
 ## Fallback (no-subagent environments)
 
-If subagents are not available, use [`marshal-rollout`](../../skills-fallback/marshal-rollout/SKILL.md). Source of truth: [`marshal-releaser.md`](../../agents/marshal-releaser.md).
+If subagents are not available, use [`marshal-rollout`](../../skills-fallback/marshal-rollout/SKILL.md).
+Source of truth: [`marshal-releaser.md`](../../agents/marshal-releaser.md).

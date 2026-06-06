@@ -7,6 +7,8 @@ description: MARSHAL Plan stage — MANDATORY. Fallback skill for environments w
 
 This skill performs the work that the [`marshal-planner`](../../agents/marshal-planner.md) subagent does, but inline in the current session, for tools that don't support custom subagents.
 
-**Source of truth:** [`marshal-planner.md`](../../agents/marshal-planner.md). Read it and follow its **Inputs / Workflow / Outputs / Exit criteria / Handoff** sections exactly. Do not duplicate that content here.
+**Source of truth:** [`marshal-planner.md`](../../agents/marshal-planner.md).
+Read it and follow its **Inputs / Workflow / Outputs / Exit criteria / Handoff** sections exactly.
+Do not duplicate that content here.
 
 > If subagents *are* available, prefer [`marshal-delegate-to-plan`](../../skills/marshal-delegate-to-plan/SKILL.md) so the work runs in fresh context.

@@ -29,23 +29,16 @@ test/
 
 ## Why this example exists
 
-To show what `.marshal/knowledge/` looks like once the
-`marshal-knowledge-curator` subagent has run in `init` mode (via
-`marshal-delegate-to-knowledge-init` or its fallback `marshal-knowledge-init`)
-on a real-but-small repo. Browse the tree below.
+To show what `.marshal/knowledge/` looks like once the `marshal-knowledge-curator` subagent has run in `init` mode (via `marshal-delegate-to-knowledge-init` or its fallback `marshal-knowledge-init`) on a real-but-small repo.
+Browse the tree below.
 
-It also shows the **repo-specific extensions** and **override** a repo
-accumulates over time:
+It also shows the **repo-specific extensions** and **override** a repo accumulates over time:
 
-- [.marshal/extensions/rules/mx-snippets-error-shape.md](.marshal/extensions/rules/mx-snippets-error-shape.md)
-  — a rule promoted by `marshal-learner` during the Learn stage.
-- [.marshal/extensions/skills/mx-add-snippet-endpoint/SKILL.md](.marshal/extensions/skills/mx-add-snippet-endpoint/SKILL.md)
-  — a repo-specific playbook skill drafted from recurring learnings.
-- [.marshal/marshal-override.md](.marshal/marshal-override.md) — an example
-  filled-in override (this file is empty in a fresh install).
+- [.marshal/extensions/rules/mx-snippets-error-shape.md](.marshal/extensions/rules/mx-snippets-error-shape.md) — a rule promoted by `marshal-learner` during the Learn stage.
+- [.marshal/extensions/skills/mx-add-snippet-endpoint/SKILL.md](.marshal/extensions/skills/mx-add-snippet-endpoint/SKILL.md) — a repo-specific playbook skill drafted from recurring learnings.
+- [.marshal/marshal-override.md](.marshal/marshal-override.md) — an example filled-in override (this file is empty in a fresh install).
 
-Extensions are always `mx-`-prefixed at creation and live outside the
-built-in `marshal-*` assets, so they survive MARSHAL upgrades.
+Extensions are always `mx-`-prefixed at creation and live outside the built-in `marshal-*` assets, so they survive MARSHAL upgrades.
 
 ## Knowledge tree
 
