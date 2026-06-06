@@ -44,9 +44,9 @@ Load tier: **standard** (see [activation-protocol](../references/activation-prot
 6. **Explicitly exclude** irrelevant areas, with one-line reasons, to avoid context pollution downstream.
 7. Produce `repo-recon.md` and the stale-knowledge list.
 8. **Mid-process knowledge capture** (see [ENTRYPOINT](../ENTRYPOINT.md) → *Mid-process knowledge capture*).
-   When `knowledge.capture_during_process` is true (default) and the analysis surfaced important, reusable knowledge, write a knowledge-shaped note into `knowledge/learn/inbox/` together with the stale-knowledge pointer list.
+   When `knowledge.capture_during_process` is true and the analysis surfaced important, reusable knowledge, write a knowledge-shaped note into `knowledge/learn/inbox/` together with the stale-knowledge pointer list.
    Then, per `knowledge.curator_invocation`: under `agent`, call [`marshal-knowledge-curator`](./marshal-knowledge-curator.md) yourself; under `driver` (default), report to the caller (driver or user) that the inbox was populated and let them run the curator.
-   When `knowledge.capture_during_process` is false, record the finding in `learning/phase-3.learning.md` instead (promoted only in the Learn stage).
+   When `knowledge.capture_during_process` is false (default), record the finding in `learning/phase-3.learning.md` instead (promoted only in the Learn stage).
 
 ## Outputs
 

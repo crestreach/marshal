@@ -45,8 +45,8 @@ Load tier: **standard** (see [activation-protocol](../references/activation-prot
 6. **Return** the research note.
    Do not modify **canonical** knowledge.
 7. **Mid-process knowledge capture** (see [ENTRYPOINT](../ENTRYPOINT.md) → *Mid-process knowledge capture*).
-   When `knowledge.capture_during_process` is true (default), also drop the note into `knowledge/learn/inbox/`; then per `knowledge.curator_invocation` either call [`marshal-knowledge-curator`](./marshal-knowledge-curator.md) yourself (`agent`) or report to the caller that the inbox was populated and let them run it (`driver`, default).
-   When `knowledge.capture_during_process` is false, do not touch the inbox — hand the note to the caller to file in the current phase's learnings file for promotion in the Learn stage.
+   When `knowledge.capture_during_process` is true, also drop the note into `knowledge/learn/inbox/`; then per `knowledge.curator_invocation` either call [`marshal-knowledge-curator`](./marshal-knowledge-curator.md) yourself (`agent`) or report to the caller that the inbox was populated and let them run it (`driver`, default).
+   When `knowledge.capture_during_process` is false (default), do not touch the inbox — hand the note to the caller to file in the current phase's learnings file for promotion in the Learn stage.
 
 ## Outputs
 
