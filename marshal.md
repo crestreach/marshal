@@ -1094,8 +1094,8 @@ Some agents (e.g. [`marshal-code-archaeologist`](marshal-files/agents/marshal-co
 Two [`.marshal/config.yml`](marshal-files/config.yml) settings govern what they do with it, and **every** agent that wants to augment knowledge follows the same rule:
 
 - `knowledge.capture_during_process`:
-  - **true**: write a knowledge-shaped note into `knowledge/learn/inbox/` (the archaeologist also attaches its stale-knowledge pointer list) so later stages can reuse it instead of rediscovering it.
-  - **false** (default): do **not** touch the knowledge inbox mid-process; record the finding in the current phase's learnings file (`learning/phase-N.learning.md`) instead, to be promoted only in the Learn stage.
+  - **true** (default): write a knowledge-shaped note into `knowledge/learn/inbox/` (the archaeologist also attaches its stale-knowledge pointer list) so later stages can reuse it instead of rediscovering it.
+  - **false**: do **not** touch the knowledge inbox mid-process; record the finding in the current phase's learnings file (`learning/phase-N.learning.md`) instead, to be promoted only in the Learn stage.
 - `knowledge.curator_invocation` (only relevant when a note was written to the inbox):
   - **agent**: the agent calls [`marshal-knowledge-curator`](marshal-files/agents/marshal-knowledge-curator.md) itself right after writing the note.
   - **driver** (default): the agent does **not** call the curator; it reports back to its caller (the driver, or the user when invoked directly) that it populated the inbox, and the caller runs the curator.

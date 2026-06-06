@@ -32,17 +32,17 @@ knowledge:
 
   # Controls whether knowledge is augmented *during* the process or only in
   # the Learn stage.
-  #   true: an agent that discovers important, reusable knowledge
+  #   true (default): an agent that discovers important, reusable knowledge
   #     mid-process (e.g. the code-archaeologist during analysis, or the
   #     researcher) writes a knowledge-shaped note into
   #     knowledge/learn/inbox/ so it can be reused across the following
   #     stages rather than rediscovered. What happens next is governed by
   #     curator_invocation above.
-  #   false (default): the agent does not touch the knowledge inbox
-  #     mid-process; instead it records the finding in that phase's
-  #     learnings file (learning/phase-N.learning.md), to be promoted only
-  #     in the Learn stage.
-  capture_during_process: false
+  #   false: the agent does not touch the knowledge inbox mid-process;
+  #     instead it records the finding in that phase's learnings file
+  #     (learning/phase-N.learning.md), to be promoted only in the Learn
+  #     stage.
+  capture_during_process: true
 
   # Advisory only. The rescan must still be triggered explicitly via
   # marshal-knowledge-maintain (mode: rescan). No hooks, no daemons.

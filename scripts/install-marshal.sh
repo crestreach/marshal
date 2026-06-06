@@ -90,7 +90,7 @@ MARSHAL_CONF_SCHEMA=(
   "knowledge|representation_ref|references/knowledge-markdown-spine.md|Active knowledge implementation; must satisfy contract_ref. Swap representations by pointing this at another implementation reference."
   "knowledge|autonomy|auto|auto = agents write knowledge without per-change approval and return a summary (default); review = every write produces a diff for human approval first."
   "knowledge|curator_invocation|driver|Who runs marshal-knowledge-curator after the knowledge inbox is populated: driver = the caller (driver or user) runs it (default); agent = the agent runs it itself."
-  "knowledge|capture_during_process|false|Whether knowledge is augmented during the process (true: notes go to knowledge/learn/inbox) or only in the Learn stage (false: findings go to the phase learnings file)."
+  "knowledge|capture_during_process|true|Whether knowledge is augmented during the process (true: notes go to knowledge/learn/inbox) or only in the Learn stage (false: findings go to the phase learnings file)."
   "knowledge|rescan_period_days|7|Advisory rescan cadence in days. The rescan is still triggered explicitly via marshal-knowledge-maintain (mode: rescan)."
   "knowledge|root_index_max_lines|150|Cap for the always-loaded root knowledge INDEX.md."
   "knowledge|subindex_max_lines|150|Cap for any sub-index file (folder index, topic sub-index, etc.)."
