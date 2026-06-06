@@ -1,7 +1,7 @@
 ---
 description: Markdown authoring conventions for docs and rule files.
 applies-to: "**/*.md,**/*.mdc,**/*.mdx"
-always-apply: false
+always-apply: true
 ---
 
 # Markdown style
