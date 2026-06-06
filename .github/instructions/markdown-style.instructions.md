@@ -1,5 +1,5 @@
 ---
-applyTo: "**/*.md,**/*.mdc,**/*.mdx"
+applyTo: "**"
 ---
 
 
