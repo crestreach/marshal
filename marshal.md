@@ -10,7 +10,7 @@ It covers the full loop: framing a change, narrowing repo analysis, shaping an e
 AI-assisted development can fail in a few predictable ways:
 - broad repo search creates context pollution
 - implementation starts before the change is framed correctly
-- the plan drifts away from the code
+- the plan and the code drift apart — as work proceeds the plan stops reflecting what was actually built, so it can no longer be trusted to guide the next step
 - review feedback is handled ad hoc and never reflected back into the plan
 - learnings are either lost or overfit to one case
 
@@ -30,8 +30,8 @@ Its purpose is to make this common-sense process easier to follow stage by stage
 ## Core principles
 
 - One canonical flow: every phase produces explicit artifacts (durable context) that feed the next phase.
-- Keep the plan as the source of truth.
-  Agent “plan mode” is only a helper, never the canonical plan.
+- Keep the plan as the single source of truth.
+  `delivery-plan.md` is the canonical plan; an agent tool's built-in “plan mode” is only a scratchpad for shaping it, not a replacement for it.
 - Default to small, reviewable slices; use larger PRs only at integration boundaries.
 - Replanning is mandatory whenever assumptions change, but only at the affected level.
 - Every phase emits:
@@ -83,20 +83,20 @@ This process adapts several established ideas into one practical operating model
 - **Shape Up**:
   - shaping before building
   - bounded scopes/slices
-  - explicit tradeoffs around what belongs in a delivery slice
+  - deliberate scope decisions — explicitly choosing what is in and out of scope for each slice
 
 - **lightweight ADR / RFC practice**:
   - only write decision records for decisions that matter
   - keep them concise and close to the code
 
-- **trunk-based and small-batch delivery**:
-  - integrate frequently
+- **small-batch delivery — feedback-loop scope, merge boundaries, and PRs**:
+  - keep the feedback loop short enough to stay in control and catch drift from the intended outcome early
   - keep merge boundaries meaningful
   - do not over-fragment review into tiny PRs
 
 - **testing strategy biased toward confidence**:
   - use unit tests where logic density is high
-  - use integration tests where behavior confidence matters most
+  - use integration tests where confidence that components work together matters most
   - add E2E only where the risk justifies it
 
 - **blameless learning/postmortem culture**:
@@ -105,7 +105,7 @@ This process adapts several established ideas into one practical operating model
 
 - **modern agent workflow guidance**:
   - keep one canonical process
-  - use planning features as helpers, not as the source of truth
+  - use an agent tool's built-in planning features to help shape the plan, but keep `delivery-plan.md` as the source of truth
   - parallelize only when decomposition is real and safe
 
 
@@ -405,7 +405,7 @@ For trivial changes; or when the specification already contains scope, acceptanc
 
 ### What happens here
 For a feature:
-- define the user/problem outcome
+- define the problem being solved and the outcome the change should deliver for the user
 - define scope and non-goals
 - define acceptance criteria
 - define technical/operational constraints
@@ -426,7 +426,7 @@ For a bugfix:
 
 ### Artifacts produced
 - `change-brief.md`: For a feature:
-    - problem / user outcome
+    - problem and target user outcome
     - scope / non-goals
     - acceptance criteria
     - constraints
@@ -458,7 +458,7 @@ Knowledge from `.marshal/knowledge/` may also make a separate recon redundant fo
 
 
 ### What happens here
-- identify likely bounded context / subsystem
+- identify the likely subsystem / domain
 - identify likely files / classes / services / tables / APIs
 - capture invariants and contracts
 - locate existing tests and test seams
@@ -473,7 +473,7 @@ Knowledge from `.marshal/knowledge/` may also make a separate recon redundant fo
 
 ### Artifacts produced
 - `repo-recon.md` Include:
-    - likely bounded context / subsystem
+    - likely subsystem / domain
     - likely files / classes / services / tables / APIs
     - invariants and contracts
     - existing tests and test seams
@@ -907,7 +907,7 @@ Skip whenever there is nothing to migrate, toggle, document for users, or roll b
 
 ### Goal
 Promote generalized learnings into durable system guidance.
-The user should approve the final update before merging the final update lists to individual buckets.
+Each bucket is applied per its autonomy setting (see Buckets); under `review` the user approves the diff before it is merged.
 
 ### When to skip
 When no phase produced a learning file worth promoting (small or routine changes).
@@ -919,8 +919,8 @@ Skipping Learn does **not** delete the per-phase learning files; they remain ava
 
 ### Promotion targets
 - `AGENTS.md`
-- custom skill files
-- rules / conventions docs
+- skill / subagent extensions
+- rule extensions / conventions docs
 - reusable prompts
 - checklists
 - test templates
@@ -937,18 +937,15 @@ Skipping Learn does **not** delete the per-phase learning files; they remain ava
 - `learning-rollup.md` Merge and deduplicate, filter only high-value general learnings.
 
 #### Buckets
-- AGENTS updates
-- README updates
-- rules updates
-  - coding standard updates
-  - test strategy updates
-  - repo navigation heuristics
-- skill file updates, including review/plan convention updates
+- **AGENTS updates** — a snippet to merge into the host repo's `AGENTS.md`.
+- **README updates.**
+- **rule / skill / subagent extensions** — new or revised `mx-`-prefixed assets under `.marshal/extensions/{rules,skills,agents}/`.
+  Coding-standard, test-strategy, repo-navigation, and review/plan conventions land here as rules or skills.
+- **knowledge updates** — durable repo facts (logic, architecture, decisions / ADRs) dropped into `.marshal/knowledge/learn/inbox/` and promoted into canonical knowledge by [`marshal-knowledge-curator`](marshal-files/agents/marshal-knowledge-curator.md) mode `from-learning`.
+- **reusable prompts / checklists / test templates / architecture guidance** — filed under the matching bucket above, or under knowledge when that fits better.
 
-//TODO each lifecycle stage should be validated by the user, discussed if necessary, only then we can proceed to the next phase — that selection should be recorded in the plan (the "scope" line set during stage 5).
-
----
-
+The non-knowledge buckets are applied per `extensions.autonomy` (default `review`); the knowledge bucket is applied per `knowledge.autonomy`.
+See [`marshal-learner`](marshal-files/agents/marshal-learner.md) for the bucketing workflow.
 
 ---
 
@@ -1046,26 +1043,20 @@ Knowledge complements the per-change artifact chain: the artifact chain captures
 Key points:
 
 - **Two trees.**
-  The `.marshal/` config-sync source ships marshal-* agents/skills/rules and gets fanned out to tool layouts.
-  The `.marshal/knowledge/` tree is **not synced** — agents read it directly through [`.marshal/ENTRYPOINT.md`](marshal-files/ENTRYPOINT.md).
+  The `.marshal/` config-sync source ships `marshal-*` agents / skills / rules and is fanned out to tool layouts.
+  The `.marshal/knowledge/` tree is **excluded from that fan-out** — it is read in place, starting from [`.marshal/ENTRYPOINT.md`](marshal-files/ENTRYPOINT.md).
 - **Exchangeable representation.**
   [`.marshal/config.yml`](marshal-files/config.yml) names the general `knowledge.contract_ref` and the active `knowledge.representation_ref`.
   The contract lives at [`references/knowledge-contract.md`](marshal-files/references/knowledge-contract.md).
   The default implementation is **MARSHAL Markdown Spine**, defined in [`references/knowledge-markdown-spine.md`](marshal-files/references/knowledge-markdown-spine.md).
-  Skills follow the configured implementation instead of hard-coding the default markdown tree.
-- **Progressive disclosure, recursive.**
-  Always-loaded root [`INDEX.md`](marshal-files/knowledge/INDEX.md) (capped at `knowledge.root_index_max_lines`) → per-folder indexes → topic files.
-  Topics may themselves split into a sub-index plus subtopics, recursively, with no fixed depth.
-- **Configurable size limits.**
-  [`config.yml`](marshal-files/config.yml) defines `knowledge.topic_max_lines` (default 400) and `knowledge.subindex_max_lines` (default 150).
-  When a topic exceeds its cap, `marshal-knowledge-curator` (mode `from-changes` or `rescan`) proposes a split: convert the topic into a folder with a sub-index and subtopic files.
-  The split dimension (by component, by concern, by time, by feature, etc.) is chosen for each topic; reviewers may re-split along a different dimension during a knowledge review.
-- **Default metadata implementation.**
-  In MARSHAL Markdown Spine, every knowledge file has `id`, `kind`, `summary`, `repo_paths`, `importance`, `confidence`, `updated`, `verified_against_commit`.
-  See [`references/knowledge-markdown-spine.md`](marshal-files/references/knowledge-markdown-spine.md).
+  Agents follow the configured implementation instead of hard-coding a layout.
+- **Hierarchical and progressively disclosed.**
+  Knowledge is a recursive tree: an always-loaded root index, then deeper indexes and topic files pulled in only as a task needs them, with no fixed depth.
+  How knowledge is grouped at each level (the split dimension) is chosen for what helps agents most and may be revised over time.
+  The exact layout, metadata, size caps, and split / merge mechanics are defined by the active implementation — see [`references/knowledge-markdown-spine.md`](marshal-files/references/knowledge-markdown-spine.md).
 - **Staleness without hooks.**
-  `verified_against_commit` + `updated` are stamped explicitly.
-  The maintenance skill diffs HEAD against the recorded SHA on demand.
+  Each file records when, and against which commit, it was last verified; the maintenance step compares that against HEAD on demand (no git hooks).
+  The active implementation defines the exact markers.
 - **Approval.**
   [`.marshal/config.yml`](marshal-files/config.yml) controls autonomy (`auto` default; `review` opt-in).
   Under `auto`, knowledge writes are applied without per-change approval and a summary of what changed is returned; under `review` every write produces a full diff for human approval first.
@@ -1075,7 +1066,7 @@ Key points:
   Stage 8 (Learn) feeds promotable items into knowledge via mode `from-learning`.
   Larger reconciliation is handled by modes `branch-merge` and `rebuild`.
 
-Full design rationale: [`.marshal/design/knowledge-design.md`](marshal-files/design/knowledge-design.md).
+Full contract and design rationale: [`references/knowledge-contract.md`](marshal-files/references/knowledge-contract.md); the default implementation: [`references/knowledge-markdown-spine.md`](marshal-files/references/knowledge-markdown-spine.md).
 A worked example tree lives under [`examples/snippets-api/`](examples/snippets-api/).
 
 ### Knowledge write discipline
@@ -1138,7 +1129,10 @@ MARSHAL agents may create or update any of these assets in two situations:
   Newly drafted executable assets land under [`.marshal/extensions/{skills,agents,rules}/`](marshal-files/extensions/) with the `mx-` prefix at creation; the built-in `.marshal/{skills,skills-fallback,agents,rules}/` folders are owned by MARSHAL itself and are not edited from learnings.
 - **On request.**
   The user can ask the agent at any time to produce a skill / subagent / rule / guideline for a recurring task.
-  The agent drafts it under [`.marshal/extensions/`](marshal-files/extensions/) (with the `mx-` prefix) and surfaces a diff for approval (per the autonomy setting in `.marshal/config.yml`).
+  The agent drafts it under [`.marshal/extensions/`](marshal-files/extensions/) (with the `mx-` prefix).
+
+Both paths are governed by `extensions.autonomy` in [`.marshal/config.yml`](marshal-files/config.yml): under `review` (default) the agent surfaces a diff for approval before applying; under `auto` it applies the change and returns a summary.
+This is the gate for extension / guidance assets (rules, skills, subagents, `AGENTS.md` / `README` updates) — distinct from `knowledge.autonomy`, which governs knowledge writes.
 
 Generated rules use the generic frontmatter understood by the sync tool (see below): `description`, `applies-to` (comma-separated globs), `always-apply` (boolean).
 

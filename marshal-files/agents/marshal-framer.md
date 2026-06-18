@@ -34,7 +34,7 @@ Load tier: **minimal** (see [activation-protocol](../references/activation-proto
 
 1. Read the specification end-to-end.
 2. Translate it into the change-brief structure:
-   - For a feature: problem / user outcome, scope, non-goals, acceptance criteria, constraints, rollout expectations.
+   - For a feature: problem and target user outcome, scope, non-goals, acceptance criteria, constraints, rollout expectations.
    - For a bugfix: repro steps, expected vs actual, impact / severity, evidence, suspected area if known.
 3. Mark items inherited from `specification.md`'s acceptance checklist verbatim.
 4. Carry forward open questions / accepted unknowns from the specification.
