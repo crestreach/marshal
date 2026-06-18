@@ -37,7 +37,7 @@ MARSHAL counters each of these with a single canonical flow: focused code analys
 
 ```
 Specification → Intake → Analysis → Architecture → Plan
-  → Implementation round (Implement → Verify → PR) → Rollout → Learn
+  → Implementation round (Implement → Verify → Review/PR) → Rollout → Learn
 ```
 
 | Stage | Purpose | Artifact | Required? |
@@ -47,12 +47,13 @@ Specification → Intake → Analysis → Architecture → Plan
 | 3. Analysis | Targeted recon of the affected code | `repo-recon.md` | optional |
 | 4. Architecture | Shape the solution when it is not obvious | `architecture-notes.md` | optional |
 | 5. Plan | The canonical plan for the change | `delivery-plan.md` | **mandatory** |
-| 6. Implementation round | Implement → Verify → PR, once or per phase | code, `verification-report.md`, PR | per change |
+| 6. Implementation round | Implement → Verify → Review/PR, once or per phase | code, `verification-report.md`, PR | per change |
 | 7. Rollout | Release / migration notes | `rollout-note.md` | optional |
 | 8. Learn | Promote generalizable lessons | `learning-rollup.md`, knowledge updates | optional |
 
 Only **Plan** is mandatory; every other stage is skipped when it would not add value.
 The chosen scope is agreed up front and recorded at the top of `delivery-plan.md`.
+A PR may target the final branch directly or an **integration branch**; in the latter case a final round (Implement → Verify → Review/PR) promotes the integration branch to the release / main branch and reviews the change as a whole.
 The whole per-change **artifact chain** lives in a working folder under `.marshal/work/<change-id>/` (transient, gitignored, archived on finalize); see [`marshal.md`](./marshal.md) for its structure and the resume contract.
 
 ## Knowledge

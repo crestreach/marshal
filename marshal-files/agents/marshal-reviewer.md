@@ -1,11 +1,11 @@
 ---
 name: marshal-reviewer
-description: MARSHAL PR review and integration stage. Composes the PR description from `delivery-plan.md` and `verification-report.md`, runs AI-side review against the plan and the knowledge layer, and handles review-driven fixups by updating the plan before any silent edits. Produces structured review comments and a recommendation.
+description: MARSHAL Review / PR / integration / merge stage. Composes the PR description from `delivery-plan.md` and `verification-report.md`, runs AI-side review against the plan and the knowledge layer, and handles review-driven fixups by updating the plan before any silent edits. Produces structured review comments and a recommendation. Supports PRs that target an integration branch, with a final promotion round (Implement -> Verify -> Review / PR) that merges the integration branch into the release / main branch and reviews the change as a whole.
 ---
 
 # marshal-reviewer
 
-MARSHAL PR stage — see [marshal.md](../../marshal.md).
+MARSHAL Review / PR / integration / merge stage — see [marshal.md](../../marshal.md).
 Optional; skip for non-shared work or trunk-direct workflows.
 The Verify rule still applies before any code is shared.
 
@@ -40,7 +40,7 @@ Load tier: **standard** (see [activation-protocol](../references/activation-prot
 
 ## Workflow
 
-1. Confirm the PR boundary matches the plan (whole change / phase / slice / multi-phase / occasional packet group).
+1. Confirm the PR boundary matches the plan (whole change / phase / slice / multi-phase / occasional packet group) and note the **target branch** — the final branch (`main` / release) or an **integration branch** (see *Integration branches*).
 2. Walk packets in the plan; map each to PR file changes.
 3. Read the knowledge contract and active implementation.
 4. For each changed area, pull the matching knowledge file(s) by `repo_paths` and check claims.
@@ -54,6 +54,17 @@ Load tier: **standard** (see [activation-protocol](../references/activation-prot
    - Isolatable correction → create a new sibling packet `Wxa. Review fixups [ADDED yyyy-mm-dd]`.
 10. Append rationale to the affected `logs/phase-N.changelog.md`.
 11. Loop back through the Implement stage and the Verify stage for any updated packets before re-requesting review.
+
+## Integration branches
+
+A PR may target the final branch (`main` / a release branch) directly, or an **integration branch** that collects several phases / slices first.
+When an integration branch is used, the change finishes with **one more implementation round** that promotes the integration branch to its final target:
+
+- **Implement** ([`marshal-implementer`](./marshal-implementer.md)) — apply any final code improvements, then merge or rebase the integration branch onto the target branch and resolve merge conflicts.
+- **Verify** ([`marshal-verifier`](./marshal-verifier.md)) — run verification across the **whole** integrated scope, not just the latest slice.
+- **Review / PR** (this agent) — a final PR that reviews the change as a whole before it merges into the final branch.
+
+This final round obeys the same Verify-before-merge rule as every other round; this agent still does not merge (see *Out of scope*).
 
 ## Outputs
 

@@ -260,7 +260,7 @@ Two cycle scales exist inside the lifecycle — the big one groups three high-le
 
 ### Implementation round (big)
 
-Stages 6a Implement, 6b Verify, and 6c PR / merge are still three separate high-level stages, but they run together as one **implementation round**.
+Stages 6a Implement, 6b Verify, and 6c Review / PR / merge are still three separate high-level stages, but they run together as one **implementation round**.
 A round can run:
 - **once** for the whole change — one Implement, one Verify, one PR at the end
 - **per phase / slice** — each phase is implemented, verified, and merged before the next begins
@@ -272,7 +272,7 @@ Verification is never skipped before merge.
 ```mermaid
 flowchart LR
     I[Implement] --> V[Verify]
-    V --> P[PR / merge]
+    V --> P[Review / PR / merge]
     P -. next round .-> I
 ```
 
@@ -312,7 +312,7 @@ flowchart LR
     subgraph R5["6. Implementation round"]
         direction LR
         I[Implement] --> V[Verify]
-        V --> P[PR / merge]
+        V --> P[Review / PR / merge]
     end
     D --> R5
     R5 -. next round .-> R5
@@ -320,7 +320,7 @@ flowchart LR
     Ro --> L["8. Learn<br/>(optional)"]
 ```
 
-Stages **6a Implement**, **6b Verify**, and **6c PR / merge** together form one **implementation round** (see the Concept model).
+Stages **6a Implement**, **6b Verify**, and **6c Review / PR / merge** together form one **implementation round** (see the Concept model).
 The dotted self-loop shows that the round may repeat — once for the whole change, or per phase/slice.
 
 ### Stage optionality
@@ -646,9 +646,9 @@ Replanning mechanics:
 
 ---
 
-## 6. Implementation round: Implement, Verify, PR
+## 6. Implementation round: Implement, Verify, Review / PR
 
-Three high-level stages — **Implement**, **Verify**, and **PR / integration / merge** — run together as one **implementation round**.
+Three high-level stages — **Implement**, **Verify**, and **Review / PR / integration / merge** — run together as one **implementation round**.
 They remain distinct stages, but are bundled here because they always flow together and may repeat for parts of the plan (once for the whole change, or per phase / slice).
 
 Rule: **every PR must be preceded by a Verify stage for its content**.
@@ -657,12 +657,12 @@ Verification is never skipped before merge.
 ```mermaid
 flowchart LR
     I[6a. Implement] --> V[6b. Verify]
-    V --> P[6c. PR / merge]
+    V --> P[6c. Review / PR / merge]
     P -. next round .-> I
 ```
 
 Inside the Implement stage, work runs in smaller **implementation cycles** (see below).
-PR grouping defaults are in the PR subsection.
+PR grouping defaults are in the Review / PR subsection.
 
 ---
 
@@ -697,7 +697,7 @@ flowchart LR
     C -. next cycle .-> T
 ```
 
-Implementation cycles are nested inside the **implementation round** (Implement → Verify → PR).
+Implementation cycles are nested inside the **implementation round** (Implement → Verify → Review / PR).
 See the Concept model.
 
 #### Testing strategy
@@ -840,10 +840,10 @@ The outcome is part of the acceptance criteria check.
 
 ---
 
-### 6c. PR / integration / merge
+### 6c. Review / PR / integration / merge
 
 #### Goal
-Use PRs only at meaningful integration boundaries.
+Review the change and open PRs only at meaningful integration boundaries.
 
 #### When to skip
 For work that is not committed to a shared branch (local experiments, scratch work) or for trunk-direct workflows where the merge boundary is implicit.
@@ -865,6 +865,16 @@ The Verify rule still applies before any code is shared with others.
 - rollout note
 - known limitations
 - follow-up packets if any
+
+#### Targeting an integration branch
+A PR may target the final branch (e.g. `main` or a release branch) directly, or an **integration branch** that collects several phases / slices before they reach the final branch.
+
+When an integration branch is used, the change finishes with **one more implementation round** — Implement → Verify → Review / PR — that promotes the integration branch to its final target:
+- **Implement** — apply any final code improvements, then merge or rebase the integration branch onto the target branch and resolve any merge conflicts.
+- **Verify** — run verification across the **whole** integrated scope, not just the latest slice.
+- **Review / PR** — a final PR that reviews the change as a whole before it merges into the final branch.
+
+This final round follows the same Verify-before-merge rule as every other round.
 
 #### If PR review requests changes
 - changes must be reflected back into `delivery-plan.md`
@@ -976,7 +986,7 @@ Stage skills:
 | 5. Plan | [`marshal-planner`](marshal-files/agents/marshal-planner.md) | [`marshal-delegate-to-plan`](marshal-files/skills/marshal-delegate-to-plan/SKILL.md) | [`marshal-plan`](marshal-files/skills-fallback/marshal-plan/SKILL.md) | `delivery-plan.md` | **mandatory** |
 | 6a. Implement | [`marshal-implementer`](marshal-files/agents/marshal-implementer.md) | [`marshal-delegate-to-implement`](marshal-files/skills/marshal-delegate-to-implement/SKILL.md) | [`marshal-implement`](marshal-files/skills-fallback/marshal-implement/SKILL.md) | code + phase logs | mandatory when there is code to write |
 | 6b. Verify | [`marshal-verifier`](marshal-files/agents/marshal-verifier.md) | [`marshal-delegate-to-verify`](marshal-files/skills/marshal-delegate-to-verify/SKILL.md) | [`marshal-verify`](marshal-files/skills-fallback/marshal-verify/SKILL.md) | `verification-report.md` | mandatory before any PR; may be folded into the changelog for trivial changes |
-| 6c. PR | [`marshal-reviewer`](marshal-files/agents/marshal-reviewer.md) | [`marshal-delegate-to-pr`](marshal-files/skills/marshal-delegate-to-pr/SKILL.md) | [`marshal-pr`](marshal-files/skills-fallback/marshal-pr/SKILL.md) | PR description | optional (skip for non-shared work) |
+| 6c. Review / PR | [`marshal-reviewer`](marshal-files/agents/marshal-reviewer.md) | [`marshal-delegate-to-pr`](marshal-files/skills/marshal-delegate-to-pr/SKILL.md) | [`marshal-pr`](marshal-files/skills-fallback/marshal-pr/SKILL.md) | PR description | optional (skip for non-shared work) |
 | 7. Rollout | [`marshal-releaser`](marshal-files/agents/marshal-releaser.md) | [`marshal-delegate-to-rollout`](marshal-files/skills/marshal-delegate-to-rollout/SKILL.md) | [`marshal-rollout`](marshal-files/skills-fallback/marshal-rollout/SKILL.md) | `rollout-note.md` | optional |
 | 8. Learn | [`marshal-learner`](marshal-files/agents/marshal-learner.md) | [`marshal-delegate-to-learn`](marshal-files/skills/marshal-delegate-to-learn/SKILL.md) | [`marshal-learn`](marshal-files/skills-fallback/marshal-learn/SKILL.md) | `learning-rollup.md` | optional |
 

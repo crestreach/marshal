@@ -91,7 +91,7 @@ When a stage is skipped, the next in-scope stage receives only the artifacts the
 | Plan | [`marshal-planner`](./marshal-planner.md) | **mandatory** | `delivery-plan.md` | `marshal-implementer` | `delivery-plan.md` (+ upstream as ref) |
 | Implement | [`marshal-implementer`](./marshal-implementer.md) | required when there is code | code, plan updates, phase logs, `implementation-report.md` | `marshal-verifier` (per round) and `marshal-knowledge-curator` mode `from-changes` (per cycle) | diff + plan + changed paths |
 | Verify | [`marshal-verifier`](./marshal-verifier.md) | required before any PR | `verification-report.md` (or in-changelog paragraph) | `marshal-reviewer` (pass) or `marshal-implementer` (fail) | report + plan |
-| PR / Review | [`marshal-reviewer`](./marshal-reviewer.md) | optional | PR description + structured review | `marshal-releaser` (if Rollout in scope) or `marshal-learner` (if Learn in scope) | merged ref / fixup plan updates |
+| Review / PR | [`marshal-reviewer`](./marshal-reviewer.md) | optional | PR description + structured review | `marshal-releaser` (if Rollout in scope) or `marshal-learner` (if Learn in scope) | merged ref / fixup plan updates |
 | Rollout | [`marshal-releaser`](./marshal-releaser.md) | optional | `rollout-note.md` | `marshal-learner` | rollout note + phase learnings list |
 | Learn | [`marshal-learner`](./marshal-learner.md) | optional | `learning-rollup.md`, knowledge inbox; may also generate skills/agents/rules under `.marshal/` | `marshal-knowledge-curator` mode `from-learning` | inbox paths |
 

@@ -14,7 +14,7 @@ Default: [references/knowledge-markdown-spine.md](references/knowledge-markdown-
 
 ## What MARSHAL is (one paragraph)
 
-MARSHAL is an AI-assisted SDLC. It moves a change through explicit stages (Specification → Intake → Analysis → optional Architecture → Plan → Implementation round[Implement → Verify → PR] → Rollout → Learn).
+MARSHAL is an AI-assisted SDLC. It moves a change through explicit stages (Specification → Intake → Analysis → optional Architecture → Plan → Implementation round[Implement → Verify → Review / PR] → Rollout → Learn).
 Only **the Plan stage** is mandatory — every other stage is optional and may be skipped when it would not add value (skip more for trivial changes, fewer for risky ones).
 Each run’s scope is recorded at the top of `delivery-plan.md`.
 Each stage that is run produces durable artifacts that feed the next.
@@ -45,7 +45,7 @@ The Plan stage is the only mandatory stage; all others are optional unless noted
 | Plan | `marshal-planner` | `marshal-delegate-to-plan` | `marshal-plan` | `delivery-plan.md` | **mandatory** |
 | Implement | `marshal-implementer` | `marshal-delegate-to-implement` | `marshal-implement` | code + `logs/phase-N.changelog.md` | required when there is code to write |
 | Verify | `marshal-verifier` | `marshal-delegate-to-verify` | `marshal-verify` | `verification-report.md` | required before any PR |
-| PR | `marshal-reviewer` | `marshal-delegate-to-pr` | `marshal-pr` | PR description | optional (skip for non-shared work) |
+| Review / PR | `marshal-reviewer` | `marshal-delegate-to-pr` | `marshal-pr` | PR description | optional (skip for non-shared work) |
 | Rollout | `marshal-releaser` | `marshal-delegate-to-rollout` | `marshal-rollout` | `rollout-note.md` | optional |
 | Learn | `marshal-learner` | `marshal-delegate-to-learn` | `marshal-learn` | `learning-rollup.md` | optional |
 

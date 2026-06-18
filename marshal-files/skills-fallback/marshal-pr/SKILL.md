@@ -1,6 +1,6 @@
 ---
 name: marshal-pr
-description: MARSHAL PR / integration stage. Fallback skill for environments without subagent support. Triggers on "open the PR", "compose the PR description", "do an AI review of this PR", "self-review", "review against delivery-plan.md and verification-report.md", "process review feedback as [FIXUP] / [CHANGED] / [ADDED] plan updates". Runs PR composition + AI self-review inline in the current session.
+description: MARSHAL Review / PR / integration / merge stage. Fallback skill for environments without subagent support. Triggers on "open the PR", "compose the PR description", "do an AI review of this PR", "self-review", "review against delivery-plan.md and verification-report.md", "process review feedback as [FIXUP] / [CHANGED] / [ADDED] plan updates", "promote the integration branch to main / release", "final review of the whole change". Supports PRs that target an integration branch, with a final promotion round into the release / main branch. Runs PR composition + AI self-review inline in the current session.
 ---
 
 # marshal-pr (fallback — no-subagent environments)
