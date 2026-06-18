@@ -102,8 +102,8 @@ The script installs the assets and runs the cyncia sync; wiring MARSHAL's durabl
 ## Repository layout
 
 - [`marshal.md`](./marshal.md) — the process specification (source of truth).
-- [`marshal-files/`](./marshal-files) — MARSHAL durable assets for *this* product repo (entrypoint, `config.yml`, knowledge, skills, agents, rules, references).
-  A consumer repo sees these as `.marshal/`.
+- [`marshal-files/`](./marshal-files) — MARSHAL durable assets for *this* product repo (entrypoint, `LICENSE`, `config.yml`, knowledge, skills, agents, rules, references).
+  A consumer repo sees these as `.marshal/`, so the installed tree carries its own MIT license.
 - [`marshal-files/marshal-override.md`](./marshal-files/marshal-override.md) — optional, repo-specific overrides on top of `marshal.md` (empty by default).
 - [`scripts/install-marshal.sh`](./scripts/install-marshal.sh) — the installer.
 - [`examples/`](./examples) — worked examples of MARSHAL installed in a repo (see [`examples/snippets-api/`](./examples/snippets-api/) for a filled-in knowledge tree, an ADR, and repo-specific extensions).
