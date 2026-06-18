@@ -95,6 +95,7 @@ MARSHAL_CONF_SCHEMA=(
   "knowledge|root_index_max_lines|150|Cap for the always-loaded root knowledge INDEX.md."
   "knowledge|subindex_max_lines|150|Cap for any sub-index file (folder index, topic sub-index, etc.)."
   "knowledge|topic_max_lines|400|Soft cap for an individual topic file; exceeding it makes the curator propose splitting the topic into a folder with a sub-index plus subtopics."
+  "extensions|autonomy|review|Approval mode for MARSHAL extension and guidance assets created or updated outside the knowledge layer (mx-* rules/skills/subagents under .marshal/extensions/, plus Learn-stage AGENTS.md / README updates). review = every create or update produces a diff for human approval first (default); auto = the agent applies it directly and returns a summary. Knowledge writes are governed separately by knowledge.autonomy."
   "sync|agent_config_dir|.agent-config|Config-sync source tree that cyncia consumes. marshal-promote-assets writes promoted assets here."
   "sync|skill_flavor|delegate|Which built-in skill flavor marshal-promote-assets promotes: delegate (thin subagent wrappers; default) or fallback (full inline skills)."
 )
@@ -268,7 +269,7 @@ mkdir -p "$MARSHAL_DIR"
 # config.yml and marshal-override.md are handled specially below (never
 # clobbered on update).
 for item in AGENTS.md ENTRYPOINT.md \
-            skills skills-fallback agents rules extensions references design; do
+            skills skills-fallback agents rules extensions references; do
   if [ -e "$SRC/$item" ]; then
     rm -rf "${MARSHAL_DIR:?}/$item"
     cp -R "$SRC/$item" "$MARSHAL_DIR/$item"

@@ -37,5 +37,5 @@ Then `agent-conf-sync` fans `.agent-config/` out to tool-native layouts.
 ## Authoring
 
 The usual author is `marshal-learner` (Learn stage).
-It drafts new extensions from accumulated phase learnings and asks for human approval per item.
+It drafts new extensions from accumulated phase learnings, applying them per `extensions.autonomy` in `.marshal/config.yml` (default `review`: a diff for approval per item; `auto`: applied with a summary).
 You may also hand-author files here; just keep the `mx-` prefix and the cyncia-compatible frontmatter format.

@@ -61,6 +61,20 @@ knowledge:
   # and may be revised during a knowledge review.
   topic_max_lines: 400
 
+# Approval mode for MARSHAL extension and guidance assets that agents
+# create or update *outside* the knowledge layer: repo-specific rules,
+# skills, and subagents under .marshal/extensions/ (mx-* prefix), plus the
+# updates the Learn stage proposes to AGENTS.md / README. Applies both to
+# marshal-learner (Learn stage) and to on-request authoring of such assets.
+# Knowledge writes are governed separately by knowledge.autonomy above.
+extensions:
+  #   review = every create / update produces a diff for human approval
+  #            before it is applied (default). These assets change agent
+  #            behavior and are touched rarely, so a human vets them first.
+  #   auto   = the agent applies the change directly and returns a summary
+  #            of what it created or updated.
+  autonomy: review
+
 # Config-sync (cyncia) integration. Used by marshal-promote-assets.
 sync:
   # Config-sync source tree that cyncia consumes. Built-in and extension

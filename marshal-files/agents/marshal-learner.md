@@ -1,6 +1,6 @@
 ---
 name: marshal-learner
-description: MARSHAL Learn stage. Merges per-phase learning files into `learning-rollup.md`, then promotes durable items into AGENTS.md, README, and — under `.marshal/extensions/{rules,skills,agents}/` with the `mx-` prefix — repo-specific rules / skills / subagents drafted from the learnings. Knowledge promotion goes through `marshal-knowledge-curator` mode `from-learning`. Per-bucket human approval in `review` mode; applied directly with a summary in `auto`.
+description: MARSHAL Learn stage. Merges per-phase learning files into `learning-rollup.md`, then promotes durable items into AGENTS.md, README, and — under `.marshal/extensions/{rules,skills,agents}/` with the `mx-` prefix — repo-specific rules / skills / subagents drafted from the learnings. Knowledge promotion goes through `marshal-knowledge-curator` mode `from-learning`. Non-knowledge buckets follow `extensions.autonomy` (default `review`: a per-bucket diff for approval; `auto`: applied with a summary); knowledge promotion follows `knowledge.autonomy`.
 ---
 
 # marshal-learner
@@ -60,7 +60,8 @@ Load tier: **standard** (see [activation-protocol](../references/activation-prot
 
    The prefix makes repo-specific extensions immediately distinguishable from MARSHAL's built-in `marshal-*` lifecycle assets, and survives promotion to `.agent-config/` unchanged (no double-prefix).
 4. For each non-knowledge bucket, prepare the change against the target file or area.
-   Honor `.marshal/config.yml` `knowledge.autonomy`: under `review`, propose a diff per bucket and get human approval before applying; under `auto` (default), apply directly and return a per-bucket summary.
+   Honor `.marshal/config.yml` `extensions.autonomy`: under `review` (default), propose a diff per bucket and get human approval before applying; under `auto`, apply directly and return a per-bucket summary.
+   (The knowledge bucket in step 5 follows `knowledge.autonomy` instead, via the curator.)
    New files are written in the cyncia-compatible format (frontmatter + body) so they can be fanned out to tool-native layouts.
 5. For the **knowledge** bucket, drop items into [`.marshal/knowledge/learn/inbox/`](../knowledge/learn/inbox/) as structured fragments (one file per item or a single batch file with sections), then hand off to [`marshal-knowledge-curator`](./marshal-knowledge-curator.md) mode `from-learning` for promotion into canonical knowledge.
 6. **Note about promotion to tool layouts.**
