@@ -13,7 +13,7 @@ The full specification is [`marshal.md`](./marshal.md); this README is the short
 
 ## Why it exists
 
-AI can write code quickly, but unguided AI-assisted work fails in predictable ways: it pollutes its own context with broad searches, starts coding before the change is framed, produces plans that drift from the code, gives ad-hoc review feedback, and either loses its lessons or overfits them to a single case.
+AI can write code quickly, but unguided AI-assisted work fails in predictable ways: it pollutes its own context with broad searches, starts coding before the change is framed, lets the plan and the code drift apart until the plan no longer reflects what was built, gives ad-hoc review feedback, and either loses its lessons or overfits them to a single case.
 
 MARSHAL counters each of these with a single canonical flow: focused code analysis, structured planning, controlled execution, explicit verification, release discipline, and curated learning — all recorded as artifacts a human can inspect and approve.
 
@@ -109,11 +109,6 @@ The script installs the assets and runs the cyncia sync; wiring MARSHAL's durabl
 - [`.agent-config/`](./.agent-config) — generic source tree consumed by the [cyncia](https://github.com/crestreach/cyncia) sync under [`.cyncia/`](./.cyncia).
   Edit here, then re-run the sync to regenerate the per-tool layouts (`.cursor/`, `.claude/`, `.github/`, `.junie/`, `.vscode/`, root `AGENTS.md`, `CLAUDE.md`, `.mcp.json`).
 - [`AGENTS.md`](./AGENTS.md) — guidance for AI agents working in this repo (generated; authored under [`.agent-config/AGENTS.md`](./.agent-config/AGENTS.md)).
-
-## Status
-
-Early draft.
-The spec is being shaped; expect frequent changes.
 
 ## License
 
