@@ -268,7 +268,7 @@ mkdir -p "$MARSHAL_DIR"
 # knowledge tree and the per-change work tree are left untouched if present.
 # config.yml and marshal-override.md are handled specially below (never
 # clobbered on update).
-for item in AGENTS.md ENTRYPOINT.md \
+for item in AGENTS.md ENTRYPOINT.md LICENSE \
             skills skills-fallback agents rules extensions references; do
   if [ -e "$SRC/$item" ]; then
     rm -rf "${MARSHAL_DIR:?}/$item"
