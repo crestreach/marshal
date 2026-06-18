@@ -102,7 +102,7 @@ MARSHAL ships two parallel built-in skill flavors:
    Use `cp -R` (Unix) or `Copy-Item -Recurse -Force` (PowerShell).
    Overwrite existing files in the config-sync source — that directory is the sync source, not authored content.
 6. **Skip MARSHAL housekeeping files.**
-   Do not copy the MARSHAL source dir's own `AGENTS.md`, `ENTRYPOINT.md`, `config.yml`, `references/`, `design/`, `knowledge/`, or any `README.md` (including `extensions/README.md`).
+   Do not copy the MARSHAL source dir's own `AGENTS.md`, `ENTRYPOINT.md`, `config.yml`, `references/`, `knowledge/`, or any `README.md` (including `extensions/README.md`).
    Only the asset folders.
 7. **Filter by scope or glob (optional).**
    If the user named specific items ("just `marshal-plan`", "just the new extensions") or passed a scope flag (`built-ins-only`, `extensions-only`), narrow the copy plan accordingly.

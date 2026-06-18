@@ -7,6 +7,28 @@ It is also a body of **notes about the code** and a **map that helps narrow down
 The contract defines what any knowledge representation must provide.
 The active implementation is configured separately by `knowledge.representation_ref` in `.marshal/config.yml`.
 
+## Goals
+
+- Give agents a **reliable map of where to look next** without loading half the repo into context.
+- Separate **stable repo knowledge** (logic, architecture, conventions, invariants) from **process learnings** (the per-phase outputs of MARSHAL).
+- Make knowledge **diffable and reviewable** (text in git).
+- Allow knowledge to **evolve with the code** without git hooks or background daemons, via explicit dated stamps and an explicit maintenance step.
+- Keep the system **tool-agnostic** by keeping the knowledge body behind this exchangeable representation reference.
+
+## Two trees
+
+MARSHAL separates the config-sync sources from the knowledge tree:
+
+| Tree | Owner | Content | Fanned out to tool layouts? |
+|---|---|---|---|
+| `<user-config-source>/` (e.g. `.agent-config/`) | user / project | project-specific `agents/`, `skills/`, `rules/`, `mcp-servers/`, `AGENTS.md` | yes, via [cyncia](https://github.com/crestreach/cyncia) |
+| `.marshal/` (config-sync source) | MARSHAL baseline | `marshal-*`-prefixed `agents/`, `skills/`, `rules/`, plus `AGENTS.md` | yes, via the same sync tool |
+| `.marshal/knowledge/` | agents (under human approval) | repo knowledge: code notes, logic, architecture, decisions, learnings | no |
+
+The first two are **config-sync sources**: the cyncia sync fans them out into tool-native layouts (`.cursor/`, `.claude/`, `.github/`, …).
+The knowledge tree is excluded from that sync — it stays under `.marshal/knowledge/` and is read in place.
+Agents reach it as `.marshal/ENTRYPOINT.md` instructs: an always-loaded root slice first, then progressively deeper folder indexes and topic files as a task needs them.
+
 ## Required capabilities
 
 A MARSHAL knowledge representation must define:

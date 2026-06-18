@@ -59,10 +59,9 @@ Read enough to answer accurately, no more:
 4. [`.marshal/AGENTS.md`](../AGENTS.md) — the merged-in snippet.
 5. [`.marshal/config.yml`](../config.yml) — contract, implementation, autonomy mode, and knowledge size caps.
 6. [`.marshal/knowledge/INDEX.md`](../knowledge/INDEX.md) — root knowledge index (only the index, not topic files, unless the question is about a specific topic).
-7. [`.marshal/design/knowledge-design.md`](../design/knowledge-design.md).
-8. [`.marshal/references/`](../references/) — representation, activation, and promotion rules.
-9. The relevant `SKILL.md` or agent file in `.marshal/skills/` / `.marshal/agents/` when the question is specifically about that skill / agent.
-10. The current change's working folder (artifact chain) — only when the question is "what stage am I in?" or "what should I do next?".
+7. [`.marshal/references/`](../references/) — contract, representation, activation, and promotion rules.
+8. The relevant `SKILL.md` or agent file in `.marshal/skills/` / `.marshal/agents/` when the question is specifically about that skill / agent.
+9. The current change's working folder (artifact chain) — only when the question is "what stage am I in?" or "what should I do next?".
 
 Read lazily: trivial questions only need (1) + (2) + (3).
 Don't load the whole tree.

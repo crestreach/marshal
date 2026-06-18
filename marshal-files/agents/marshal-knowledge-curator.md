@@ -88,7 +88,7 @@ The concrete files, folders, metadata, and discovery / split mechanics are defin
 
 ### `init`
 
-1. Detect repo languages, package layout, build tools, and the natural knowledge groupings (e.g. bounded contexts / domains / modules, as the implementation defines them).
+1. Detect repo languages, package layout, build tools, and the natural knowledge groupings (e.g. subsystems / domains / modules, as the implementation defines them).
 2. Draft the repo-level and per-grouping knowledge units the active implementation defines, populated with high-level summaries and stamped with the implementation's freshness metadata.
 3. Generate the indexes the implementation defines.
 4. Apply the size policy; split where needed (see *Size and structure*).

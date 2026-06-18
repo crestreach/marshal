@@ -65,17 +65,10 @@ It is **separate** from the synced skills/rules/agents tree.
 
 Knowledge is MARSHAL's agent-managed mid- and long-term memory.
 The knowledge contract is separate from the active implementation: read `knowledge.contract_ref` and `knowledge.representation_ref` in `.marshal/config.yml` before assuming a storage layout, metadata fields, indexing strategy, or update protocol.
-The default implementation is **MARSHAL Markdown Spine**, documented in [`references/knowledge-markdown-spine.md`](references/knowledge-markdown-spine.md).
+The default implementation is **MARSHAL Markdown Spine**, documented in [`references/knowledge-markdown-spine.md`](references/knowledge-markdown-spine.md) — the single source of truth for the layout, metadata, indexing, splitting, and staleness mechanics.
 
-Default Markdown Spine read order:
-
-1. `.marshal/knowledge/INDEX.md` (always-loaded; link list + summaries).
-2. The folder index for the area you need (`repo/INDEX.md`, `domains/<x>/INDEX.md`, `decisions/`).
-3. Specific topic files only when you need them.
-   Topics may be split into their own sub-index plus subtopic files when they exceed `knowledge.topic_max_lines` in `.marshal/config.yml`; descend recursively as needed (no fixed depth).
-
-Knowledge files have YAML frontmatter with `id`, `kind`, `summary`, `repo_paths`, `importance`, `confidence`, `updated`, `verified_against_commit`.
-Use `repo_paths` to find the right file from a code path; use `summary` to decide whether to open a file.
+To use it: start at the always-loaded root `.marshal/knowledge/INDEX.md`, then descend through the area indexes to the specific topic files only as the task needs them — using each file's summary to decide whether to open it.
+The tree is hierarchical and recursive (no fixed depth); the active implementation defines the exact layout and metadata.
 
 Knowledge content is not limited to code facts — it covers logic, architecture, design rationale, decisions, and conventions.
 
@@ -143,7 +136,7 @@ Durable assets MARSHAL comes with, produces, or maintains live under `.marshal/`
 
 MARSHAL agents may **create or update** built-in `skills/` / `agents/` / `rules/` only when MARSHAL itself is being changed.
 Repo-specific guidance generated from learnings or on user request goes under `extensions/{skills,agents,rules}/` with the `mx-` prefix at creation.
-Diffs go through the autonomy gate in `.marshal/config.yml`.
+These extension / guidance writes follow `extensions.autonomy` in `.marshal/config.yml` (default `review`: a diff for approval before applying) — distinct from `knowledge.autonomy`, which governs knowledge writes.
 
 To fan these out into tool-native layouts (Cursor, Claude Code, GitHub Copilot, JetBrains Junie), the [`marshal-promote-assets`](skills/marshal-promote-assets/SKILL.md) skill copies both built-ins and extensions into `.agent-config/`, then [cyncia](https://github.com/crestreach/cyncia)'s sync fans it out — see `marshal.md` § Generated assets and config sync.
 

@@ -1,6 +1,6 @@
 ---
 name: marshal-knowledge-rebuild
-description: Post-feature rebuild of the MARSHAL knowledge layer. Fallback skill for environments without subagent support. Triggers on "rebuild the knowledge tree", "restructure domains/ after this feature", "re-derive bounded contexts", "quarterly knowledge rebuild". Runs mode `rebuild` inline in the current session.
+description: Post-feature rebuild of the MARSHAL knowledge layer. Fallback skill for environments without subagent support. Triggers on "rebuild the knowledge tree", "restructure domains/ after this feature", "re-derive subsystems / domains", "quarterly knowledge rebuild". Runs mode `rebuild` inline in the current session.
 ---
 
 # marshal-knowledge-rebuild (fallback — no-subagent environments)

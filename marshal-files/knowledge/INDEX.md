@@ -28,10 +28,6 @@ This file is a stub — it will be populated when `marshal-knowledge-init` runs 
 
 (empty)
 
-## Generated
-
-(empty in v1; v1.5+ may add `generated/symbol-map.md` etc.)
-
 ## Learn
 
 - `learn/inbox/` — raw per-phase learning files awaiting promotion.

@@ -50,7 +50,7 @@ Load tier: **standard** (see [activation-protocol](../references/activation-prot
 
 ## Outputs
 
-- `repo-recon.md` per the Analysis template (likely bounded context; files / classes / services / tables / APIs; invariants and contracts; existing tests and test seams; unknowns / risks; explicit exclusions).
+- `repo-recon.md` per the Analysis template (likely subsystem / domain; files / classes / services / tables / APIs; invariants and contracts; existing tests and test seams; unknowns / risks; explicit exclusions).
 - A list of knowledge that looks stale or missing.
   When `knowledge.capture_during_process` is true this is attached to the inbox note; the list is also returned to the caller (driver or user), who may dispatch [`marshal-knowledge-curator`](./marshal-knowledge-curator.md) or [`marshal-researcher`](./marshal-researcher.md) (or, under `knowledge.curator_invocation: agent`, the archaeologist invokes the curator itself).
 - `logs/phase-3.changelog.md` — files inspected, assumptions confirmed / rejected, narrowed search surface.
