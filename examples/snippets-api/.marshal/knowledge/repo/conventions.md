@@ -1,6 +1,6 @@
 ---
 id: repo/conventions
-kind: reference
+kind: convention
 summary: Naming, error shape, logging.
 repo_paths:
   - "src/**"

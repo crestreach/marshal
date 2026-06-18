@@ -1,6 +1,6 @@
 ---
 id: INDEX
-kind: reference
+kind: index
 summary: Root index of the MARSHAL knowledge layer.
 importance: high
 confidence: high

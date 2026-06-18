@@ -1,6 +1,6 @@
 ---
 id: repo/INDEX
-kind: reference
+kind: index
 summary: Repository-level knowledge index.
 parent: INDEX
 importance: high

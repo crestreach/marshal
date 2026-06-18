@@ -1,6 +1,6 @@
 ---
 id: repo/build-test-run
-kind: how-to
+kind: guide
 summary: Local dev, tests, migrations.
 repo_paths:
   - "package.json"

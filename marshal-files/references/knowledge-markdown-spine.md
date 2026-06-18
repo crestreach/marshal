@@ -83,7 +83,7 @@ Every topic and every `INDEX.md` starts with:
 ```yaml
 ---
 id: domains/payments/contracts        # stable slug, matches path
-kind: reference|how-to|explanation|decision
+kind: overview|architecture|logic|contract|schema|convention|guide|reference|decision|index
 summary: One-line description (used verbatim in the parent INDEX.md).
 repo_paths:
   - "src/billing/**"
@@ -101,6 +101,21 @@ verified_against_commit: 0a3f75e      # short SHA
 - Required: `id`, `kind`, `summary`, `importance`, `confidence`, `updated`.
 - Recommended: `repo_paths` (enables staleness detection), `verified_against_commit`.
 - On a group `INDEX.md`, also note the **split dimension** (in the body or a `dimension:` field) so the grouping is self-describing.
+
+### Kinds
+
+`kind` classifies what a file describes, so an agent can tell at a glance how to use it:
+
+- `overview` — what something is: purpose, scope, orientation.
+- `architecture` — structure, components, boundaries, and how the pieces fit and flow.
+- `logic` — behavior: business rules, invariants, algorithms.
+- `contract` — interfaces between parts: APIs, RPC / CLI signatures, events / topics.
+- `schema` — data shapes: database schemas, message / payload formats, config / types.
+- `convention` — repo-specific standards and patterns.
+- `guide` — procedures: build / test / run, runbooks, how-to steps.
+- `reference` — factual lookups and maps (e.g. entrypoints, command lists).
+- `decision` — a decision record with its rationale (ADR).
+- `index` — a folder or sub-index (`INDEX.md`) file.
 
 ## Index rules
 

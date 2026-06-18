@@ -1,6 +1,6 @@
 ---
 id: domains/snippets/logic
-kind: reference
+kind: logic
 summary: Business rules and invariants for snippets.
 repo_paths:
   - "src/services/snippets.ts"
