@@ -3,7 +3,7 @@
 **MARSHAL** = **M**ethod for **A**I-assisted **R**equirements Engineering, **S**oftware Implementation, with **H**uman **A**pproval and **A**daptive **L**earning.
 
 <p align="center">
-  <img src="assets/marshal-icon.png" alt="MARSHAL icon" width="160" />
+  <img src="assets/marshal-logo-shield-chip-sync-v1.png" alt="MARSHAL icon" width="160" />
 </p>
 
 MARSHAL is a practical operating model for AI-assisted software delivery.
