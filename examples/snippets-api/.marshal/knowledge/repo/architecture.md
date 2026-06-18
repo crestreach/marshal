@@ -1,6 +1,6 @@
 ---
 id: repo/architecture
-kind: explanation
+kind: architecture
 summary: Request flow - route -> service -> db. Boundaries and invariants.
 repo_paths:
   - "src/routes/**"

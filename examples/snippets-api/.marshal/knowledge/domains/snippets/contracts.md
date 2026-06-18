@@ -1,6 +1,6 @@
 ---
 id: domains/snippets/contracts
-kind: reference
+kind: contract
 summary: HTTP and DB schemas for snippets.
 repo_paths:
   - "src/routes/snippets.ts"

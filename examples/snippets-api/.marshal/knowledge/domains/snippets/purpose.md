@@ -1,6 +1,6 @@
 ---
 id: domains/snippets/purpose
-kind: explanation
+kind: overview
 summary: Why the snippets domain exists; what it owns.
 repo_paths:
   - "src/services/snippets.ts"

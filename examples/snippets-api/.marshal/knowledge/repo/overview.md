@@ -1,6 +1,6 @@
 ---
 id: repo/overview
-kind: explanation
+kind: overview
 summary: What the service does and its top-level shape.
 repo_paths:
   - "src/**"
