@@ -16,6 +16,8 @@ export INSTALL_SH
 # Install a fake `curl` (and `wget`) first on PATH so the installer never
 # reaches the network. The fake dispatches by URL (assumed to be the last arg):
 #   *.tar.gz archive URLs   -> cat back $FAKE_TARBALL
+#   GitHub API /commits/<r> -> cat back $FAKE_COMMIT_JSON (or exit 22 if unset)
+#   GitHub API /tags        -> cat back $FAKE_TAGS_JSON   (or exit 22 if unset)
 #   the cyncia installer    -> emit a tiny no-op script (consumed by `| sh`)
 #   anything else           -> exit 22
 # Every requested URL is also appended to $CURL_LOG when that var is set, so a
@@ -31,6 +33,12 @@ case "$url" in
   *.tar.gz)
     [ -n "${FAKE_TARBALL:-}" ] && [ -f "$FAKE_TARBALL" ] || { echo "fake curl: no FAKE_TARBALL" >&2; exit 22; }
     exec cat "$FAKE_TARBALL" ;;
+  *api.github.com/repos/*/commits/*)
+    if [ -n "${FAKE_COMMIT_JSON:-}" ] && [ -f "$FAKE_COMMIT_JSON" ]; then exec cat "$FAKE_COMMIT_JSON"; fi
+    exit 22 ;;
+  *api.github.com/repos/*/tags*)
+    if [ -n "${FAKE_TAGS_JSON:-}" ] && [ -f "$FAKE_TAGS_JSON" ]; then exec cat "$FAKE_TAGS_JSON"; fi
+    exit 22 ;;
   *cyncia*install.sh*)
     printf '%s\n' '#!/bin/sh' 'echo FAKE-CYNCIA-INSTALLER-RAN' ;;
   *)
@@ -53,6 +61,7 @@ esac
 EOF
   chmod +x "$FAKE_BIN/curl" "$FAKE_BIN/wget"
   export PATH="$FAKE_BIN:$PATH"
+  unset FAKE_COMMIT_JSON FAKE_TAGS_JSON
 }
 
 # Build a tarball whose single top-level directory is "$1" (mimicking the
