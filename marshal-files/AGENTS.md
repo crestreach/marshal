@@ -12,7 +12,7 @@ The rich entry point lives in [ENTRYPOINT.md](./ENTRYPOINT.md).
 
 ### Marshal
 
-This repository uses **MARSHAL** — an AI-assisted SDLC defined in [marshal.md](marshal.md).
+This repository uses **MARSHAL** — an AI-assisted SDLC defined in [marshal.md](.marshal/marshal.md).
 
 Before doing any repo work:
 

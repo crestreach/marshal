@@ -90,7 +90,7 @@ From the root of your target repo, run the install script:
 curl -fsSL https://raw.githubusercontent.com/crestreach/marshal/main/scripts/install-marshal.sh | bash
 ```
 
-It fetches the MARSHAL `marshal-files/` subtree into `.marshal/` — plus the canonical `marshal.md` beside it and the `LICENSE` inside it, both sourced from the MARSHAL repo root — installs [cyncia](https://github.com/crestreach/cyncia) if it is missing (committed into the repo, **not** a git submodule), and runs the cyncia sync when an `.agent-config/` source tree is present.
+It fetches the MARSHAL `marshal-files/` subtree into `.marshal/` — plus the canonical `marshal.md` and `LICENSE` (both sourced from the MARSHAL repo root) installed inside `.marshal/` — installs [cyncia](https://github.com/crestreach/cyncia) if it is missing (committed into the repo, **not** a git submodule), and runs the cyncia sync when an `.agent-config/` source tree is present.
 It is **idempotent** — re-run it to update:
 
 - `config.yml` is generated with defaults on a fresh install; on an update, newly introduced properties are added while your existing values are left alone (obsolete ones are kept unless you choose to drop them).
@@ -104,7 +104,7 @@ Responsibilities split cleanly: the **script owns installation** — downloading
 
 - [`marshal.md`](./marshal.md) — the process specification (source of truth).
 - [`marshal-files/`](./marshal-files) — MARSHAL durable assets for *this* product repo (entry-point snippet, `config.yml`, `marshal-override.md`, knowledge, skills, agents, rules, references).
-  A consumer repo sees these as `.marshal/`; the installer also drops the repo-root `marshal.md` beside the installed tree and the repo-root `LICENSE` inside it, so the install carries its own MIT license.
+  A consumer repo sees these as `.marshal/`; the installer also drops the repo-root `marshal.md` and `LICENSE` into the installed `.marshal/` tree, so the install carries its own spec and MIT license.
 - [`marshal-files/marshal-override.md`](./marshal-files/marshal-override.md) — optional, repo-specific overrides on top of `marshal.md` (empty by default).
 - [`scripts/install-marshal.sh`](./scripts/install-marshal.sh) — the installer.
 - [`examples/`](./examples) — worked examples of MARSHAL installed in a repo (see [`examples/snippets-api/`](./examples/snippets-api/) for a filled-in knowledge tree, an ADR, and repo-specific extensions).

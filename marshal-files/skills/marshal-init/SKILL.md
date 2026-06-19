@@ -10,7 +10,7 @@ Setup skill — runs once per repo, **after** the install script has placed MARS
 ## Division of labor (install vs. init)
 
 - **`scripts/install-marshal.sh` owns installation.**
-  It downloads MARSHAL at a ref and installs / updates the durable assets under `.marshal/`, the canonical `marshal.md` (beside `.marshal/`) and the `LICENSE` (inside it), reconciles `config.yml`, writes `.marshal/VERSION`, and installs [cyncia](https://github.com/crestreach/cyncia).
+  It downloads MARSHAL at a ref and installs / updates the durable assets under `.marshal/` — including the canonical `marshal.md` and the `LICENSE` (both placed inside `.marshal/`) — reconciles `config.yml`, writes `.marshal/VERSION`, and installs [cyncia](https://github.com/crestreach/cyncia).
   It is idempotent — re-run it to update.
   **This skill never re-copies those files** — refer to the script (and `README.md`) for the install/update contract.
 - **`marshal-init` (this skill) owns repo integration.**
@@ -34,7 +34,7 @@ By the time this skill can run, the install script has already placed it under `
 ## Workflow
 
 1. **Confirm the install.**
-   Check for `.marshal/` (and `marshal.md` beside it).
+   Check for `.marshal/` (and `.marshal/marshal.md`).
    If absent or incomplete, run `scripts/install-marshal.sh` (or ask the user to) — the script downloads and places everything and installs cyncia.
    Do **not** re-copy MARSHAL files here.
 2. **Merge the MARSHAL entry-point into the repo's `AGENTS.md`.**
