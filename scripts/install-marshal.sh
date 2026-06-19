@@ -31,6 +31,11 @@
 #      obsolete properties are kept unless you choose to drop them (prompt
 #      defaults to no). `marshal-override.md` is seeded once and never
 #      clobbered. This mirrors how cyncia reconciles its own cyncia.conf.
+#      The canonical spec `marshal.md` and the `LICENSE` live at the MARSHAL
+#      repo *root* (not in `marshal-files/`): `marshal.md` is installed beside
+#      <marshal-dir> (its repo-root sibling, so the installed tree's
+#      `../../marshal.md` links resolve) and `LICENSE` is installed inside
+#      <marshal-dir> so the tree carries its own license.
 #      A `VERSION` file recording the installed ref (or, for `main`, any tag(s)
 #      pointing at HEAD) is written into <marshal-dir>, like cyncia's VERSION.
 #   2. Ensures cyncia is available (looks for <agent-config>/../.cyncia or a
@@ -57,7 +62,7 @@ RUN_SYNC=true
 
 _die() { printf 'install-marshal: %s\n' "$*" >&2; exit 1; }
 _info() { printf 'install-marshal: %s\n' "$*"; }
-_usage() { sed -n '2,46p' "$0" | sed 's/^# \{0,1\}//'; }
+_usage() { sed -n '2,51p' "$0" | sed 's/^# \{0,1\}//'; }
 
 # Normalize a repo reference (owner/name slug, https URL, or git@ URL, with or
 # without a trailing .git) to the bare owner/name slug used to build the GitHub
@@ -368,13 +373,31 @@ mkdir -p "$MARSHAL_DIR"
 # knowledge tree and the per-change work tree are left untouched if present.
 # config.yml and marshal-override.md are handled specially below (never
 # clobbered on update).
-for item in AGENTS.md ENTRYPOINT.md LICENSE \
+for item in AGENTS.md ENTRYPOINT.md \
             skills skills-fallback agents rules extensions references; do
   if [ -e "$SRC/$item" ]; then
     rm -rf "${MARSHAL_DIR:?}/$item"
     cp -R "$SRC/$item" "$MARSHAL_DIR/$item"
   fi
 done
+
+# marshal.md (the canonical spec) and LICENSE live at the MARSHAL repo *root*,
+# not inside marshal-files/, so they are sourced from the snapshot root:
+#   - marshal.md is installed one level above <marshal-dir> (its repo-root
+#     sibling) so the relative links in the installed tree resolve unchanged
+#     (e.g. .marshal/agents/<x>.md -> ../../marshal.md, .marshal/ENTRYPOINT.md
+#     -> ../marshal.md). This mirrors the product repo, where marshal.md sits
+#     beside marshal-files/.
+#   - LICENSE is installed *inside* <marshal-dir> so the installed tree carries
+#     its own MIT license without clobbering the consumer repo's root LICENSE.
+if [ -e "$SRC_ROOT/marshal.md" ]; then
+  MARSHAL_MD_DEST="$(dirname "$MARSHAL_DIR")/marshal.md"
+  cp "$SRC_ROOT/marshal.md" "$MARSHAL_MD_DEST"
+  _info "installed canonical spec at $MARSHAL_MD_DEST"
+fi
+if [ -e "$SRC_ROOT/LICENSE" ]; then
+  cp "$SRC_ROOT/LICENSE" "$MARSHAL_DIR/LICENSE"
+fi
 
 # marshal-override.md: seed it on a fresh install, never clobber on update.
 if [ -e "$SRC/marshal-override.md" ] && [ ! -e "$MARSHAL_DIR/marshal-override.md" ]; then

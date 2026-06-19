@@ -50,7 +50,7 @@ Load tier: **standard** (see [activation-protocol](../references/activation-prot
 
 ## Outputs
 
-- A single document following the active knowledge implementation contract (default: Markdown Spine frontmatter from [knowledge-markdown-spine](../references/knowledge-markdown-spine.md), kind `reference` or `explanation`), ready to drop in.
+- A single document following the active knowledge implementation contract (default: Markdown Spine frontmatter from [knowledge-markdown-spine](../references/knowledge-markdown-spine.md), typically kind `reference` — or another kind from the Spine taxonomy, e.g. `overview` / `guide`, as fits), ready to drop in.
   Body is condensed (target ≤ ~150 lines) and source-linked.
 - A short follow-up list of open questions the repo could not answer.
 

@@ -12,11 +12,11 @@ The rich entry point lives in [ENTRYPOINT.md](./ENTRYPOINT.md).
 
 ### Marshal
 
-This repository uses **MARSHAL** — an AI-assisted SDLC defined in [marshal.md](../marshal.md).
+This repository uses **MARSHAL** — an AI-assisted SDLC defined in [marshal.md](marshal.md).
 
 Before doing any repo work:
 
-1. Read [`.marshal/ENTRYPOINT.md`](./ENTRYPOINT.md) — it explains the process, the knowledge layer, and the available `marshal-*` skills and agents.
+1. Read [`.marshal/ENTRYPOINT.md`](.marshal/ENTRYPOINT.md) — it explains the process, the knowledge layer, and the available `marshal-*` skills and agents.
 2. Read `.marshal/knowledge/INDEX.md` for the agent-maintained repo knowledge.
    Descend into folder / topic / subtopic indexes only as needed.
 3. Honor the autonomy mode in `.marshal/config.yml` — by default (`auto`), knowledge updates are written without per-change approval and a summary of what changed is returned; under `review` every write produces a full diff for human approval first.

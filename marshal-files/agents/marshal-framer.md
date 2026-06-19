@@ -43,8 +43,8 @@ Load tier: **minimal** (see [activation-protocol](../references/activation-proto
 ## Outputs
 
 - `change-brief.md` per the the Intake stage template.
-- `logs/phase-2.changelog.md` — clarifications added, scope changes, acceptance criteria changes.
-- `learning/phase-2.learning.md` — reusable lessons only.
+- `logs/stage-2-intake.changelog.md` — clarifications added, scope changes, acceptance criteria changes.
+- `learning/stage-2-intake.learning.md` — reusable lessons only.
 
 ## Exit criteria
 

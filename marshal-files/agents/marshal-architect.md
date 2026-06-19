@@ -45,8 +45,8 @@ Load tier: **standard** (see [activation-protocol](../references/activation-prot
 
 - `architecture-notes.md` — chosen concept, design decisions and rationale, abstraction level(s) covered.
   Kept current if the design shifts during later stages.
-- `logs/phase-architecture.changelog.md` — concepts proposed / rejected / accepted, design changes.
-- `learning/phase-architecture.learning.md` — reusable lessons only, including decisions worth promoting to knowledge in the Learn stage.
+- `logs/stage-4-architecture.changelog.md` — concepts proposed / rejected / accepted, design changes.
+- `learning/stage-4-architecture.learning.md` — reusable lessons only, including decisions worth promoting to knowledge in the Learn stage.
 
 ## Exit criteria
 

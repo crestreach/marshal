@@ -62,7 +62,7 @@ Load tier: **minimal** (see [activation-protocol](../references/activation-proto
    Skip when the change is too small to benefit (mark "n/a" in `specification.md`).
 7. Write `specification.md` once approved.
 8. If blocked on an external actor, record the pending items and a resume note instead of guessing; the stage can resume when the answer arrives.
-9. Append entries to `logs/phase-1.changelog.md` and reusable lessons to `learning/phase-1.learning.md`.
+9. Append entries to `logs/stage-1-specification.changelog.md` and reusable lessons to `learning/stage-1-specification.learning.md`.
 
 ## Outputs
 
@@ -74,8 +74,8 @@ Load tier: **minimal** (see [activation-protocol](../references/activation-proto
   - **Open questions** (still unresolved, if any).
   - **Concerns raised** (agent objections + how each was resolved).
   - **Acceptance checklist** (optional).
-- `logs/phase-1.changelog.md` — questions asked and answers received, clarifications added, agent concerns raised and outcomes.
-- `learning/phase-1.learning.md` — only reusable learnings.
+- `logs/stage-1-specification.changelog.md` — questions asked and answers received, clarifications added, agent concerns raised and outcomes.
+- `learning/stage-1-specification.learning.md` — only reusable learnings.
 
 ## Exit criteria
 

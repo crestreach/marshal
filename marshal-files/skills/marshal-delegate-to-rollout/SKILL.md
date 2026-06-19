@@ -12,7 +12,7 @@ Do **not** inline the workflow — the agent owns it.
 
 - **Subagent:** `marshal-releaser`
 - **Pass:** `change-brief.md`; `delivery-plan.md` (rollout boundary on phases); `verification-report.md`; migration / config / feature-flag files touched; operational-conventions knowledge files (logging / toggles / deploy) if any.
-- **Expect back:** `rollout-note.md` (toggles, properties, log changes, migrations, rollback path, porting instructions, user-visible docs); `logs/phase-rollout.changelog.md`; `learning/phase-release.learning.md`.
+- **Expect back:** `rollout-note.md` (toggles, properties, log changes, migrations, rollback path, porting instructions, user-visible docs); `logs/stage-7-rollout.changelog.md`; `learning/stage-7-rollout.learning.md`.
 - **On result:** hand off to [`marshal-delegate-to-learn`](../marshal-delegate-to-learn/SKILL.md) (Learn stage) with the rollout note plus pointers to all phase learning files.
 
 ## Fallback (no-subagent environments)

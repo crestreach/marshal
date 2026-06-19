@@ -12,7 +12,7 @@ Do **not** inline the workflow — the agent owns it.
 
 - **Subagent:** `marshal-verifier`
 - **Pass:** `change-brief.md` (if it exists); `delivery-plan.md` (packets in scope); the diff / changed files for the PR boundary; any prior `verification-report.md`.
-- **Expect back:** `verification-report.md` (or, for trivial changes, a verification paragraph appended to the affected phase changelog); appended results to `logs/phase-N.changelog.md`; reusable lessons in `learning/phase-N.learning.md`.
+- **Expect back:** `verification-report.md` (or, for trivial changes, a verification paragraph appended to the affected phase changelog); appended results to `logs/phase-<n>.changelog.md`; reusable lessons in `learning/phase-<n>.learning.md`.
 - **On result (pass):** hand off to [`marshal-delegate-to-pr`](../marshal-delegate-to-pr/SKILL.md) (PR stage) or directly to [`marshal-delegate-to-rollout`](../marshal-delegate-to-rollout/SKILL.md) (Rollout stage) if PR is skipped.
 - **On result (fail):** hand back to [`marshal-delegate-to-implement`](../marshal-delegate-to-implement/SKILL.md) with failing items as plan updates ([FIXUP] / [CHANGED] / [ADDED]).
 

@@ -47,7 +47,7 @@ Specification → Intake → Analysis → Architecture → Plan
 | 3. Analysis | Targeted recon of the affected code | `repo-recon.md` | optional |
 | 4. Architecture | Shape the solution when it is not obvious | `architecture-notes.md` | optional |
 | 5. Plan | The canonical plan for the change | `delivery-plan.md` | **mandatory** |
-| 6. Implementation round | Implement → Verify → Review/PR, once or per phase | code, `verification-report.md`, PR | per change |
+| 6. Implementation round | Implement → Verify → Review/PR, once or per phase | code, `implementation-report.md`, `verification-report.md`, PR | per change |
 | 7. Rollout | Release / migration notes | `rollout-note.md` | optional |
 | 8. Learn | Promote generalizable lessons | `learning-rollup.md`, knowledge updates | optional |
 
@@ -90,7 +90,7 @@ From the root of your target repo, run the install script:
 curl -fsSL https://raw.githubusercontent.com/crestreach/marshal/main/scripts/install-marshal.sh | bash
 ```
 
-It fetches the MARSHAL `marshal-files/` subtree into `.marshal/`, installs [cyncia](https://github.com/crestreach/cyncia) if it is missing (committed into the repo, **not** a git submodule), and runs the cyncia sync when an `.agent-config/` source tree is present.
+It fetches the MARSHAL `marshal-files/` subtree into `.marshal/` — plus the canonical `marshal.md` beside it and the `LICENSE` inside it, both sourced from the MARSHAL repo root — installs [cyncia](https://github.com/crestreach/cyncia) if it is missing (committed into the repo, **not** a git submodule), and runs the cyncia sync when an `.agent-config/` source tree is present.
 It is **idempotent** — re-run it to update:
 
 - `config.yml` is generated with defaults on a fresh install; on an update, newly introduced properties are added while your existing values are left alone (obsolete ones are kept unless you choose to drop them).
@@ -98,18 +98,18 @@ It is **idempotent** — re-run it to update:
 - The installed ref is recorded in `.marshal/VERSION` (for `main`, any tag(s) pointing at `HEAD`), the same way cyncia records its own `.cyncia/VERSION`.
 
 Run with `--help` for options (`--ref`, `--marshal-dir`, `--agent-config`, `--no-cyncia`, `--no-sync`).
-The script installs the assets and runs the cyncia sync; wiring MARSHAL's durable assets into `.agent-config/` so the sync can fan them out to tool layouts is the separate `marshal-promote-assets` step, run once from an AI assistant (or as part of the `marshal-init` skill).
+Responsibilities split cleanly: the **script owns installation** — downloading and updating `.marshal/`, `marshal.md`, and `LICENSE`, reconciling `config.yml`, recording `VERSION`, and installing cyncia (re-run it any time to update). The **[`marshal-init`](./marshal-files/skills/marshal-init/SKILL.md) skill owns repo integration** — merging the MARSHAL entry-point into your `AGENTS.md`, wiring the durable assets into `.agent-config/` via `marshal-promote-assets`, updating `.gitignore`, and offering the initial knowledge bootstrap. Run the script first, then `marshal-init` once.
 
 ## Repository layout
 
 - [`marshal.md`](./marshal.md) — the process specification (source of truth).
-- [`marshal-files/`](./marshal-files) — MARSHAL durable assets for *this* product repo (entrypoint, `LICENSE`, `config.yml`, knowledge, skills, agents, rules, references).
-  A consumer repo sees these as `.marshal/`, so the installed tree carries its own MIT license.
+- [`marshal-files/`](./marshal-files) — MARSHAL durable assets for *this* product repo (entry-point snippet, `config.yml`, `marshal-override.md`, knowledge, skills, agents, rules, references).
+  A consumer repo sees these as `.marshal/`; the installer also drops the repo-root `marshal.md` beside the installed tree and the repo-root `LICENSE` inside it, so the install carries its own MIT license.
 - [`marshal-files/marshal-override.md`](./marshal-files/marshal-override.md) — optional, repo-specific overrides on top of `marshal.md` (empty by default).
 - [`scripts/install-marshal.sh`](./scripts/install-marshal.sh) — the installer.
 - [`examples/`](./examples) — worked examples of MARSHAL installed in a repo (see [`examples/snippets-api/`](./examples/snippets-api/) for a filled-in knowledge tree, an ADR, and repo-specific extensions).
 - [`.agent-config/`](./.agent-config) — generic source tree consumed by the [cyncia](https://github.com/crestreach/cyncia) sync under [`.cyncia/`](./.cyncia).
-  Edit here, then re-run the sync to regenerate the per-tool layouts (`.cursor/`, `.claude/`, `.github/`, `.junie/`, `.vscode/`, root `AGENTS.md`, `CLAUDE.md`, `.mcp.json`).
+  Edit here, then re-run the sync to regenerate the per-tool layout directories (plus root `AGENTS.md`, `CLAUDE.md`, `.mcp.json`); the exact set of tools is cyncia's to configure — see [`.cyncia/cyncia.conf`](./.cyncia/cyncia.conf), not MARSHAL.
 - [`AGENTS.md`](./AGENTS.md) — guidance for AI agents working in this repo (generated; authored under [`.agent-config/AGENTS.md`](./.agent-config/AGENTS.md)).
 
 ## License

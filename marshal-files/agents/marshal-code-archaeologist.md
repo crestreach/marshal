@@ -46,15 +46,15 @@ Load tier: **standard** (see [activation-protocol](../references/activation-prot
 8. **Mid-process knowledge capture** (see [ENTRYPOINT](../ENTRYPOINT.md) → *Mid-process knowledge capture*).
    When `knowledge.capture_during_process` is true (default) and the analysis surfaced important, reusable knowledge, write a knowledge-shaped note into `knowledge/learn/inbox/` together with the stale-knowledge pointer list.
    Then, per `knowledge.curator_invocation`: under `agent`, call [`marshal-knowledge-curator`](./marshal-knowledge-curator.md) yourself; under `driver` (default), report to the caller (driver or user) that the inbox was populated and let them run the curator.
-   When `knowledge.capture_during_process` is false, record the finding in `learning/phase-3.learning.md` instead (promoted only in the Learn stage).
+   When `knowledge.capture_during_process` is false, record the finding in `learning/stage-3-analysis.learning.md` instead (promoted only in the Learn stage).
 
 ## Outputs
 
 - `repo-recon.md` per the Analysis template (likely subsystem / domain; files / classes / services / tables / APIs; invariants and contracts; existing tests and test seams; unknowns / risks; explicit exclusions).
 - A list of knowledge that looks stale or missing.
   When `knowledge.capture_during_process` is true this is attached to the inbox note; the list is also returned to the caller (driver or user), who may dispatch [`marshal-knowledge-curator`](./marshal-knowledge-curator.md) or [`marshal-researcher`](./marshal-researcher.md) (or, under `knowledge.curator_invocation: agent`, the archaeologist invokes the curator itself).
-- `logs/phase-3.changelog.md` — files inspected, assumptions confirmed / rejected, narrowed search surface.
-- `learning/phase-3.learning.md` — reusable lessons only.
+- `logs/stage-3-analysis.changelog.md` — files inspected, assumptions confirmed / rejected, narrowed search surface.
+- `learning/stage-3-analysis.learning.md` — reusable lessons only.
 
 ## Exit criteria
 

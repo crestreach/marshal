@@ -45,8 +45,8 @@ Load tier: **standard** (see [activation-protocol](../references/activation-prot
 ## Outputs
 
 - `rollout-note.md` (toggles, properties, log changes, migrations, rollback path, porting instructions, user-visible docs, suggested extended / regression testing areas, manual test scenarios).
-- `logs/phase-rollout.changelog.md` — additions / changes to the rollout note.
-- `learning/phase-release.learning.md` — reusable lessons only.
+- `logs/stage-7-rollout.changelog.md` — additions / changes to the rollout note.
+- `learning/stage-7-rollout.learning.md` — reusable lessons only.
 
 ## Exit criteria
 

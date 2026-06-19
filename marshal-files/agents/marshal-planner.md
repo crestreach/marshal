@@ -55,8 +55,8 @@ Load tier: **standard** (see [activation-protocol](../references/activation-prot
 ## Outputs
 
 - `delivery-plan.md` per the Plan template (Planning mode + Target depth lines, then P1.* phases; W*.* packets, S*.* steps, and I*.* implementation steps appear only at the depths the plan actually goes to).
-- `logs/phase-4.changelog.md` — plan additions / removals, packet splits / merges, dependency changes, boundary changes.
-- `learning/phase-4.learning.md` — reusable lessons only.
+- `logs/stage-5-plan.changelog.md` — plan additions / removals, packet splits / merges, dependency changes, boundary changes.
+- `learning/stage-5-plan.learning.md` — reusable lessons only.
 
 ## Exit criteria
 

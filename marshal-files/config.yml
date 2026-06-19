@@ -39,9 +39,9 @@ knowledge:
   #     stages rather than rediscovered. What happens next is governed by
   #     curator_invocation above.
   #   false: the agent does not touch the knowledge inbox mid-process;
-  #     instead it records the finding in that phase's learnings file
-  #     (learning/phase-N.learning.md), to be promoted only in the Learn
-  #     stage.
+  #     instead it records the finding in the current stage's learning
+  #     file (learning/stage-<n>-<name>.learning.md, or phase-<n>.learning.md
+  #     during implementation), to be promoted only in the Learn stage.
   capture_during_process: true
 
   # Advisory only. The rescan must still be triggered explicitly via

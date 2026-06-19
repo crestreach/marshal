@@ -43,7 +43,7 @@ The Plan stage is the only mandatory stage; all others are optional unless noted
 | Analysis | `marshal-code-archaeologist` | `marshal-delegate-to-analysis` | `marshal-analysis` | `repo-recon.md` | optional |
 | Architecture | `marshal-architect` | `marshal-delegate-to-architecture` | `marshal-architecture` | `architecture-notes.md` | optional |
 | Plan | `marshal-planner` | `marshal-delegate-to-plan` | `marshal-plan` | `delivery-plan.md` | **mandatory** |
-| Implement | `marshal-implementer` | `marshal-delegate-to-implement` | `marshal-implement` | code + `logs/phase-N.changelog.md` | required when there is code to write |
+| Implement | `marshal-implementer` | `marshal-delegate-to-implement` | `marshal-implement` | code + `implementation-report.md` + `logs/phase-<n>.changelog.md` | required when there is code to write |
 | Verify | `marshal-verifier` | `marshal-delegate-to-verify` | `marshal-verify` | `verification-report.md` | required before any PR |
 | Review / PR | `marshal-reviewer` | `marshal-delegate-to-pr` | `marshal-pr` | PR description | optional (skip for non-shared work) |
 | Rollout | `marshal-releaser` | `marshal-delegate-to-rollout` | `marshal-rollout` | `rollout-note.md` | optional |
@@ -109,7 +109,7 @@ Two `.marshal/config.yml` settings govern what they do with it, and **every** ag
 
 - `knowledge.capture_during_process`:
   - **true** (default): write a knowledge-shaped note into `knowledge/learn/inbox/` (the archaeologist also attaches its stale-knowledge pointer list) so later stages can reuse it instead of rediscovering it.
-  - **false**: do **not** touch the knowledge inbox mid-process; record the finding in the current phase's learnings file (`learning/phase-N.learning.md`) instead, to be promoted only in the Learn stage.
+  - **false**: do **not** touch the knowledge inbox mid-process; record the finding in the current stage's learning file (`learning/stage-<n>-<name>.learning.md`, or `learning/phase-<n>.learning.md` during implementation) instead, to be promoted only in the Learn stage.
 - `knowledge.curator_invocation` (only relevant when a note was written to the inbox):
   - **agent**: the agent calls [`marshal-knowledge-curator`](agents/marshal-knowledge-curator.md) itself right after writing the note.
   - **driver** (default): the agent does **not** call the curator; it reports back to its caller (the driver, or the user when invoked directly) that it populated the inbox, and the caller runs the curator.
@@ -138,7 +138,7 @@ MARSHAL agents may **create or update** built-in `skills/` / `agents/` / `rules/
 Repo-specific guidance generated from learnings or on user request goes under `extensions/{skills,agents,rules}/` with the `mx-` prefix at creation.
 These extension / guidance writes follow `extensions.autonomy` in `.marshal/config.yml` (default `review`: a diff for approval before applying) — distinct from `knowledge.autonomy`, which governs knowledge writes.
 
-To fan these out into tool-native layouts (Cursor, Claude Code, GitHub Copilot, JetBrains Junie), the [`marshal-promote-assets`](skills/marshal-promote-assets/SKILL.md) skill copies both built-ins and extensions into `.agent-config/`, then [cyncia](https://github.com/crestreach/cyncia)'s sync fans it out — see `marshal.md` § Generated assets and config sync.
+To fan these out into the tool-native layouts cyncia is configured to target, the [`marshal-promote-assets`](skills/marshal-promote-assets/SKILL.md) skill copies both built-ins and extensions into `.agent-config/`, then [cyncia](https://github.com/crestreach/cyncia)'s sync fans it out — see `marshal.md` § Generated assets and config sync.
 
 ## Getting unstuck / asking about MARSHAL
 

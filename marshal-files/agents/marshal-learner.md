@@ -26,7 +26,7 @@ Do **not** invoke when:
 
 ## Inputs
 
-- All `learning/phase-*.learning.md` files for the change (subset of: `phase-1`, `phase-2`, `phase-3`, `phase-architecture`, `phase-4`, `phase-N` for each L1 implementation phase, `phase-release`).
+- All `learning/*.learning.md` files for the change (subset of: `stage-1-specification`, `stage-2-intake`, `stage-3-analysis`, `stage-4-architecture`, `stage-5-plan`, `phase-<n>` for each L1 implementation phase, `stage-7-rollout`).
 - `architecture-notes.md` if the Architecture stage ran — its durable design decisions and rationale are reviewed here and the promotable ones are routed into the knowledge bucket (decisions / ADRs) via the curator's `from-learning` mode.
 - Targets that may be updated:
   - [`AGENTS.md`](../../AGENTS.md) (snippet to merge into the host repo's root `AGENTS.md`),

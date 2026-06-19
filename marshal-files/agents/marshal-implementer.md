@@ -44,8 +44,8 @@ Do **not** invoke when:
 5. Capture operational notes in `implementation-report.md` as they surface — decisions taken, needed migrations, introduced toggles / flags, limitations, and anything the Verify, Rollout, or Review stages will need that only became clear during implementation.
 6. Close the cycle:
    - Update plan status markers (`[IN PROGRESS]` / `[DONE]` etc.).
-   - Append entries to `logs/phase-N.changelog.md` (where N is the L1 phase number from the delivery plan, **not** the stage number).
-   - Add reusable lessons to `learning/phase-N.learning.md`.
+   - Append entries to `logs/phase-<n>.changelog.md` (one per L1 delivery-plan phase; `n` is the phase number — append a short slug like `phase-2-auth` if helpful). Lifecycle-stage logs use the `stage-<n>-<name>` form instead, so the two never collide.
+   - Add reusable lessons to `learning/phase-<n>.learning.md`.
 7. After the cycle, if code changed, run [`marshal-knowledge-curator`](./marshal-knowledge-curator.md) mode `from-changes` to keep knowledge in sync.
    Who invokes it is governed by `knowledge.curator_invocation` in [`config.yml`](../config.yml): under `driver` the implementer reports the changed paths to the caller (driver / user) and they run the curator; under `agent` the implementer invokes it itself (see [ENTRYPOINT](../ENTRYPOINT.md) → *Mid-process knowledge capture*).
 
@@ -54,8 +54,8 @@ Do **not** invoke when:
 - Code + tests committed against the plan.
 - Updated `delivery-plan.md` (status markers, [FIXUP] / [ADDED] / [CHANGED] / [REVERT] / [DROPPED] entries with dates).
 - `implementation-report.md` — decisions and operational notes (migrations, toggles, limitations) for the Verify / Rollout / Review stages.
-- `logs/phase-N.changelog.md` (per L1 phase).
-- `learning/phase-N.learning.md` (per L1 phase).
+- `logs/phase-<n>.changelog.md` (per L1 delivery-plan phase; optionally `phase-<n>-<slug>`).
+- `learning/phase-<n>.learning.md` (per L1 delivery-plan phase).
 
 ## Exit criteria (per work packet)
 

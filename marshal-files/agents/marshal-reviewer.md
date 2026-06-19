@@ -52,7 +52,7 @@ Load tier: **standard** (see [activation-protocol](../references/activation-prot
    - Small correction inside same packet → add a `[FIXUP yyyy-mm-dd]` substep under the current work packet.
    - Scope/approach change → mark packet `[CHANGED yyyy-mm-dd]` and update remaining steps and dependencies.
    - Isolatable correction → create a new sibling packet `Wxa. Review fixups [ADDED yyyy-mm-dd]`.
-10. Append rationale to the affected `logs/phase-N.changelog.md`.
+10. Append rationale to the affected `logs/phase-<n>.changelog.md`.
 11. Loop back through the Implement stage and the Verify stage for any updated packets before re-requesting review.
 
 ## Integration branches

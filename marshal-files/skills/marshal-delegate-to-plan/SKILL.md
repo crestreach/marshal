@@ -12,7 +12,7 @@ Do **not** inline the workflow — the agent owns it.
 
 - **Subagent:** `marshal-planner`
 - **Pass:** whichever upstream artifacts exist (`specification.md`, `change-brief.md`, `repo-recon.md`, `architecture-notes.md`); planning timing mode (`full` | `staged` | `mixed`) if the user has a preference; target depth if pinned (e.g. "L2", "L4 in P1, L2 elsewhere"); existing `delivery-plan.md` if deepening / amending.
-- **Expect back:** approved `delivery-plan.md` (Scope line + Planning mode + Target depth, then phases / packets / steps to the agreed depth), plus `logs/phase-4.changelog.md` and `learning/phase-4.learning.md`.
+- **Expect back:** approved `delivery-plan.md` (Scope line + Planning mode + Target depth, then phases / packets / steps to the agreed depth), plus `logs/stage-5-plan.changelog.md` and `learning/stage-5-plan.learning.md`.
 - **On result:** confirm approval and hand off to [`marshal-delegate-to-implement`](../marshal-delegate-to-implement/SKILL.md) (Implement stage).
   For staged deepening, re-invoke this delegate before each implementation cycle of a still-shallow phase.
 

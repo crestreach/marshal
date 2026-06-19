@@ -27,11 +27,7 @@ Body of the rule.
 ## Sync
 
 Rules are part of the sync source.
-Pointing the sync tool at `.marshal/` fans rule files out to:
-
-- Cursor: `.cursor/rules/<name>.mdc`
-- GitHub Copilot: `.github/instructions/<name>.instructions.md`
-- Claude Code: bodies merged into `CLAUDE.md`
-- JetBrains Junie: bodies merged into `.junie/AGENTS.md`
+Pointing the sync tool at `.marshal/` translates each rule file into the native rule format of every assistant cyncia is configured to target (e.g. a Cursor `.mdc` rule, a Copilot instructions file, or bodies merged into a tool's main guidance file).
+The exact targets and their output paths are defined by **cyncia, not MARSHAL** — see the cyncia README and `.cyncia/cyncia.conf`, so this list never goes stale here.
 
 This folder starts empty in the MARSHAL ship; rules accumulate over time as the project's durable conventions get codified.

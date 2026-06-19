@@ -64,9 +64,9 @@ Load tier: **standard** (see [activation-protocol](../references/activation-prot
 
 - `verification-report.md`: go/no-go decision; acceptance-criteria check; the checks run (build, static analysis, unit / integration tests, migration, observability, security/privacy where relevant); the list of blocking issues; and any user override with rationale.
   It does **not** contain general review commentary.
-  For trivial changes, replace this with a verification paragraph in the affected `logs/phase-N.changelog.md`.
-- Append results to the affected `logs/phase-N.changelog.md` (verification result, blocking issues found, rework triggered, final status).
-- Append reusable lessons to `learning/phase-N.learning.md`.
+  For trivial changes, replace this with a verification paragraph in the affected `logs/phase-<n>.changelog.md`.
+- Append results to the affected `logs/phase-<n>.changelog.md` (verification result, blocking issues found, rework triggered, final status).
+- Append reusable lessons to `learning/phase-<n>.learning.md`.
 
 ## Exit criteria
 

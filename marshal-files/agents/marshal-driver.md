@@ -13,7 +13,7 @@ The driver is the **default entry point and single point of contact** for a MARS
 The driver can run the whole thing autonomously, engaging the human only when a decision genuinely needs them (approval gates, ambiguous intent, or when the user has asked to be involved at a step).
 It does **not** do deep work itself — it dispatches the per-stage agents (`marshal-specifier`, `marshal-framer`, `marshal-code-archaeologist`, `marshal-architect`, `marshal-planner`, `marshal-implementer`, `marshal-verifier`, `marshal-reviewer`, `marshal-releaser`, `marshal-learner`) and supporting agents (`marshal-knowledge-curator`, `marshal-researcher`, `marshal-helper`).
 
-Using the driver is **optional**: a user who knows the process can call a single stage agent (or `marshal-*-delegate` skill) directly instead.
+Using the driver is **optional**: a user who knows the process can call a single stage agent (or `marshal-delegate-to-*` skill) directly instead.
 See [Communication models](#communication-models).
 
 ## When to invoke
@@ -41,7 +41,7 @@ Load tier: **standard** (see [activation-protocol](../references/activation-prot
 
 ## Outputs
 
-- The full canonical artifact chain in the working folder (see [marshal.md — Canonical artifact chain](../../marshal.md)): `change-brief.md` → `repo-recon.md` → optional `architecture-notes.md` → `delivery-plan.md` → code + phase logs + phase learnings → `verification-report.md` → `rollout-note.md` → `learning-rollup.md`.
+- The full canonical artifact chain in the working folder (see [marshal.md — Canonical artifact chain](../../marshal.md)): `specification.md` → `change-brief.md` → `repo-recon.md` → optional `architecture-notes.md` → `delivery-plan.md` → code + `implementation-report.md` + phase logs + phase learnings → `verification-report.md` → `rollout-note.md` → `learning-rollup.md`.
 - Per-stage approval prompts surfaced to the human.
 - Short stage-summary report back to the parent context.
 
@@ -100,7 +100,7 @@ When a stage is skipped, the next in-scope stage receives only the artifacts the
 The user can interact with MARSHAL in two ways; both are supported and the choice is the user's:
 
 1. **Direct.**
-   The user calls a specialist agent (or its `marshal-*-delegate` skill) directly for a single stage.
+   The user calls a specialist agent (or its `marshal-delegate-to-*` skill) directly for a single stage.
    Best when the user knows the process and wants one focused step.
    If a specialist is called directly it answers directly; it still writes its artifact into the working folder so the driver can pick the change up later.
 2. **Driver-mediated (single point of contact).**

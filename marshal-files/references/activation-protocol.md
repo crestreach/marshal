@@ -30,7 +30,7 @@ The working folder is created by whichever component starts the change — the d
   This is the only log read by default on resume.
 - **`<agent>.log.md`** — one append-only log per agent role (e.g. `planner.log.md`, `implementer.log.md`).
   Detailed, not loaded by default; consulted only when the thread for that role must be reconstructed.
-- **`phase-N.changelog.md`** — the per-phase changelog (artifact of record for what changed in each phase).
+- **`stage-<n>-<name>.changelog.md` / `phase-<n>.changelog.md`** — the changelog of record: one `stage-…` file per lifecycle stage (e.g. `stage-3-analysis`), plus one `phase-…` file per delivery-plan L1 phase during Implement (e.g. `phase-2`, optionally `phase-2-<slug>`).
 
 **Fresh-run vs resume.**
 Because an agent can run many times for one change (replanning, an implementation cycle per phase), each invocation works against a **run section** in its `<agent>.log.md`:

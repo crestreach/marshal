@@ -119,7 +119,7 @@ This process adapts several established ideas into one practical operating model
 
 Every change should move through this chain:
 
-**Specification → Change Brief → Analysis, Repo Recon → Architecture Notes (optional) → Delivery Plan → Implementation + Phase Logs + Phase Learnings → Verification Report → Rollout Note → Learning Rollup**
+**Specification → Change Brief → Analysis, Repo Recon → Architecture Notes (optional) → Delivery Plan → Implementation (code) + Implementation Report + Phase Logs + Phase Learnings → Verification Report → Rollout Note → Learning Rollup**
 
 Each artifact becomes input to the next phase.
 
@@ -141,7 +141,7 @@ It holds three kinds of file, kept separate so resuming stays cheap:
 - `resume.md` — a single short "where are we" file (current stage, active phase / cycle, next action, open decisions).
   It is **rewritten and compacted, not appended**, on each update, and is the only log loaded by default on resume.
 - `<agent>.log.md` — one append-only log per agent role (e.g. `planner.log.md`, `implementer.log.md`); detailed history, consulted only when a role's thread must be reconstructed.
-- `phase-N.changelog.md` — the per-phase changelog (what changed in each phase).
+- `stage-<n>-<name>.changelog.md` / `phase-<n>.changelog.md` — the changelog of record: one `stage-…` file per lifecycle stage (e.g. `stage-3-analysis`), plus one `phase-…` file per delivery-plan L1 phase during Implement (e.g. `phase-2`, optionally `phase-2-<slug>`).
 
 Because an agent can run many times for one change (replanning, one implementation cycle per phase), each invocation works against a **run section** (`## Run <n> — <timestamp>`) in its `<agent>.log.md`.
 The caller does **not** pass a run id: an agent **marks its run section finished** when its work is done, and the next invocation tells a **fresh run** (last section finished → open a new one) from a **resume** (last section unfinished → continue it), unless the prompt explicitly says otherwise.
@@ -376,12 +376,12 @@ The clarifications can also be folded into stage 2 Intake when both stages would
     - open questions still unresolved (if any)
     - agent concerns / disagreements raised, and how they were resolved
     - optional acceptance checklist (the conditions the user expects to see satisfied)
-- `logs/phase-1.changelog.md` Record:
+- `logs/stage-1-specification.changelog.md` Record:
     - questions asked and answers received
     - clarifications added
     - assumptions promoted to agreed facts
     - agent concerns raised and outcomes
-- `learning/phase-1.learning.md` Record only reusable learnings, e.g.:
+- `learning/stage-1-specification.learning.md` Record only reusable learnings, e.g.:
     - “Always ask about target environment before clarifying scope”
     - “For bug reports, require expected vs actual upfront”
 
@@ -436,11 +436,11 @@ For a bugfix:
     - impact / severity
     - evidence
     - suspected area if known
-- `logs/phase-2.changelog.md` Record:
+- `logs/stage-2-intake.changelog.md` Record:
     - clarifications added
     - scope changes
     - acceptance criteria changes
-- `learning/phase-2.learning.md` Record only reusable learnings, e.g.:
+- `learning/stage-2-intake.learning.md` Record only reusable learnings, e.g.:
     - “Require explicit repro template for bugfix intake”
     - “Always capture rollout expectation for externally visible changes”
 
@@ -479,12 +479,12 @@ Knowledge from `.marshal/knowledge/` may also make a separate recon redundant fo
     - existing tests and test seams
     - unknowns / risks
     - excluded areas to avoid context pollution
-- `logs/phase-3.changelog.md` Record:
+- `logs/stage-3-analysis.changelog.md` Record:
     - files inspected
     - architecture notes added
     - assumptions confirmed / rejected
     - narrowed search surface
-- `learning/phase-3.learning.md` Record only generalized learnings, e.g.:
+- `learning/stage-3-analysis.learning.md` Record only generalized learnings, e.g.:
     - “In this repo, handlers are better entry points than controllers for tracing flow”
     - “Always inspect feature-flag definitions before planning cross-module changes”
 
@@ -519,10 +519,10 @@ Inputs:
     - the chosen implementation concept
     - design decisions made and their rationale
     - abstraction level(s) covered
-- `logs/phase-architecture.changelog.md` Record:
+- `logs/stage-4-architecture.changelog.md` Record:
     - concepts proposed / rejected / accepted
     - design changes
-- `learning/phase-architecture.learning.md` Record only reusable learnings.
+- `learning/stage-4-architecture.learning.md` Record only reusable learnings.
 
 ---
 
@@ -584,14 +584,14 @@ Implementation never proceeds without it.
 
     ## P2. Phase / Slice title `[TODO]`
 
-- `logs/phase-4.changelog.md` Record:
+- `logs/stage-5-plan.changelog.md` Record:
     - plan additions/removals
     - packet splits/merges
     - dependency changes
     - review boundary changes
     - PR boundary changes
 
-- `learning/phase-4.learning.md` Record only reusable learnings, e.g.:
+- `learning/stage-5-plan.learning.md` Record only reusable learnings, e.g.:
     - “For medium changes, define PR boundary at phase level, not packet level”
     - “Use L4 implementation steps only for shared interfaces and migrations”
     - “Use staged planning when later phases depend on decisions made in earlier ones”
@@ -762,7 +762,8 @@ Always log:
 - changelog updated
 
 #### Artifacts produced
-- `logs/phase-N.changelog.md` For each implementation phase, record:
+- `implementation-report.md` Capture, as they surface during implementation, the decisions and operational notes that later stages need: decisions taken, needed migrations, introduced toggles / flags, limitations, and anything Verify / Rollout / Review will rely on that only became clear while building. One per change (appended across cycles), not per phase.
+- `logs/phase-<n>.changelog.md` For each implementation phase, record:
     - steps completed
     - code areas changed
     - tests added/updated
@@ -770,7 +771,7 @@ Always log:
     - fixups applied
     - commits/branches/PR references if used
 
-- `learning/phase-N.learning.md` Record only reusable learnings, e.g.:
+- `learning/phase-<n>.learning.md` Record only reusable learnings, e.g.:
   - “For this repo, integration tests should be added before refactor on shared services”
   - “Review quality improved when packet descriptions included touched contracts explicitly”
   - “Parallel work on adjacent modules still conflicted because config wiring was shared”
@@ -828,13 +829,13 @@ The outcome is part of the acceptance criteria check.
     - security/privacy checks if relevant
     - open issues / residual risks
 
-- append results to `logs/phase-N.changelog.md` Append:
+- append results to `logs/phase-<n>.changelog.md` Append:
     - verification result
     - defects found
     - rework triggered
     - final status
 
-- append reusable lessons to `learning/phase-N.learning.md` Record only reusable learnings, e.g.:
+- append reusable lessons to `learning/phase-<n>.learning.md` Record only reusable learnings, e.g.:
     - “Bugfix flow should require regression test before final verification when reproducible”
     - “Shared fixtures created false positives; add rule to isolate integration fixtures”
 
@@ -903,10 +904,10 @@ Skip whenever there is nothing to migrate, toggle, document for users, or roll b
     - rollback path
     - user-visible docs changes if needed or any other information that needs to be documented
 
-- `logs/phase-rollout.changelog.md` Record
+- `logs/stage-7-rollout.changelog.md` Record
     - additions/changes to the rollout note
 
-- `learning/phase-release.learning.md` Record only reusable learnings, e.g.:
+- `learning/stage-7-rollout.learning.md` Record only reusable learnings, e.g.:
     - “Cross-service changes require rollout notes even for internal features”
     - “Always document rollback for schema-affecting changes”
 
@@ -1096,7 +1097,7 @@ Two [`.marshal/config.yml`](marshal-files/config.yml) settings govern what they 
 
 - `knowledge.capture_during_process`:
   - **true** (default): write a knowledge-shaped note into `knowledge/learn/inbox/` (the archaeologist also attaches its stale-knowledge pointer list) so later stages can reuse it instead of rediscovering it.
-  - **false**: do **not** touch the knowledge inbox mid-process; record the finding in the current phase's learnings file (`learning/phase-N.learning.md`) instead, to be promoted only in the Learn stage.
+  - **false**: do **not** touch the knowledge inbox mid-process; record the finding in the current stage's learning file (`learning/stage-<n>-<name>.learning.md`, or `learning/phase-<n>.learning.md` during implementation) instead, to be promoted only in the Learn stage.
 - `knowledge.curator_invocation` (only relevant when a note was written to the inbox):
   - **agent**: the agent calls [`marshal-knowledge-curator`](marshal-files/agents/marshal-knowledge-curator.md) itself right after writing the note.
   - **driver** (default): the agent does **not** call the curator; it reports back to its caller (the driver, or the user when invoked directly) that it populated the inbox, and the caller runs the curator.
@@ -1149,7 +1150,7 @@ Generated rules use the generic frontmatter understood by the sync tool (see bel
 ### Syncing into native AI-assistant layouts
 
 The `.marshal/skills/`, `.marshal/agents/`, and `.marshal/rules/` folders follow the layout consumed by [cyncia](https://github.com/crestreach/cyncia).
-Running that tool's `sync-all` script over a source tree containing those folders produces tool-native files for Cursor (`.cursor/`), Claude Code (`.claude/` + `CLAUDE.md`), GitHub Copilot (`.github/`), and JetBrains Junie (`.junie/`).
+Running that tool's `sync-all` script over a source tree containing those folders produces tool-native files for each AI assistant cyncia is configured to target. That target set is **cyncia's to define, not MARSHAL's** — MARSHAL deliberately does not enumerate it here so it never goes stale when cyncia adds or drops a tool; see `.cyncia/cyncia.conf` (`default-tools`) for the active list.
 
 Two layouts are supported:
 
@@ -1177,7 +1178,7 @@ Guidelines flow:
 - The sync tool requires an `AGENTS.md` in its source root.
   With the **direct** layout, that role is played by [`.marshal/AGENTS.md`](marshal-files/AGENTS.md).
   With the **separate** layout, the repo's `.agent-config/AGENTS.md` is authoritative and `.marshal/AGENTS.md` becomes a snippet to be **manually merged** into it so the MARSHAL entry point fans out alongside the rest.
-- Rules under `.marshal/rules/` (or `.agent-config/rules/`) translate as documented by the sync tool: Cursor `.cursor/rules/*.mdc`, Copilot `.github/instructions/*.instructions.md`, and merged into `CLAUDE.md` and `.junie/AGENTS.md`.
+- Rules under `.marshal/rules/` (or `.agent-config/rules/`) translate into each target assistant's native rule format, as documented by the sync tool.
 
 This split keeps the canonical source of truth in `.marshal/` and lets every IDE/assistant pick it up in its own native format.
 

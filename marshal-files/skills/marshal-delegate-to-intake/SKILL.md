@@ -13,7 +13,7 @@ Do **not** inline the workflow — the agent owns it.
 - **Subagent:** `marshal-framer`
 - **Pass:** `specification.md` if it exists; otherwise the user prompt.
   Plus the top-level `AGENTS.md` and `.marshal/knowledge/INDEX.md` paths for context.
-- **Expect back:** approved `change-brief.md` plus `logs/phase-2.changelog.md` and `learning/phase-2.learning.md`.
+- **Expect back:** approved `change-brief.md` plus `logs/stage-2-intake.changelog.md` and `learning/stage-2-intake.learning.md`.
 - **On result:** hand off to [`marshal-delegate-to-analysis`](../marshal-delegate-to-analysis/SKILL.md) (Analysis stage) or directly to [`marshal-delegate-to-plan`](../marshal-delegate-to-plan/SKILL.md) (Plan stage) per the agreed scope.
 
 ## Fallback (no-subagent environments)
