@@ -53,6 +53,7 @@ run_install() {
   [ -f "$TEST_HOME/.marshal/ENTRYPOINT.md" ]
   [ -f "$TEST_HOME/.marshal/AGENTS.md" ]
   [ -f "$TEST_HOME/.marshal/LICENSE" ]
+  [ -f "$TEST_HOME/.marshal/marshal.md" ]
   [ -f "$TEST_HOME/.marshal/agents/marshal-planner.md" ]
   [ -f "$TEST_HOME/.marshal/skills/marshal-sample/SKILL.md" ]
   [ -d "$TEST_HOME/.marshal/skills-fallback/marshal-sample" ]
@@ -64,6 +65,24 @@ run_install() {
   [ -f "$TEST_HOME/.marshal/config.yml" ]
   [ -f "$TEST_HOME/.marshal/marshal-override.md" ]
   grep -q "RUN1" "$TEST_HOME/.marshal/marshal-override.md"
+}
+
+@test "install: places the repo-root marshal.md and LICENSE inside .marshal" {
+  test_helper::make_marshal_tarball "marshal-main" "$TEST_HOME/snap.tgz" "ROOTDOC"
+  export FAKE_TARBALL="$TEST_HOME/snap.tgz"
+
+  run_install --no-cyncia --no-sync
+  [ "$status" -eq 0 ]
+
+  # Both are sourced from the snapshot root (not marshal-files/) and land
+  # *inside* .marshal/.
+  [ -f "$TEST_HOME/.marshal/marshal.md" ]
+  grep -q "ROOTDOC" "$TEST_HOME/.marshal/marshal.md"
+  [ -f "$TEST_HOME/.marshal/LICENSE" ]
+  grep -q "ROOTDOC" "$TEST_HOME/.marshal/LICENSE"
+
+  # marshal.md is not dropped at the consumer repo root.
+  [ ! -f "$TEST_HOME/marshal.md" ]
 }
 
 @test "install: requests the GitHub archive tarball, never git clone" {
@@ -134,6 +153,10 @@ EOF
   run_install --marshal-dir vendor/marshal --no-cyncia --no-sync
   [ "$status" -eq 0 ]
   [ -f "$TEST_HOME/vendor/marshal/ENTRYPOINT.md" ]
+  # marshal.md and LICENSE follow the install dir (inside it), not the repo root.
+  [ -f "$TEST_HOME/vendor/marshal/marshal.md" ]
+  [ -f "$TEST_HOME/vendor/marshal/LICENSE" ]
+  [ ! -f "$TEST_HOME/vendor/marshal.md" ]
   [ ! -d "$TEST_HOME/.marshal" ]
 }
 
