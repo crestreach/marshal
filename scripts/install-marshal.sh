@@ -13,8 +13,8 @@
 #   install-marshal.sh [options]
 #
 #   --ref <git-ref>        MARSHAL ref to install (branch/tag/sha). Default: main.
-#   --repo <url>           MARSHAL source repo. Default:
-#                          https://github.com/crestreach/marshal.git
+#   --repo <slug|url>      MARSHAL source repo as owner/name (or a GitHub
+#                          URL). Default: crestreach/marshal
 #   --marshal-dir <path>   Where to place the durable assets in the target
 #                          repo. Default: .marshal
 #   --agent-config <path>  Config-sync source tree. Default: .agent-config
@@ -23,8 +23,8 @@
 #   -h, --help             Show this help.
 #
 # What it does:
-#   1. Clones the MARSHAL repo at <ref> into a temp dir and copies its
-#      `marshal-files/` subtree into <marshal-dir> (creating or updating it).
+#   1. Downloads a tarball snapshot of the MARSHAL repo at <ref> and copies
+#      its `marshal-files/` subtree into <marshal-dir> (creating or updating it).
 #      `config.yml` is generated from the shipped template on a fresh install;
 #      on an update it is reconciled in place — newly introduced properties are
 #      added (prompt defaults to yes), existing values are left alone, and
@@ -45,17 +45,29 @@
 
 set -euo pipefail
 
-MARSHAL_REPO="https://github.com/crestreach/marshal.git"
+MARSHAL_REPO="crestreach/marshal"
 MARSHAL_REF="main"
 MARSHAL_DIR=".marshal"
 AGENT_CONFIG_DIR=".agent-config"
-CYNCIA_INSTALLER="https://raw.githubusercontent.com/crestreach/cyncia/main/install.sh"
+CYNCIA_INSTALLER="https://raw.githubusercontent.com/crestreach/cyncia/main/install/install.sh"
 INSTALL_CYNCIA=true
 RUN_SYNC=true
 
 _die() { printf 'install-marshal: %s\n' "$*" >&2; exit 1; }
 _info() { printf 'install-marshal: %s\n' "$*"; }
 _usage() { sed -n '2,44p' "$0" | sed 's/^# \{0,1\}//'; }
+
+# Normalize a repo reference (owner/name slug, https URL, or git@ URL, with or
+# without a trailing .git) to the bare owner/name slug used to build the GitHub
+# archive tarball URL.
+_repo_slug() {
+  local r="$1"
+  r="${r%.git}"
+  r="${r#https://github.com/}"
+  r="${r#http://github.com/}"
+  r="${r#git@github.com:}"
+  printf '%s' "$r"
+}
 
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -70,7 +82,11 @@ while [ $# -gt 0 ]; do
   esac
 done
 
-command -v git >/dev/null 2>&1 || _die "git is required but not found on PATH"
+command -v tar >/dev/null 2>&1 || _die "tar is required but not found on PATH"
+if ! command -v curl >/dev/null 2>&1 && ! command -v wget >/dev/null 2>&1; then
+  _die "curl or wget is required but neither was found on PATH"
+fi
+MARSHAL_SLUG="$(_repo_slug "$MARSHAL_REPO")"
 
 # ---------------------------------------------------------------------------
 # config.yml schema + nested-YAML reconcile (mirrors cyncia's cyncia.conf
@@ -150,9 +166,12 @@ _yaml_append_key() {
     }')"
   block="${block}"$'\n'"  ${key}: ${def}"
   if grep -qE "^${section}:[[:space:]]*$" "$file"; then
-    awk -v sec="$section" -v ins="$block" '
+    # Pass the (multi-line) block via the environment, not `awk -v`: awk
+    # rejects embedded newlines in a -v assignment ("newline in string"),
+    # but ENVIRON values carry them fine.
+    _yaml_ins="$block" awk -v sec="$section" '
       { print }
-      $0 ~ "^"sec":[[:space:]]*$" && !done { print ins; done=1 }
+      $0 ~ "^"sec":[[:space:]]*$" && !done { printf "%s\n", ENVIRON["_yaml_ins"]; done=1 }
     ' "$file" > "$file.tmp" && mv "$file.tmp" "$file"
   else
     { printf '\n%s:\n%s\n' "$section" "$block"; } >> "$file"
@@ -239,7 +258,7 @@ _reconcile_config() {
 
 
 # Resolve the target repo root (prefer the git toplevel; fall back to cwd).
-if REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"; then
+if command -v git >/dev/null 2>&1 && REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"; then
   :
 else
   REPO_ROOT="$(pwd)"
@@ -249,17 +268,25 @@ cd "$REPO_ROOT"
 TMP_DIR="$(mktemp -d)"
 trap 'rm -rf "$TMP_DIR"' EXIT
 
-# 1. Fetch the requested MARSHAL ref and copy its marshal-files/ subtree.
-_info "fetching MARSHAL ($MARSHAL_REF) from $MARSHAL_REPO"
-git clone --depth 1 --branch "$MARSHAL_REF" "$MARSHAL_REPO" "$TMP_DIR/marshal" 2>/dev/null \
-  || git clone "$MARSHAL_REPO" "$TMP_DIR/marshal"
-if [ "$MARSHAL_REF" != "main" ]; then
-  git -C "$TMP_DIR/marshal" checkout --quiet "$MARSHAL_REF" \
-    || _die "ref not found: $MARSHAL_REF"
+# 1. Fetch the requested MARSHAL ref as a tarball snapshot and copy its
+# marshal-files/ subtree. This mirrors how the cyncia installer fetches files
+# (curl | tar) — no git clone, and no git dependency.
+MARSHAL_TARBALL="https://github.com/${MARSHAL_SLUG}/archive/${MARSHAL_REF}.tar.gz"
+_info "fetching MARSHAL ($MARSHAL_REF) from $MARSHAL_TARBALL"
+if command -v curl >/dev/null 2>&1; then
+  curl -fsSL "$MARSHAL_TARBALL" | tar -xz -C "$TMP_DIR" \
+    || _die "failed to download or extract $MARSHAL_TARBALL (is ref '$MARSHAL_REF' valid?)"
+else
+  wget -qO- "$MARSHAL_TARBALL" | tar -xz -C "$TMP_DIR" \
+    || _die "failed to download or extract $MARSHAL_TARBALL (is ref '$MARSHAL_REF' valid?)"
 fi
 
-SRC="$TMP_DIR/marshal/marshal-files"
-[ -d "$SRC" ] || _die "the MARSHAL repo has no marshal-files/ directory"
+# GitHub tarballs contain a single top-level directory; its name is
+# "<repo>-<ref>" but the prefix can vary (tags drop a leading "v"), so find it.
+SRC_ROOT="$(find "$TMP_DIR" -mindepth 1 -maxdepth 1 -type d | head -n1)"
+[ -n "$SRC_ROOT" ] || _die "extracted MARSHAL archive is empty"
+SRC="$SRC_ROOT/marshal-files"
+[ -d "$SRC" ] || _die "the MARSHAL snapshot has no marshal-files/ directory"
 
 _info "installing durable assets into $MARSHAL_DIR"
 mkdir -p "$MARSHAL_DIR"
