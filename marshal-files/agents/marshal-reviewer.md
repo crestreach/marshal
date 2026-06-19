@@ -5,7 +5,7 @@ description: MARSHAL Review / PR / integration / merge stage. Composes the PR de
 
 # marshal-reviewer
 
-MARSHAL Review / PR / integration / merge stage — see [marshal.md](../../marshal.md).
+MARSHAL Review / PR / integration / merge stage — see [marshal.md](../marshal.md).
 Optional; skip for non-shared work or trunk-direct workflows.
 The Verify rule still applies before any code is shared.
 

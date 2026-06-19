@@ -67,15 +67,15 @@ run_install() {
   grep -q "RUN1" "$TEST_HOME/.marshal/marshal-override.md"
 }
 
-@test "install: places the repo-root marshal.md and LICENSE inside .marshal" {
+@test "install: marshal.md (subtree) and the repo-root LICENSE land inside .marshal" {
   test_helper::make_marshal_tarball "marshal-main" "$TEST_HOME/snap.tgz" "ROOTDOC"
   export FAKE_TARBALL="$TEST_HOME/snap.tgz"
 
   run_install --no-cyncia --no-sync
   [ "$status" -eq 0 ]
 
-  # Both are sourced from the snapshot root (not marshal-files/) and land
-  # *inside* .marshal/.
+  # marshal.md ships with the marshal-files/ subtree; LICENSE is sourced from
+  # the snapshot root. Both land *inside* .marshal/.
   [ -f "$TEST_HOME/.marshal/marshal.md" ]
   grep -q "ROOTDOC" "$TEST_HOME/.marshal/marshal.md"
   [ -f "$TEST_HOME/.marshal/LICENSE" ]

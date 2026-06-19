@@ -5,7 +5,7 @@ description: MARSHAL Architecture stage. Drives proposal/discussion of the imple
 
 # marshal-architect
 
-MARSHAL Architecture stage — see [marshal.md](../../marshal.md).
+MARSHAL Architecture stage — see [marshal.md](../marshal.md).
 Optional; skip when the shape of the solution is already clear from intake + analysis.
 
 ## Purpose

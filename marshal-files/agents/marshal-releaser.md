@@ -5,7 +5,7 @@ description: MARSHAL Rollout stage. Drives creation of `rollout-note.md` coverin
 
 # marshal-releaser
 
-MARSHAL Rollout stage — see [marshal.md](../../marshal.md).
+MARSHAL Rollout stage — see [marshal.md](../marshal.md).
 Optional; skip for changes with no operational impact.
 
 ## Purpose

@@ -5,7 +5,7 @@ description: MARSHAL Intake stage. Turns the approved `specification.md` (or the
 
 # marshal-framer
 
-MARSHAL Intake stage — see [marshal.md](../../marshal.md).
+MARSHAL Intake stage — see [marshal.md](../marshal.md).
 Optional; may be skipped for trivial changes or folded into the plan's framing section.
 
 ## Purpose

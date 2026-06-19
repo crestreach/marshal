@@ -31,17 +31,17 @@ Do **not** invoke when:
 - A user prompt describing the change (feature / bugfix / refactor / tech-debt).
   The driver infers intent from this prompt and asks the user only when it is genuinely ambiguous.
 - The repo, with `.marshal/` initialized.
-- [`.marshal/work/current`](../../marshal.md) — read **first**: the one-line pointer to the active `<change-id>`.
+- [`.marshal/work/current`](../marshal.md) — read **first**: the one-line pointer to the active `<change-id>`.
   If present, the driver resumes that change from its working folder `.marshal/work/<change-id>/` (artifacts + `logs/` + resume notes) rather than starting fresh.
 - [`.marshal/config.yml`](../config.yml) (autonomy + any driver-specific flags).
-- [`.marshal/marshal-override.md`](../marshal-override.md) when present and non-empty — optional repo-specific overrides on top of [`marshal.md`](../../marshal.md).
+- [`.marshal/marshal-override.md`](../marshal-override.md) when present and non-empty — optional repo-specific overrides on top of [`marshal.md`](../marshal.md).
   Read it immediately after `marshal.md` / `ENTRYPOINT.md`; entries here take precedence over the canonical spec on the points they address (stage policy, artifact policy, agent / skill preferences).
 
 Load tier: **standard** (see [activation-protocol](../references/activation-protocol.md)).
 
 ## Outputs
 
-- The full canonical artifact chain in the working folder (see [marshal.md — Canonical artifact chain](../../marshal.md)): `specification.md` → `change-brief.md` → `repo-recon.md` → optional `architecture-notes.md` → `delivery-plan.md` → code + `implementation-report.md` + phase logs + phase learnings → `verification-report.md` → `rollout-note.md` → `learning-rollup.md`.
+- The full canonical artifact chain in the working folder (see [marshal.md — Canonical artifact chain](../marshal.md)): `specification.md` → `change-brief.md` → `repo-recon.md` → optional `architecture-notes.md` → `delivery-plan.md` → code + `implementation-report.md` + phase logs + phase learnings → `verification-report.md` → `rollout-note.md` → `learning-rollup.md`.
 - Per-stage approval prompts surfaced to the human.
 - Short stage-summary report back to the parent context.
 
@@ -65,7 +65,7 @@ Load tier: **standard** (see [activation-protocol](../references/activation-prot
    3. Wait for the human approval gate before moving to the next stage.
    4. Append entries to the phase changelog and learning file, and update the working folder's **resume notes** (a short `logs/resume.md`: current stage, last artifact, next action, open questions) so any later session can resume cleanly.
 5. **Replanning watch.**
-   If new information invalidates an assumption captured at an earlier stage, pause, propose the smallest replanning that covers it, and resume after approval (per [marshal.md replanning rule](../../marshal.md)).
+   If new information invalidates an assumption captured at an earlier stage, pause, propose the smallest replanning that covers it, and resume after approval (per [marshal.md replanning rule](../marshal.md)).
 6. **Knowledge upkeep.**
    After each implementation cycle, dispatch [`marshal-knowledge-curator`](./marshal-knowledge-curator.md) mode `from-changes`.
    After the Learn stage (if run), dispatch mode `from-learning`.

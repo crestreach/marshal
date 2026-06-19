@@ -5,7 +5,7 @@ description: MARSHAL Verify stage. Runs the explicit go/no-go gate — checks th
 
 # marshal-verifier
 
-MARSHAL Verify stage — see [marshal.md](../../marshal.md).
+MARSHAL Verify stage — see [marshal.md](../marshal.md).
 Required before any PR. For trivial changes, the report may collapse into a short paragraph in the affected phase changelog — the rule still holds: nothing merges without an explicit verification step recorded somewhere.
 
 ## Purpose

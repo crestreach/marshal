@@ -1,10 +1,10 @@
 # MARSHAL override (optional)
 
-This is an optional, **user-authored** override file that lets a repo specify or modify how MARSHAL behaves on top of the canonical [`marshal.md`](../marshal.md) spec.
+This is an optional, **user-authored** override file that lets a repo specify or modify how MARSHAL behaves on top of the canonical [`marshal.md`](marshal.md) spec.
 It is the project's escape hatch for MARSHAL itself — analogous to what `extensions/` is for skills / agents / rules.
 
 > **If this file is empty (the default after `marshal-init`), MARSHAL
-> behaves exactly as specified in [`marshal.md`](../marshal.md).**
+> behaves exactly as specified in [`marshal.md`](marshal.md).**
 
 ## When to use it
 
@@ -30,7 +30,7 @@ Anything written here **takes precedence** over the canonical spec on the points
 The conflict-resolution rule is:
 
 1. `marshal-override.md` (this file) — repo-specific intent.
-2. [`marshal.md`](../marshal.md) — canonical MARSHAL spec.
+2. [`marshal.md`](marshal.md) — canonical MARSHAL spec.
 3. [`extensions/rules/`](extensions/) — rules that apply to the work, not to MARSHAL.
 
 Override entries should reference the section of `marshal.md` they replace or extend, so the divergence is reviewable.

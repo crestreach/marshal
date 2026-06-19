@@ -5,7 +5,7 @@ description: MARSHAL Plan stage. Synthesizes `delivery-plan.md` from change brie
 
 # marshal-planner
 
-MARSHAL Plan stage — see [marshal.md](../../marshal.md).
+MARSHAL Plan stage — see [marshal.md](../marshal.md).
 **Mandatory.**
 Every change has a plan, even if it is a single phase with a single step; implementation never proceeds without it.
 

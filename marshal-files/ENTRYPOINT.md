@@ -4,7 +4,7 @@ This is the rich entry point for agents working in a MARSHAL-enabled repo.
 Read this once per fresh session.
 It is intentionally compact so it is cheap to keep in context.
 
-Reference: [marshal.md](../marshal.md) — full process spec.
+Reference: [marshal.md](marshal.md) — full process spec.
 Reference: [marshal-override.md](marshal-override.md) — **optional** repo-specific overrides on top of `marshal.md`.
 Read it after `marshal.md`; anything in it takes precedence over the canonical spec on the points it addresses.
 If the file is empty, MARSHAL behaves as specified in `marshal.md`.

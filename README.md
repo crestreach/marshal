@@ -9,7 +9,7 @@
 MARSHAL is a practical operating model for AI-assisted software delivery.
 A change moves through explicit, optional-by-default **stages**, each producing durable artifacts that feed the next, with **human approval gates** at the points that matter and **curated learning** that feeds back into the process.
 
-The full specification is [`marshal.md`](./marshal.md); this README is the short tour.
+The full specification is [`marshal.md`](./marshal-files/marshal.md); this README is the short tour.
 
 ## Why it exists
 
@@ -54,7 +54,7 @@ Specification → Intake → Analysis → Architecture → Plan
 Only **Plan** is mandatory; every other stage is skipped when it would not add value.
 The chosen scope is agreed up front and recorded at the top of `delivery-plan.md`.
 A PR may target the final branch directly or an **integration branch**; in the latter case a final round (Implement → Verify → Review/PR) promotes the integration branch to the release / main branch and reviews the change as a whole.
-The whole per-change **artifact chain** lives in a working folder under `.marshal/work/<change-id>/` (transient, gitignored, archived on finalize); see [`marshal.md`](./marshal.md) for its structure and the resume contract.
+The whole per-change **artifact chain** lives in a working folder under `.marshal/work/<change-id>/` (transient, gitignored, archived on finalize); see [`marshal.md`](./marshal-files/marshal.md) for its structure and the resume contract.
 
 ## Knowledge
 
@@ -90,7 +90,7 @@ From the root of your target repo, run the install script:
 curl -fsSL https://raw.githubusercontent.com/crestreach/marshal/main/scripts/install-marshal.sh | bash
 ```
 
-It fetches the MARSHAL `marshal-files/` subtree into `.marshal/` — plus the canonical `marshal.md` and `LICENSE` (both sourced from the MARSHAL repo root) installed inside `.marshal/` — installs [cyncia](https://github.com/crestreach/cyncia) if it is missing (committed into the repo, **not** a git submodule), and runs the cyncia sync when an `.agent-config/` source tree is present.
+It fetches the MARSHAL `marshal-files/` subtree — which now includes the canonical `marshal.md` — into `.marshal/`, plus the repo-root `LICENSE` installed inside `.marshal/`, installs [cyncia](https://github.com/crestreach/cyncia) if it is missing (committed into the repo, **not** a git submodule), and runs the cyncia sync when an `.agent-config/` source tree is present.
 It is **idempotent** — re-run it to update:
 
 - `config.yml` is generated with defaults on a fresh install; on an update, newly introduced properties are added while your existing values are left alone (obsolete ones are kept unless you choose to drop them).
@@ -98,13 +98,13 @@ It is **idempotent** — re-run it to update:
 - The installed ref is recorded in `.marshal/VERSION` (for `main`, any tag(s) pointing at `HEAD`), the same way cyncia records its own `.cyncia/VERSION`.
 
 Run with `--help` for options (`--ref`, `--marshal-dir`, `--agent-config`, `--no-cyncia`, `--no-sync`).
-Responsibilities split cleanly: the **script owns installation** — downloading and updating `.marshal/`, `marshal.md`, and `LICENSE`, reconciling `config.yml`, recording `VERSION`, and installing cyncia (re-run it any time to update). The **[`marshal-init`](./marshal-files/skills/marshal-init/SKILL.md) skill owns repo integration** — merging the MARSHAL entry-point into your `AGENTS.md`, wiring the durable assets into `.agent-config/` via `marshal-promote-assets`, updating `.gitignore`, and offering the initial knowledge bootstrap. Run the script first, then `marshal-init` once.
+Responsibilities split cleanly: the **script owns installation** — downloading and updating `.marshal/` (including `marshal.md`) and the repo-root `LICENSE`, reconciling `config.yml`, recording `VERSION`, and installing cyncia (re-run it any time to update). The **[`marshal-init`](./marshal-files/skills/marshal-init/SKILL.md) skill owns repo integration** — merging the MARSHAL entry-point into your `AGENTS.md`, wiring the durable assets into `.agent-config/` via `marshal-promote-assets`, updating `.gitignore`, and offering the initial knowledge bootstrap. Run the script first, then `marshal-init` once.
 
 ## Repository layout
 
-- [`marshal.md`](./marshal.md) — the process specification (source of truth).
-- [`marshal-files/`](./marshal-files) — MARSHAL durable assets for *this* product repo (entry-point snippet, `config.yml`, `marshal-override.md`, knowledge, skills, agents, rules, references).
-  A consumer repo sees these as `.marshal/`; the installer also drops the repo-root `marshal.md` and `LICENSE` into the installed `.marshal/` tree, so the install carries its own spec and MIT license.
+- [`marshal.md`](./marshal-files/marshal.md) — the process specification (source of truth).
+- [`marshal-files/`](./marshal-files) — MARSHAL durable assets for *this* product repo (the process spec `marshal.md`, entry-point snippet, `config.yml`, `marshal-override.md`, knowledge, skills, agents, rules, references).
+  A consumer repo sees these as `.marshal/`; the installer also drops the repo-root `LICENSE` into the installed `.marshal/` tree, so the install carries its own MIT license.
 - [`marshal-files/marshal-override.md`](./marshal-files/marshal-override.md) — optional, repo-specific overrides on top of `marshal.md` (empty by default).
 - [`scripts/install-marshal.sh`](./scripts/install-marshal.sh) — the installer.
 - [`examples/`](./examples) — worked examples of MARSHAL installed in a repo (see [`examples/snippets-api/`](./examples/snippets-api/) for a filled-in knowledge tree, an ADR, and repo-specific extensions).

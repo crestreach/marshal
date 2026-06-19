@@ -31,9 +31,10 @@
 #      obsolete properties are kept unless you choose to drop them (prompt
 #      defaults to no). `marshal-override.md` is seeded once and never
 #      clobbered. This mirrors how cyncia reconciles its own cyncia.conf.
-#      The canonical spec `marshal.md` and the `LICENSE` live at the MARSHAL
-#      repo *root* (not in `marshal-files/`); both are installed *inside*
-#      <marshal-dir> (i.e. `.marshal/marshal.md` and `.marshal/LICENSE`).
+#      The `LICENSE` lives at the MARSHAL repo *root* (outside `marshal-files/`)
+#      and is installed *inside* <marshal-dir> (`.marshal/LICENSE`). The
+#      canonical spec `marshal.md` ships inside `marshal-files/`, so it lands at
+#      `<marshal-dir>/marshal.md` with the rest of the tree.
 #      A `VERSION` file recording the installed ref (or, for `main`, any tag(s)
 #      pointing at HEAD) is written into <marshal-dir>, like cyncia's VERSION.
 #   2. Ensures cyncia is available (looks for <agent-config>/../.cyncia or a
@@ -60,7 +61,7 @@ RUN_SYNC=true
 
 _die() { printf 'install-marshal: %s\n' "$*" >&2; exit 1; }
 _info() { printf 'install-marshal: %s\n' "$*"; }
-_usage() { sed -n '2,49p' "$0" | sed 's/^# \{0,1\}//'; }
+_usage() { sed -n '2,50p' "$0" | sed 's/^# \{0,1\}//'; }
 
 # Normalize a repo reference (owner/name slug, https URL, or git@ URL, with or
 # without a trailing .git) to the bare owner/name slug used to build the GitHub
@@ -371,7 +372,7 @@ mkdir -p "$MARSHAL_DIR"
 # knowledge tree and the per-change work tree are left untouched if present.
 # config.yml and marshal-override.md are handled specially below (never
 # clobbered on update).
-for item in AGENTS.md ENTRYPOINT.md \
+for item in AGENTS.md ENTRYPOINT.md marshal.md \
             skills skills-fallback agents rules extensions references; do
   if [ -e "$SRC/$item" ]; then
     rm -rf "${MARSHAL_DIR:?}/$item"
@@ -379,15 +380,11 @@ for item in AGENTS.md ENTRYPOINT.md \
   fi
 done
 
-# marshal.md (the canonical spec) and LICENSE live at the MARSHAL repo *root*,
-# not inside marshal-files/, so they are sourced from the snapshot root and
-# installed *inside* <marshal-dir> (.marshal/marshal.md and .marshal/LICENSE),
-# alongside the rest of the tree. Keeping them under <marshal-dir> makes the
-# whole MARSHAL install self-contained and never clobbers the consumer repo's
-# own root LICENSE.
-if [ -e "$SRC_ROOT/marshal.md" ]; then
-  cp "$SRC_ROOT/marshal.md" "$MARSHAL_DIR/marshal.md"
-fi
+# LICENSE lives at the MARSHAL repo *root* (outside marshal-files/), so it is
+# sourced from the snapshot root and installed *inside* <marshal-dir> (i.e.
+# .marshal/LICENSE) so the install carries its own license without clobbering
+# the consumer repo's own root LICENSE. (marshal.md ships as part of the
+# marshal-files/ subtree above, landing at <marshal-dir>/marshal.md.)
 if [ -e "$SRC_ROOT/LICENSE" ]; then
   cp "$SRC_ROOT/LICENSE" "$MARSHAL_DIR/LICENSE"
 fi

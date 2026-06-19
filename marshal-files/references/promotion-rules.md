@@ -3,7 +3,7 @@
 The [`marshal-knowledge-curator`](../agents/marshal-knowledge-curator.md) agent ingests `learn/inbox/` (mode `from-learning`) and applies these rules.
 The Learn stage is the most common trigger, but the curator can be invoked at **any point in the MARSHAL process** — any stage agent that captures a reusable note into `learn/inbox/` may promote it immediately (via the curator) rather than waiting for the Learn stage, subject to `knowledge.capture_during_process` and `knowledge.curator_invocation` in [`config.yml`](../config.yml).
 
-Mirrors the rules in [marshal.md](../../marshal.md).
+Mirrors the rules in [marshal.md](../marshal.md).
 
 ## Promote
 

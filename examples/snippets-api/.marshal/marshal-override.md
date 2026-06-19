@@ -1,7 +1,7 @@
 # MARSHAL override (snippets-api example)
 
 Example of a filled-in `.marshal/marshal-override.md` in a consumer repo.
-In a real repo this file starts empty (an empty file means "no overrides"); here it is populated to show the shape of repo-specific adjustments on top of [`marshal.md`](../../../marshal.md).
+In a real repo this file starts empty (an empty file means "no overrides"); here it is populated to show the shape of repo-specific adjustments on top of [`marshal.md`](marshal.md).
 
 ## Stage policy
 

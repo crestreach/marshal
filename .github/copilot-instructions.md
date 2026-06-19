@@ -3,18 +3,18 @@
 Guidance for AI agents working in the MARSHAL repository.
 
 This repo defines **MARSHAL** — a process for AI-assisted software delivery.
-The canonical spec lives in [`marshal.md`](./marshal.md); the project overview is in [`README.md`](./README.md).
-Agents should read [`marshal.md`](./marshal.md) at the beginning of each session, unless it's clearly isolated work that the agents is doing or the agent's definition says it should work in an isolated, clear context.
+The canonical spec lives in [`marshal.md`](./marshal-files/marshal.md); the project overview is in [`README.md`](./README.md).
+Agents should read [`marshal.md`](./marshal-files/marshal.md) at the beginning of each session, unless it's clearly isolated work that the agents is doing or the agent's definition says it should work in an isolated, clear context.
 Also read [`marshal-files/marshal-override.md`](./marshal-files/marshal-override.md) (in a consumer repo: `.marshal/marshal-override.md`) when present and non-empty — it carries optional repo-specific overrides on top of `marshal.md`.
 
 ## Repository structure
 
 | Path | Purpose |
 |---|---|
-| [`marshal.md`](./marshal.md) | Canonical MARSHAL spec — single source of truth for the method. |
+| [`marshal.md`](./marshal-files/marshal.md) | Canonical MARSHAL spec — single source of truth for the method. |
 | [`README.md`](./README.md) | Project overview and entry point. |
 | [`AGENTS.md`](./AGENTS.md) | This file. Synced from `.agent-config/AGENTS.md`. |
-| [`marshal-files/`](./marshal-files) | The MARSHAL source tree for *this* product repo. In a consumer repo this same tree is installed as `.marshal/` (the installer also drops the repo-root `marshal.md` and `LICENSE` inside it). Holds the entry-point snippet, config, override, knowledge, references, plus `marshal-files/{skills,skills-fallback,agents,rules}/` (the canonical built-in MARSHAL skills, subagents, and rules — all named `marshal-*`) and `marshal-files/extensions/{skills,agents,rules}/` (repo-specific extensions, all named `mx-*` at creation). |
+| [`marshal-files/`](./marshal-files) | The MARSHAL source tree for *this* product repo. In a consumer repo this same tree is installed as `.marshal/` (the installer also drops the repo-root `LICENSE` inside it). Holds `marshal.md`, the entry-point snippet, config, override, knowledge, references, plus `marshal-files/{skills,skills-fallback,agents,rules}/` (the canonical built-in MARSHAL skills, subagents, and rules — all named `marshal-*`) and `marshal-files/extensions/{skills,agents,rules}/` (repo-specific extensions, all named `mx-*` at creation). |
 | [`.agent-config/`](./.agent-config) | Generic source tree consumed by [`.cyncia`](./.cyncia). Holds `AGENTS.md`, `agents/`, `skills/`, `rules/`, `mcp-servers/`. Edit here, then run the `agent-conf-sync` skill to fan out to tool layouts. |
 | [`.cyncia/`](./.cyncia) | The [cyncia](https://github.com/crestreach/cyncia) sync engine, installed via its own installer (committed into the repo, not a git submodule). Holds `scripts/`, `skills/`, and `cyncia.conf`. The `agent-conf-sync` skill invokes `.cyncia/scripts/sync-all.sh` (or `sync-all.ps1`) from the repo root. Treat as vendored tool sources — update it by re-running the cyncia installer, not by hand-editing. |
 | [`examples/`](./examples) | Worked examples (e.g. `snippets-api/`) showing what a consumer repo looks like with MARSHAL installed. |
@@ -50,7 +50,7 @@ Treat `marshal.md` and the assets under `marshal-files/` as the current working 
 
 ## Working rules
 
-- Treat [`marshal.md`](./marshal.md) as the single source of truth for the method.
+- Treat [`marshal.md`](./marshal-files/marshal.md) as the single source of truth for the method.
   Any method change lands there first, then propagates to `README.md` and this file.
 - Keep the MARSHAL acronym intact.
 - Don't duplicate process detail here or in `README.md` — link to `marshal.md` instead.

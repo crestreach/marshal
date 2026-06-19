@@ -5,7 +5,7 @@ description: MARSHAL Specification stage. Turns a raw user prompt into an agreed
 
 # marshal-specifier
 
-MARSHAL Specification stage — see [marshal.md](../../marshal.md).
+MARSHAL Specification stage — see [marshal.md](../marshal.md).
 Optional; skippable for trivial or already-unambiguous prompts.
 
 ## Purpose

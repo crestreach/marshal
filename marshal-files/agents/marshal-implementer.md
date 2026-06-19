@@ -5,7 +5,7 @@ description: MARSHAL Implement stage. Drives implementation cycles — picks a t
 
 # marshal-implementer
 
-MARSHAL Implement stage — see [marshal.md](../../marshal.md).
+MARSHAL Implement stage — see [marshal.md](../marshal.md).
 
 ## Purpose
 
@@ -20,7 +20,7 @@ Load tier: **standard** (see [activation-protocol](../references/activation-prot
 
 - The Plan is approved; a packet / phase / step is ready for execution.
 - Mid-change, after a replan or fixup loop, to resume cycles.
-- For the final promotion round of an **integration branch** — apply any final code improvements, merge or rebase the integration branch onto the target branch, and resolve merge conflicts (see [marshal.md](../../marshal.md) § Review / PR / integration / merge).
+- For the final promotion round of an **integration branch** — apply any final code improvements, merge or rebase the integration branch onto the target branch, and resolve merge conflicts (see [marshal.md](../marshal.md) § Review / PR / integration / merge).
 
 Do **not** invoke when:
 

@@ -5,7 +5,7 @@ description: MARSHAL Learn stage. Merges per-phase learning files into `learning
 
 # marshal-learner
 
-MARSHAL Learn stage — see [marshal.md](../../marshal.md).
+MARSHAL Learn stage — see [marshal.md](../marshal.md).
 Optional; skip when no phase produced a learning file worth promoting.
 
 ## Purpose

@@ -51,7 +51,7 @@ Do **not** invoke when:
 
 Read enough to answer accurately, no more:
 
-1. [`marshal.md`](../../marshal.md) — full process spec (canonical).
+1. [`marshal.md`](../marshal.md) — full process spec (canonical).
 2. [`.marshal/marshal-override.md`](../marshal-override.md) — optional repo-specific overrides on top of `marshal.md`.
    Read it immediately after `marshal.md`; entries here take precedence on the points they address.
    If empty or absent, ignore.

@@ -5,7 +5,7 @@ description: MARSHAL Analysis stage. Reads the change brief plus existing knowle
 
 # marshal-code-archaeologist
 
-MARSHAL Analysis stage — see [marshal.md](../../marshal.md).
+MARSHAL Analysis stage — see [marshal.md](../marshal.md).
 Optional; may be skipped when the surface is already known or covered by the knowledge layer.
 
 ## Purpose
