@@ -148,8 +148,7 @@ Flag clean risk in your pre-run note whenever `-Clean` is inferred, and name the
 
 Before running:
 
-1. Check that `<input_root>/AGENTS.md` exists.
-   If not, stop and tell the user.
+1. Check that `<input_root>/AGENTS.md` exists. If not, stop and tell the user.
 2. Use absolute paths in the command.
 3. Capture full stdout and stderr.
 
