@@ -85,13 +85,17 @@ test_helper::make_marshal_tarball() {
   printf '# MARSHAL override (%s)\n' "$marker"            > "$mf/marshal-override.md"
   printf '# MARSHAL Entry Point (%s)\n' "$marker"         > "$mf/ENTRYPOINT.md"
   printf '# AGENTS snippet (%s)\n' "$marker"              > "$mf/AGENTS.md"
-  printf 'MIT License (%s)\n' "$marker"                   > "$mf/LICENSE"
   printf 'name: marshal-sample\n# (%s)\n' "$marker"       > "$mf/skills/marshal-sample/SKILL.md"
   printf 'name: marshal-sample\n# (%s)\n' "$marker"       > "$mf/skills-fallback/marshal-sample/SKILL.md"
   printf '# marshal-planner (%s)\n' "$marker"             > "$mf/agents/marshal-planner.md"
   printf '# rules readme (%s)\n' "$marker"                > "$mf/rules/README.md"
   printf '# extensions readme (%s)\n' "$marker"           > "$mf/extensions/README.md"
   printf '# activation protocol (%s)\n' "$marker"         > "$mf/references/activation-protocol.md"
+  # marshal.md and LICENSE live at the snapshot *root* (outside marshal-files/),
+  # mirroring the real repo; the installer sources them from there and installs
+  # them inside <marshal-dir>.
+  printf '# MARSHAL — Process Documentation (%s)\n' "$marker" > "$stage/$prefix/marshal.md"
+  printf 'MIT License (%s)\n' "$marker"                       > "$stage/$prefix/LICENSE"
   ( cd "$stage" && tar -czf "$out" "$prefix" )
   rm -rf "$stage"
 }
