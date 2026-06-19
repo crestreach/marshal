@@ -95,6 +95,7 @@ It is **idempotent** — re-run it to update:
 
 - `config.yml` is generated with defaults on a fresh install; on an update, newly introduced properties are added while your existing values are left alone (obsolete ones are kept unless you choose to drop them).
 - The agent-managed knowledge tree (`.marshal/knowledge/`), the per-change work tree (`.marshal/work/`), and your `.marshal/marshal-override.md` are never overwritten.
+- The installed ref is recorded in `.marshal/VERSION` (for `main`, any tag(s) pointing at `HEAD`), the same way cyncia records its own `.cyncia/VERSION`.
 
 Run with `--help` for options (`--ref`, `--marshal-dir`, `--agent-config`, `--no-cyncia`, `--no-sync`).
 The script installs the assets and runs the cyncia sync; wiring MARSHAL's durable assets into `.agent-config/` so the sync can fan them out to tool layouts is the separate `marshal-promote-assets` step, run once from an AI assistant (or as part of the `marshal-init` skill).

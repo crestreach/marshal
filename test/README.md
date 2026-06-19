@@ -18,7 +18,7 @@ From the **repository root**:
 ## What is covered
 
 - **`scripts/install-marshal.sh`** (`test/bats/10_install.bats`,
-  `test/bats/20_install_config.bats`):
+  `test/bats/20_install_config.bats`, `test/bats/30_install_version.bats`):
   - Help / unknown-argument handling.
   - Tarball fetch of the MARSHAL snapshot (mirrors how cyncia's own installer
     fetches files): the GitHub archive URL is used, `--repo` accepts both an
@@ -35,6 +35,11 @@ From the **repository root**:
     existing values preserved on re-install, newly introduced schema properties
     added (no-TTY default yes), and unknown properties kept by default (no-TTY
     default no).
+  - `.marshal/VERSION` (mirrors cyncia's VERSION semantics): a non-main ref is
+    written verbatim, a `main` install lists tag(s) pointing at `HEAD`, any
+    GitHub API failure falls back to `main`, and the file is refreshed on
+    re-run when the ref changes. The API calls are stubbed via the fake `curl`
+    using `FAKE_COMMIT_JSON` / `FAKE_TAGS_JSON`.
 
 The tests never touch the network: a fake `curl`/`wget` placed first on `PATH`
 emits a tarball assembled from a synthetic `marshal-files/` fixture built in

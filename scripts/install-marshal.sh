@@ -31,6 +31,8 @@
 #      obsolete properties are kept unless you choose to drop them (prompt
 #      defaults to no). `marshal-override.md` is seeded once and never
 #      clobbered. This mirrors how cyncia reconciles its own cyncia.conf.
+#      A `VERSION` file recording the installed ref (or, for `main`, any tag(s)
+#      pointing at HEAD) is written into <marshal-dir>, like cyncia's VERSION.
 #   2. Ensures cyncia is available (looks for <agent-config>/../.cyncia or a
 #      `.cyncia/` at the repo root); installs it via cyncia's own installer
 #      when missing (unless --no-cyncia). cyncia is committed into the repo,
@@ -55,7 +57,7 @@ RUN_SYNC=true
 
 _die() { printf 'install-marshal: %s\n' "$*" >&2; exit 1; }
 _info() { printf 'install-marshal: %s\n' "$*"; }
-_usage() { sed -n '2,44p' "$0" | sed 's/^# \{0,1\}//'; }
+_usage() { sed -n '2,46p' "$0" | sed 's/^# \{0,1\}//'; }
 
 # Normalize a repo reference (owner/name slug, https URL, or git@ URL, with or
 # without a trailing .git) to the bare owner/name slug used to build the GitHub
@@ -256,6 +258,77 @@ _reconcile_config() {
   done < <(_yaml_keys "$conf" | awk '!seen[$0]++')
 }
 
+# ---------------------------------------------------------------------------
+# VERSION file. Records the installed MARSHAL ref in <marshal-dir>/VERSION.
+# Semantics mirror cyncia's installer: write the literal ref; when that ref is
+# the default branch ("main"), best-effort query the GitHub API for tag(s)
+# pointing at HEAD and list those instead. The lookup may fail silently
+# (offline / rate-limited / private repo) — on any failure, fall back to the
+# literal ref.
+# ---------------------------------------------------------------------------
+
+# Extract the first top-level "sha" string from a GitHub commit JSON payload.
+# (GitHub returns the commit SHA as the first "sha" field; nested "sha" fields
+# under "tree"/"parents"/"author" come later.)
+_extract_first_sha() {
+  awk '
+    match($0, /"sha"[[:space:]]*:[[:space:]]*"[0-9a-f]+"/) {
+      s = substr($0, RSTART, RLENGTH)
+      sub(/^"sha"[[:space:]]*:[[:space:]]*"/, "", s)
+      sub(/"$/, "", s)
+      print s
+      exit
+    }
+  '
+}
+
+# Print tag names (one per line) whose commit.sha equals $1, parsed from the
+# /repos/OWNER/NAME/tags JSON payload on stdin.
+_extract_tags_for_sha() {
+  awk -v target="$1" '
+    BEGIN { RS = "}" }
+    {
+      name = ""; commit_sha = ""
+      if (match($0, /"name"[[:space:]]*:[[:space:]]*"[^"]*"/)) {
+        s = substr($0, RSTART, RLENGTH)
+        sub(/^"name"[[:space:]]*:[[:space:]]*"/, "", s)
+        sub(/"$/, "", s)
+        name = s
+      }
+      if (match($0, /"sha"[[:space:]]*:[[:space:]]*"[0-9a-f]+"/)) {
+        s = substr($0, RSTART, RLENGTH)
+        sub(/^"sha"[[:space:]]*:[[:space:]]*"/, "", s)
+        sub(/"$/, "", s)
+        commit_sha = s
+      }
+      if (name != "" && commit_sha == target) print name
+    }
+  '
+}
+
+# _write_version <marshal-dir>
+_write_version() {
+  local dir="$1" version_text="$MARSHAL_REF" api_sha api_tags
+  if [ "$MARSHAL_REF" = "main" ] && command -v curl >/dev/null 2>&1; then
+    api_sha="$(curl -fsSL -H 'Accept: application/vnd.github+json' \
+                "https://api.github.com/repos/${MARSHAL_SLUG}/commits/${MARSHAL_REF}" 2>/dev/null \
+                | _extract_first_sha 2>/dev/null || true)"
+    if [ -n "${api_sha:-}" ]; then
+      api_tags="$(curl -fsSL -H 'Accept: application/vnd.github+json' \
+                    "https://api.github.com/repos/${MARSHAL_SLUG}/tags?per_page=100" 2>/dev/null \
+                    | _extract_tags_for_sha "$api_sha" 2>/dev/null || true)"
+      if [ -n "${api_tags:-}" ]; then
+        version_text="$api_tags"
+      fi
+    fi
+  fi
+  printf '%s\n' "$version_text" > "$dir/VERSION"
+  _info "wrote $dir/VERSION:"
+  while IFS= read -r _line; do
+    [ -n "$_line" ] && _info "  $_line"
+  done <<< "$version_text"
+}
+
 
 # Resolve the target repo root (prefer the git toplevel; fall back to cwd).
 if command -v git >/dev/null 2>&1 && REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null)"; then
@@ -313,6 +386,9 @@ fi
 # values alone, keep obsolete ones unless the user opts to drop them). This
 # mirrors how the cyncia installer reconciles its own cyncia.conf.
 _reconcile_config "$SRC/config.yml" "$MARSHAL_DIR/config.yml"
+
+# Record the installed version (mirrors cyncia's VERSION file semantics).
+_write_version "$MARSHAL_DIR"
 
 # 2. Ensure cyncia is available.
 # Note: the cyncia installer is fetched over HTTPS and piped to a shell, the
