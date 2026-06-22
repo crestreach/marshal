@@ -7,6 +7,9 @@ _notes/
 marshail-office/
 marshail-deliverables/
 
+# Generated GitHub-release notes variants (throwaway; see rn/generate-release-notes.sh)
+rn/release/
+
 # Local Claude Code settings (personal, not synced)
 .claude/settings.local.json
 .claude/settings.json
