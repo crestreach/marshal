@@ -4,8 +4,8 @@ _*.md
 _notes/
 
 # WIP — not tracked for now
-marshal-office/
-marshal-deliverables/
+marshail-office/
+marshail-deliverables/
 
 # Local Claude Code settings (personal, not synced)
 .claude/settings.local.json

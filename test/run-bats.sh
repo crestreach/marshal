@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Run the MARSHAL bats tests. Requires: https://github.com/bats-core/bats-core
+# Run the MARSHAIL bats tests. Requires: https://github.com/bats-core/bats-core
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"

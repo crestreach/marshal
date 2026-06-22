@@ -1,0 +1,89 @@
+# MARSHAIL configuration. See .marshail/ENTRYPOINT.md.
+
+knowledge:
+  # General contract every knowledge implementation must satisfy.
+  contract_ref: references/knowledge-contract.md
+
+  # Active knowledge implementation. Swap the representation by pointing this
+  # at another implementation reference that satisfies contract_ref.
+  representation_ref: references/knowledge-markdown-spine.md
+
+  # auto   = agents write knowledge files without per-change approval and
+  #          return a summary of what changed (default). Best for normal
+  #          operation: the knowledge layer is agent-managed memory that is
+  #          rarely read directly by humans.
+  # review = every write produces a full diff for human approval before
+  #          it is applied. Prefer this for sensitive repositories, during
+  #          initial bootstrap when you want to vet the first snapshot, or
+  #          for large structural knowledge rebuilds.
+  autonomy: auto
+
+  # Who invokes the knowledge curator after an agent populates the
+  # knowledge inbox (or after a stage / implementation cycle).
+  #   driver = the agent does not call the curator; it reports back to its
+  #            caller (the marshail-driver, or the user when called
+  #            directly) that it populated the inbox, and the caller runs
+  #            marshail-knowledge-curator (default; keeps stage agents
+  #            focused on their own artifact).
+  #   agent  = the agent calls marshail-knowledge-curator itself right
+  #            after writing the inbox note.
+  # Either way the driver may still run the curator after a stage or cycle.
+  curator_invocation: driver
+
+  # Controls whether knowledge is augmented *during* the process or only in
+  # the Learn stage.
+  #   true (default): an agent that discovers important, reusable knowledge
+  #     mid-process (e.g. the code-archaeologist during analysis, or the
+  #     researcher) writes a knowledge-shaped note into
+  #     knowledge/learn/inbox/ so it can be reused across the following
+  #     stages rather than rediscovered. What happens next is governed by
+  #     curator_invocation above.
+  #   false: the agent does not touch the knowledge inbox mid-process;
+  #     instead it records the finding in the current stage's learning
+  #     file (learning/stage-<n>-<name>.learning.md, or phase-<n>.learning.md
+  #     during implementation), to be promoted only in the Learn stage.
+  capture_during_process: true
+
+  # Advisory only. The rescan must still be triggered explicitly via
+  # marshail-knowledge-maintain (mode: rescan). No hooks, no daemons.
+  rescan_period_days: 7
+
+  # Cap for the always-loaded root INDEX.md.
+  root_index_max_lines: 150
+
+  # Cap for any sub-index file (folder index, topic sub-index, etc.).
+  subindex_max_lines: 150
+
+  # Soft cap for an individual topic file. When exceeded,
+  # marshail-knowledge-maintain proposes splitting the topic into a folder
+  # with a sub-index plus subtopic files. The split dimension (by
+  # component, by concern, by feature, by time, etc.) is chosen per topic
+  # and may be revised during a knowledge review.
+  topic_max_lines: 400
+
+# Approval mode for MARSHAIL extension and guidance assets that agents
+# create or update *outside* the knowledge layer: repo-specific rules,
+# skills, and subagents under .marshail/extensions/ (mx-* prefix), plus the
+# updates the Learn stage proposes to AGENTS.md / README. Applies both to
+# marshail-learner (Learn stage) and to on-request authoring of such assets.
+# Knowledge writes are governed separately by knowledge.autonomy above.
+extensions:
+  #   review = every create / update produces a diff for human approval
+  #            before it is applied (default). These assets change agent
+  #            behavior and are touched rarely, so a human vets them first.
+  #   auto   = the agent applies the change directly and returns a summary
+  #            of what it created or updated.
+  autonomy: review
+
+# Config-sync (cyncia) integration. Used by marshail-promote-assets.
+sync:
+  # Config-sync source tree that cyncia consumes. Built-in and extension
+  # assets are promoted here, then fanned out to tool layouts by the
+  # agent-conf-sync (cyncia) skill.
+  agent_config_dir: .agent-config
+
+  # Which built-in skill flavor to promote:
+  #   delegate = thin marshail-delegate-to-* wrappers that spawn subagents
+  #              in fresh context (default; needs subagent support).
+  #   fallback = full inline marshail-* skills for tools without subagents.
+  skill_flavor: delegate

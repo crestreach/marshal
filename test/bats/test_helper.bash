@@ -10,7 +10,7 @@ export REPO_ROOT
 REPO_ROOT="$(test_helper::repo_root)"
 export REPO_ROOT
 
-INSTALL_SH="${REPO_ROOT}/scripts/install-marshal.sh"
+INSTALL_SH="${REPO_ROOT}/scripts/install-marshail.sh"
 export INSTALL_SH
 
 # Install a fake `curl` (and `wget`) first on PATH so the installer never
@@ -23,7 +23,7 @@ export INSTALL_SH
 # Every requested URL is also appended to $CURL_LOG when that var is set, so a
 # test can assert exactly which URLs the installer fetched.
 test_helper::install_fake_fetchers() {
-  FAKE_BIN="$(mktemp -d "${BATS_TEST_TMPDIR:-/tmp}/marshal_fake_bin.XXXXXX")"
+  FAKE_BIN="$(mktemp -d "${BATS_TEST_TMPDIR:-/tmp}/marshail_fake_bin.XXXXXX")"
   cat > "$FAKE_BIN/curl" <<'EOF'
 #!/usr/bin/env bash
 url=""
@@ -66,36 +66,36 @@ EOF
 
 # Build a tarball whose single top-level directory is "$1" (mimicking the
 # GitHub archive layout "<repo>-<ref>"), containing a synthetic but
-# representative marshal-files/ subtree. The real config.yml is copied in so
+# representative marshail-files/ subtree. The real config.yml is copied in so
 # config reconcile tests run against the shipped schema.
 # Args: <prefix> <out_tarball_path> [marker]
-test_helper::make_marshal_tarball() {
+test_helper::make_marshail_tarball() {
   local prefix="$1" out="$2" marker="${3:-M1}"
   local stage mf
   stage="$(mktemp -d "${TAR_SRC}/stage.XXXXXX")"
-  mf="$stage/$prefix/marshal-files"
+  mf="$stage/$prefix/marshail-files"
   mkdir -p \
-    "$mf/skills/marshal-sample" \
-    "$mf/skills-fallback/marshal-sample" \
+    "$mf/skills/marshail-sample" \
+    "$mf/skills-fallback/marshail-sample" \
     "$mf/agents" \
     "$mf/rules" \
     "$mf/extensions" \
     "$mf/references"
-  cp "${REPO_ROOT}/marshal-files/config.yml" "$mf/config.yml"
-  printf '# MARSHAL override (%s)\n' "$marker"            > "$mf/marshal-override.md"
-  printf '# MARSHAL Entry Point (%s)\n' "$marker"         > "$mf/ENTRYPOINT.md"
+  cp "${REPO_ROOT}/marshail-files/config.yml" "$mf/config.yml"
+  printf '# MARSHAIL override (%s)\n' "$marker"            > "$mf/marshail-override.md"
+  printf '# MARSHAIL Entry Point (%s)\n' "$marker"         > "$mf/ENTRYPOINT.md"
   printf '# AGENTS snippet (%s)\n' "$marker"              > "$mf/AGENTS.md"
-  printf 'name: marshal-sample\n# (%s)\n' "$marker"       > "$mf/skills/marshal-sample/SKILL.md"
-  printf 'name: marshal-sample\n# (%s)\n' "$marker"       > "$mf/skills-fallback/marshal-sample/SKILL.md"
-  printf '# marshal-planner (%s)\n' "$marker"             > "$mf/agents/marshal-planner.md"
+  printf 'name: marshail-sample\n# (%s)\n' "$marker"       > "$mf/skills/marshail-sample/SKILL.md"
+  printf 'name: marshail-sample\n# (%s)\n' "$marker"       > "$mf/skills-fallback/marshail-sample/SKILL.md"
+  printf '# marshail-planner (%s)\n' "$marker"             > "$mf/agents/marshail-planner.md"
   printf '# rules readme (%s)\n' "$marker"                > "$mf/rules/README.md"
   printf '# extensions readme (%s)\n' "$marker"           > "$mf/extensions/README.md"
   printf '# activation protocol (%s)\n' "$marker"         > "$mf/references/activation-protocol.md"
-  # marshal.md ships *inside* marshal-files/ (part of the subtree); LICENSE
-  # lives at the snapshot *root* (outside marshal-files/). Mirrors the real
-  # repo: the installer copies marshal.md with the subtree and sources LICENSE
-  # from the root, landing both inside <marshal-dir>.
-  printf '# MARSHAL — Process Documentation (%s)\n' "$marker" > "$mf/marshal.md"
+  # marshail.md ships *inside* marshail-files/ (part of the subtree); LICENSE
+  # lives at the snapshot *root* (outside marshail-files/). Mirrors the real
+  # repo: the installer copies marshail.md with the subtree and sources LICENSE
+  # from the root, landing both inside <marshail-dir>.
+  printf '# MARSHAIL — Process Documentation (%s)\n' "$marker" > "$mf/marshail.md"
   printf 'MIT License (%s)\n' "$marker"                       > "$stage/$prefix/LICENSE"
   ( cd "$stage" && tar -czf "$out" "$prefix" )
   rm -rf "$stage"
