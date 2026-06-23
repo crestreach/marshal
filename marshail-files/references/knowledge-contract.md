@@ -10,6 +10,8 @@ The active implementation is configured separately by `knowledge.representation_
 ## Goals
 
 - Give agents a **reliable map of where to look next** without loading half the repo into context.
+- Capture **enough analyzed depth** that an agent can understand an area's behavior, contracts, and risky parts *without* re-scanning the code — the knowledge is the cached result of a code scan that already happened, not a table of contents.
+- Derive knowledge **primarily from the code itself** (read from entrypoints inward), not only from pre-existing prose docs; pre-existing docs are corroborating input, never the sole source.
 - Separate **stable repo knowledge** (logic, architecture, conventions, invariants) from **process learnings** (the per-phase outputs of MARSHAIL).
 - Make knowledge **diffable and reviewable** (text in git).
 - Allow knowledge to **evolve with the code** without git hooks or background daemons, via explicit dated stamps and an explicit maintenance step.
@@ -37,6 +39,7 @@ A MARSHAIL knowledge representation must define:
 - how agents discover available knowledge from a cheap root entry point;
 - how topic files or records expose a stable identity, summary, scope, and freshness metadata;
 - how agents select the smallest useful knowledge slice for a task;
+- how knowledge is produced at an **appropriate, locally-decided analysis depth** — derived from a code scan that follows the system's entrypoints and call paths into its complex and high-value areas, and split into as many levels of hierarchy as each area needs (no fixed number of levels);
 - how updates are proposed, reviewed, and applied under `.marshail/config.yml` autonomy settings;
 - how stale knowledge is detected against changed repo paths;
 - how knowledge is split, merged, archived, or rebuilt as the repo changes;

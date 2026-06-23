@@ -44,6 +44,26 @@ knowledge:
   #     during implementation), to be promoted only in the Learn stage.
   capture_during_process: true
 
+  # How aggressively init / rebuild deepen the knowledge tree. Every value is
+  # derived from a real, entrypoint-driven code scan (see the active knowledge
+  # implementation's depth policy); this only tunes the agent's default bias
+  # for how far it expands beyond a flat per-subsystem map. Depth is still
+  # decided locally per node — agents go deeper than the default for complex /
+  # high-value areas and shallower for trivial ones; this knob just moves the
+  # baseline.
+  #   shallow  = stay close to a per-subsystem / per-module map with light,
+  #              code-checked analysis; expand only where an area is clearly
+  #              complex. Cheapest; good for small repos or a quick first pass.
+  #   standard = analyze each non-trivial module and each distinct capability
+  #              on its own (components, contracts, data / IO, invariants,
+  #              hotspots, test seams), expanding areas into their own nodes
+  #              where that is how an agent will search (default).
+  #   deep     = additionally give genuinely complex components, algorithms,
+  #              and end-to-end flows their own focused, recursively-expanded
+  #              topics. Most thorough and most costly; best for large /
+  #              complex repos where re-scanning the code later is expensive.
+  scan_depth: standard
+
   # Advisory only. The rescan must still be triggered explicitly via
   # marshail-knowledge-maintain (mode: rescan). No hooks, no daemons.
   rescan_period_days: 7

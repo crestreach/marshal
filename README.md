@@ -62,6 +62,7 @@ The whole per-change **artifact chain** lives in a working folder under `.marsha
 
 MARSHAIL pairs the process with an agent-managed **knowledge layer** under `.marshail/knowledge/`.
 Where the artifact chain captures *this* change, knowledge captures durable facts about the repo — architecture, logic, conventions, and decisions — that survive across changes.
+It is **derived from the code itself** — scanned from the entrypoints inward and analyzed as deep as each area needs (a trivial module stays one short topic; complex areas expand into deeper, multi-level nodes), so agents don't re-scan the same code each time.
 It is loaded through progressive disclosure (an always-loaded root index → per-folder indexes → topic files), kept in sync after each implementation cycle, and used to narrow code searches instead of re-deriving the same facts every time.
 The representation is exchangeable: the general contract lives in [`knowledge-contract.md`](./marshail-files/references/knowledge-contract.md) and the default implementation, **MARSHAIL Markdown Spine**, in [`knowledge-markdown-spine.md`](./marshail-files/references/knowledge-markdown-spine.md).
 

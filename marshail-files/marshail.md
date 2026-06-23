@@ -1052,6 +1052,7 @@ When a tight live back-and-forth with one specialist is needed, prefer the direc
 
 MARSHAIL is paired with an agent-managed knowledge layer kept under [`.marshail/knowledge/`](knowledge/).
 Knowledge complements the per-change artifact chain: the artifact chain captures *this* change, while knowledge captures durable facts about the repo (architecture, logic, conventions, decisions) that survive across changes.
+It is the **cached result of analyzing the code itself** — not a transcription of existing docs — so later work can understand an area without re-scanning it.
 
 Key points:
 
@@ -1067,6 +1068,10 @@ Key points:
   Knowledge is a recursive tree: an always-loaded root index, then deeper indexes and topic files pulled in only as a task needs them, with no fixed depth.
   How knowledge is grouped at each level (the split dimension) is chosen for what helps agents most and may be revised over time.
   The exact layout, metadata, size caps, and split / merge mechanics are defined by the active implementation — see [`references/knowledge-markdown-spine.md`](references/knowledge-markdown-spine.md).
+- **Code-derived, with depth decided per area.**
+  `init` and `rebuild` produce knowledge by scanning the code from the system's entrypoints inward — existing docs only corroborate, they are not the source — and every recorded claim is verified against the code.
+  How deep the tree goes is judged **locally, per node**: a trivial module may stay a single short topic, while a complex or multi-capability area expands into deeper, multi-level nodes (for a large repo, multiple levels are expected, not exceptional).
+  `knowledge.scan_depth` (`shallow` / `standard` / `deep`) in [`config.yml`](config.yml) sets the default depth bias; the entrypoint-scan and per-node depth mechanics live in the active implementation.
 - **Staleness without hooks.**
   Each file records when, and against which commit, it was last verified; the maintenance step compares that against HEAD on demand (no git hooks).
   The active implementation defines the exact markers.

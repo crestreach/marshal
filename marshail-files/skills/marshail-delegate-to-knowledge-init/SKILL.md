@@ -1,6 +1,6 @@
 ---
 name: marshail-delegate-to-knowledge-init
-description: First-time bootstrap of the MARSHAIL knowledge layer. Delegate when the user asks to "bootstrap the knowledge layer", "initialize .marshail/knowledge/", "scan the repo and draft repo/ and domains/ knowledge files", "build initial INDEX.md files", "set up the knowledge tree from scratch", or when running marshail-init in a repo whose .marshail/knowledge/ is empty or near-empty. The subagent (curator in `init` mode) detects subsystems / domains, drafts skeleton topic files, and generates indexes per the autonomy mode — writing them and returning a short summary in `auto`, or a summary diff for approval in `review`.
+description: First-time bootstrap of the MARSHAIL knowledge layer. Delegate when the user asks to "bootstrap the knowledge layer", "initialize .marshail/knowledge/", "scan the repo and draft repo/ and domains/ knowledge files", "build initial INDEX.md files", "set up the knowledge tree from scratch", or when running marshail-init in a repo whose .marshail/knowledge/ is empty or near-empty. The subagent (curator in `init` mode) enumerates entrypoints, detects subsystems / domains, scans the code to the depth each area warrants, drafts the knowledge files, and generates indexes per the autonomy mode — writing them and returning a short summary in `auto`, or a summary diff for approval in `review`.
 ---
 
 # marshail-delegate-to-knowledge-init

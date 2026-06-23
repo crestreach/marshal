@@ -51,7 +51,7 @@ Load tier: **full** (see [activation-protocol](../references/activation-protocol
 
 ## Workflow (shared)
 
-1. Read entry point + knowledge contract + active implementation + relevant indexes.
+1. Read entry point + knowledge contract + active implementation + relevant indexes — including the implementation's **depth and code-derivation policy** (what to scan, from which entrypoints, and how to decide depth per node).
 2. Run mode-specific logic (below).
 3. For each touched knowledge unit: refresh its metadata and re-verify its claims against current code, following the field and merge rules of the active knowledge implementation and [promotion-rules](../references/promotion-rules.md).
 4. **Check size policy** on every touched unit and split where the implementation's limits are exceeded (see *Size and structure*).
@@ -81,6 +81,24 @@ General rules (the implementation defines the specifics):
 - During reviews (and `rescan`), the dimension may be **revised** if a better split emerges; surface re-splitting as a separate change.
 - Merge empty or near-empty units back into their parent.
 
+## Depth and code derivation
+
+Knowledge must be the **cached result of a real code scan**, derived by reading the code from the system's entrypoints inward — not by transcribing existing prose docs. Those docs locate the right files fast, but every recorded claim is **verified against the code**, and complex / high-value areas are analyzed in depth. Depth is **decided locally per node** (the active implementation owns the mechanics; the Markdown Spine describes the per-node, recursive decision and entrypoint-driven scanning) — there is no fixed level taxonomy, and for a large repo multiple levels are expected, not exceptional.
+
+This applies to **`init` and `rebuild`** as the primary producers of depth, and to **`from-changes` / `rescan`** as verifiers that keep that depth correct (refresh a stale deep topic by re-reading the code, don't just bump the date).
+
+### Scanning without blowing context
+
+The deep reads can be heavy. Isolate them when that helps, but don't fragment analysis that belongs together — use judgment, not a mechanical one-sub-agent-per-area rule:
+
+- **Delegate to read-only sub-agents when it makes sense** — for large or independent areas, or for genuinely unfamiliar ones (use [`marshail-researcher`](./marshail-researcher.md)). Each returns a **tight, source-linked distillation** (purpose, key types, contracts, data / IO, invariants, hotspots, test seams, and the specific files for `repo_paths`), keeping the bulk code out of the curator's context.
+- **Reuse a shared context where areas are related** and the cross-area context matters — when analyzing one area depends on understanding another, or several small related areas are best understood together, do them together rather than splitting them across isolated sub-agents that each lose the shared picture.
+- Run genuinely independent scans concurrently; keep each distillation small enough to compose without re-reading the code. The fan-out width is the curator's call — there is no config knob for it.
+
+The aim is accurate, deep, context-safe analysis — not maximal fan-out.
+
+Read `knowledge.scan_depth` from `.marshail/config.yml` for the default depth bias, then decide the actual depth locally per node (deeper for complex / high-value, shallower for trivial).
+
 ## Mode workflows
 
 These describe each mode at a **high level**.
@@ -88,10 +106,12 @@ The concrete files, folders, metadata, and discovery / split mechanics are defin
 
 ### `init`
 
-1. Detect repo languages, package layout, build tools, and the natural knowledge groupings (e.g. subsystems / domains / modules, as the implementation defines them).
-2. Draft the repo-level and per-grouping knowledge units the active implementation defines, populated with high-level summaries and stamped with the implementation's freshness metadata.
-3. Generate the indexes the implementation defines.
-4. Apply the size policy; split where needed (see *Size and structure*).
+1. Detect repo languages, package layout, build tools, and the natural knowledge groupings (subsystems / domains / modules), **and enumerate the system's entrypoints** (deployables, controllers, endpoints, consumers, jobs, CLIs, public APIs).
+2. Decide the **depth each area warrants**, locally per node (see *Depth and code derivation* and the implementation's policy): which modules / capabilities, and which complex components or flows, need their own deeper nodes. Bias toward depth for areas that would otherwise force a costly future code scan; for a large repo, expect multiple levels.
+3. **Scan the code from the entrypoints inward**, reading the actual code — delegating to read-only sub-agents where that isolates heavy reads usefully, and reusing shared context where related areas are better analyzed together (see *Scanning without blowing context*). Capture the specific files for each topic's `repo_paths`.
+4. Compose the knowledge units the implementation defines — repo-level, per-subsystem, and the deeper per-module / per-capability / per-flow topics each area warranted — **derived from the scan** and stamped with freshness metadata; mark anything not yet verified against code as lower confidence.
+5. Generate the indexes; record each group's split dimension.
+6. Apply the size policy; split where needed (see *Size and structure*).
 
 ### `from-changes`
 
@@ -105,7 +125,7 @@ The concrete files, folders, metadata, and discovery / split mechanics are defin
 
 ### `rescan`
 
-1. For every knowledge unit, check whether the code it covers has moved on since it was last verified; flag stale units and optionally refresh them.
+1. For every knowledge unit, check whether the code it covers has moved on since it was last verified; flag stale units and refresh them **by re-reading the code** (not just re-dating), preserving the unit's analysis depth.
 2. Re-evaluate every unit against the implementation's size policy; split where over the limit, merge where a unit has become trivially small.
 
 ### `rebuild`
@@ -120,10 +140,10 @@ A change (feature branch / commit range) may be passed to focus the rebuild, but
 | Restructures how knowledge is grouped | no | yes |
 | Cost | low–medium | high |
 
-1. Re-derive the knowledge groupings on current HEAD (as in `init`).
-2. Diff against the existing structure: new groupings → add; removed → archive as an explanation or drop; renamed / merged → move with a redirect note.
+1. Re-run the **entrypoint-driven code scan** on current HEAD (as in `init`), reading the actual code (delegating / sharing context as in *Scanning without blowing context*), and re-derive the knowledge groupings and the depth each area warrants.
+2. Diff against the existing structure: new groupings → add; removed → archive as an explanation or drop; renamed / merged → move with a redirect note. **Deepen under-analyzed areas** that should be expanded but are currently shallow.
    The exact grouping and file kinds are implementation-defined.
-3. For each surviving unit, run `rescan` logic.
+3. For each surviving unit, run `rescan` logic, **re-reading the code to refresh deep topics** rather than only re-dating them.
 4. Re-derive the repo-level overview units and reconcile them against the existing versions.
 5. Regenerate the indexes.
 

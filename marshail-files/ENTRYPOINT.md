@@ -69,6 +69,7 @@ The default implementation is **MARSHAIL Markdown Spine**, documented in [`refer
 
 To use it: start at the always-loaded root `.marshail/knowledge/INDEX.md`, then descend through the area indexes to the specific topic files only as the task needs them — using each file's summary to decide whether to open it.
 The tree is hierarchical and recursive (no fixed depth); the active implementation defines the exact layout and metadata.
+Knowledge is the **cached result of a real code scan** — `init` / `rebuild` derive it by reading the code from the entrypoints inward (not from existing docs alone), analyzing each area as deep as it warrants; depth is decided per node and `knowledge.scan_depth` sets the default bias.
 
 Knowledge content is not limited to code facts — it covers logic, architecture, design rationale, decisions, and conventions.
 

@@ -113,6 +113,7 @@ MARSHAIL_CONF_SCHEMA=(
   "knowledge|autonomy|auto|auto = agents write knowledge without per-change approval and return a summary (default); review = every write produces a diff for human approval first."
   "knowledge|curator_invocation|driver|Who runs marshail-knowledge-curator after the knowledge inbox is populated: driver = the caller (driver or user) runs it (default); agent = the agent runs it itself."
   "knowledge|capture_during_process|true|Whether knowledge is augmented during the process (true: notes go to knowledge/learn/inbox) or only in the Learn stage (false: findings go to the phase learnings file)."
+  "knowledge|scan_depth|standard|How aggressively init / rebuild deepen the knowledge tree from a real entrypoint-driven code scan. shallow = stay near a per-subsystem / per-module map and expand only clearly complex areas; standard = analyze each non-trivial module and capability on its own (default); deep = also give complex components, algorithms, and end-to-end flows their own focused topics. Depth is still decided locally per node, so agents go deeper for complex areas and shallower for trivial ones."
   "knowledge|rescan_period_days|7|Advisory rescan cadence in days. The rescan is still triggered explicitly via marshail-knowledge-maintain (mode: rescan)."
   "knowledge|root_index_max_lines|150|Cap for the always-loaded root knowledge INDEX.md."
   "knowledge|subindex_max_lines|150|Cap for any sub-index file (folder index, topic sub-index, etc.)."

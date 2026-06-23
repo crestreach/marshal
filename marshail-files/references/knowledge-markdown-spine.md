@@ -42,6 +42,39 @@ Rules:
 - A `rebuild` (or a `rescan` review) may **re-split a group along a different dimension** when a better one emerges; surface that as its own change.
 - When a group becomes trivially small, **merge** it back into its parent.
 
+## Depth and code derivation (not optional)
+
+Knowledge is the **cached result of a real code scan**. `init` and `rebuild` MUST derive content by reading the code, not by transcribing existing prose docs (`AGENTS.md`, READMEs). Existing docs are corroborating input and a fast way to find the right files — they are never the sole source, and any claim taken from them is verified against the code.
+
+### Entrypoint-driven scan
+
+Start from the system's **entrypoints** and follow the call paths inward:
+
+- deployable units (WARs / services / binaries), HTTP / REST controllers, RPC / SOAP endpoints, message / event consumers, scheduled jobs, CLIs, and public library APIs;
+- from each entrypoint, trace into the modules and classes that do the real work, recording the path concept → entrypoint → key types → data / IO.
+
+The goal is that a later agent can answer "where does X happen and how?" from the knowledge alone.
+
+### Depth is decided locally, per node — not a fixed taxonomy
+
+There is **no fixed set of levels** and no enumerated tier definitions. Depth is decided **locally by the agent at each node**, recursively: at every node, judge — from the code's complexity and from how a future agent will look for the information — whether the node is a single topic file or should expand into a group (a folder with its own `INDEX.md` plus child nodes), then repeat that judgment at each child. The tree is as deep along each branch as that branch needs, and no deeper. This is the same recursive nesting described in *The spine: a recursive tree of nodes* and *Organizing dimension*, applied at bootstrap — not only when a file later outgrows a size cap.
+
+For a large repository, **multiple levels are expected, not exceptional.** A flat one-topic-per-module map is almost always too shallow: the high-value, complex areas — for example several distinct search strategies in one module, more than one persistence backend, an expression engine, a state machine, or a non-trivial end-to-end flow — each warrant their own deeper node, derived from the code.
+
+### Functional, not just structural
+
+Organize by **what the code does**, not only by Maven / package structure. When one module contains several distinct capabilities (multiple search strategies, multiple persistence backends, several action handlers), give **each capability its own node** rather than a single module overview — group by feature / concern / strategy where that is how an agent will look for it.
+
+### Multi-level by default
+
+The tree MUST use the hierarchy, not collapse to one level. A non-trivial area is a group (folder + `INDEX.md`) with child topics, and those children may themselves be groups. Use the size caps as a *floor for splitting*, not as permission to stay shallow — an area can warrant its own deeper nodes well before it hits `topic_max_lines`, when those nodes map to how agents will search.
+
+### Confidence and provenance
+
+A topic derived from reading the code is `confidence: high`; one inferred from docs but not yet verified against code is `confidence: medium` and should say so in the body. Record the key source files in `repo_paths` so the topic is both verifiable and re-findable.
+
+`knowledge.scan_depth` in `.marshail/config.yml` (`shallow` / `standard` / `deep`) sets the agent's default depth bias; the per-node decision above still applies — go deeper than the default for complex / high-value areas and shallower for trivial ones.
+
 ## Conventional starting layout (a default, adaptable)
 
 `init` typically starts from the layout below, then adapts it to the repo.
@@ -61,11 +94,16 @@ Treat it as a sensible default, **not** a required shape — areas may be rename
   domains/            # deep knowledge per subsystem / domain — one group each
     <area>/
       INDEX.md        # sub-index; records this group's split dimension
-      purpose.md      # what this area is for
-      logic.md        # business logic, rules, invariants
-      contracts.md    # APIs, schemas, events
-      hotspots.md     # risky / frequently-touched spots
-      tests.md        # test seams and coverage notes
+      overview.md     # what this area is, its boundaries, dependency edges, entrypoints
+      <module-or-capability>/        # expand a non-trivial module OR a distinct capability into its own group
+        INDEX.md
+        purpose.md    # what it is for
+        logic.md      # behavior, rules, invariants (derived from the code)
+        contracts.md  # APIs, schemas, events it exposes / consumes
+        data.md       # persistence / IO / external calls
+        hotspots.md   # risky / complex / frequently-touched spots
+        tests.md      # test seams and coverage notes
+        <flow-or-component>.md       # a focused topic for a genuinely complex flow / component
   decisions/          # lightweight ADRs
     adr-NNNN-<slug>.md
   learn/
@@ -75,6 +113,8 @@ Treat it as a sensible default, **not** a required shape — areas may be rename
 `domains/<area>/` is one **group** per subsystem / domain; any of its topics may itself become a group when it grows (e.g. `domains/payments/logic/` with its own sub-index).
 `decisions/` and `learn/inbox/` are fixed parts of the pipeline.
 Knowledge content covers code facts, logic, architecture, design rationale, decisions, and conventions — not just code.
+
+This shape is **illustrative, not a required schema** — names, kinds, and grouping are chosen per area (see *Organizing dimension*). The depth shown is the **expected shape for non-trivial areas**, not an upper bound and not a fixed set of tiers: a trivial module may stay a single short topic, while a complex or multi-capability area is expanded — recursively, as deep as the code warrants — with the decision made locally at each node (see *Depth and code derivation (not optional)*).
 
 ## Frontmatter
 
@@ -99,7 +139,8 @@ verified_against_commit: 0a3f75e      # short SHA
 ```
 
 - Required: `id`, `kind`, `summary`, `importance`, `confidence`, `updated`.
-- Recommended: `repo_paths` (enables staleness detection), `verified_against_commit`.
+- Recommended: `verified_against_commit`.
+- **Required for any code-derived topic: `repo_paths`** pointing at the *specific* files / classes the topic analyzes (not just a top-level `module/**` glob) — this is what lets a later agent jump straight to the code and what drives precise staleness detection.
 - On a group `INDEX.md`, also note the **split dimension** (in the body or a `dimension:` field) so the grouping is self-describing.
 
 ### Kinds
@@ -149,12 +190,12 @@ All writes follow `knowledge.autonomy` in `.marshail/config.yml`:
 
 Update paths:
 
-- `marshail-knowledge-init` creates the initial tree and indexes from this implementation reference.
+- `marshail-knowledge-init` performs an **entrypoint-driven code scan** and creates the initial tree, expanded to whatever depth each area warrants (decided locally per node, see *Depth and code derivation*), then generates the indexes.
 - `marshail-knowledge-maintain from-changes` re-verifies files whose `repo_paths` intersect changed paths and refreshes touched indexes.
 - `marshail-knowledge-maintain from-learning` promotes approved learning items from `learn/inbox/` into canonical knowledge and drops the rest.
 - `marshail-knowledge-maintain rescan` checks every knowledge file for staleness and size-limit violations.
 - `marshail-knowledge-branch-merge` reconciles divergent knowledge updates across branches.
-- `marshail-knowledge-rebuild` may restructure the tree after major repo changes, including re-splitting groups along a better dimension.
+- `marshail-knowledge-rebuild` re-runs the entrypoint-driven scan on HEAD and may restructure the tree after major repo changes — including deepening under-analyzed areas and re-splitting groups along a better dimension.
 
 ## Possible future extensions
 
